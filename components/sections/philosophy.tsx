@@ -249,7 +249,7 @@ export default function Philosophy() {
           <div>
             <ScrollReveal
               text="Everyone is racing to add AI. Almost no one is securing it."
-              className="font-display text-2xl font-medium leading-[1.2] tracking-tight text-foreground sm:text-3xl lg:text-[2.3rem]"
+              className="font-display text-2xl font-normal leading-[1.2] tracking-tight text-foreground sm:text-3xl lg:text-[2.3rem]"
             />
 
             <div aria-hidden className="mt-7 h-px w-12 bg-amber-400/70" />
@@ -287,7 +287,7 @@ export default function Philosophy() {
         {/* Pull-quote */}
         <Move delay={0.05} y={28} className="mt-16 max-w-3xl">
           <div aria-hidden className="h-px w-12 bg-amber-400/70" />
-          <p className="mt-5 font-display text-xl font-medium leading-snug text-foreground/90 sm:text-2xl lg:text-[1.75rem]">
+          <p className="mt-5 font-display text-xl font-normal leading-snug text-foreground/90 sm:text-2xl lg:text-[1.75rem]">
             Making AI capable is the easy half. Making it something you can put
             in front of an auditor is the half you design in from the start.
           </p>
@@ -304,7 +304,7 @@ export default function Philosophy() {
               className="bento-tile group/card rounded-2xl border border-white/[.08] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] p-6 backdrop-blur-md"
             >
               <span aria-hidden className="block size-1.5 rounded-full bg-amber-400" />
-              <h3 className="mt-4 font-display text-base font-semibold text-foreground">
+              <h3 className="mt-4 font-display text-base font-medium text-foreground">
                 {p.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

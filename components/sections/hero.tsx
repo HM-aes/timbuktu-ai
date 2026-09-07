@@ -40,7 +40,7 @@ export default function Hero() {
         {/* Headline */}
         <motion.h1
           {...settle(0, 24)}
-          className="font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[4.25rem]"
+          className="font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[4.25rem]"
         >
           Secure AI systems,{" "}
           <span className="text-amber-300">
@@ -67,7 +67,7 @@ export default function Hero() {
           {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
           <a
             href={BOOKING_URL}
-            className="group btn-glow-primary inline-flex h-11 items-center gap-2.5 rounded-xl px-6 text-sm font-semibold tracking-wide transition-all hover:scale-[1.03]"
+            className="group btn-glow-primary inline-flex h-11 items-center gap-2.5 rounded-xl px-6 text-sm font-medium tracking-wide transition-all hover:scale-[1.03]"
           >
             Book a call
             <ArrowRight
@@ -77,7 +77,7 @@ export default function Hero() {
           </a>
           <a
             href="#solutions"
-            className="btn-corporate-light inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-medium transition-all"
+            className="btn-corporate-light inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-normal transition-all"
           >
             See our solutions
             <ArrowDown size={14} className="opacity-60" />

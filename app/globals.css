@@ -75,7 +75,9 @@
   /* Fonts */
   --font-sans:    var(--font-plus-jakarta), system-ui, sans-serif;
   --font-display: var(--font-plus-jakarta), system-ui, sans-serif;
-  --font-mono:    var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
+  /* Site is fully sans-serif — the "mono" slot maps to the sans stack so
+     every legacy font-mono utility renders in the body face. */
+  --font-mono:    var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
 
   /* Radii */
   --radius-sm:  6px;
@@ -96,6 +98,7 @@ html.dark {
 }
 body {
   font-family: var(--font-sans);
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   background-color: var(--background);
   color: var(--foreground);

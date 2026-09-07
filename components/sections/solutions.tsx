@@ -126,7 +126,7 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
           <Motif kind={product.motif} />
         </div>
         <span
-          className={`absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ${
+          className={`absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.14em] ${
             isSoon
               ? "border-white/10 bg-white/[.04] text-slatey-400"
               : "border-emerald-400/25 bg-emerald-400/10 text-emerald-300"
@@ -144,10 +144,10 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
 
       {/* Text */}
       <div>
-        <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        <h3 className="font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
           {product.name}
         </h3>
-        <p className="mt-2.5 text-lg font-medium text-amber-300 sm:text-xl">
+        <p className="mt-2.5 text-lg font-normal text-amber-300 sm:text-xl">
           {product.tagline}
         </p>
 
@@ -158,7 +158,7 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
                 key={b.label}
                 className="grid gap-x-5 gap-y-1.5 sm:grid-cols-[7rem_1fr]"
               >
-                <dt className="pt-0.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-slatey-400">
+                <dt className="pt-0.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slatey-400">
                   {b.label}
                 </dt>
                 <dd className="text-sm leading-relaxed text-muted-foreground">
@@ -181,7 +181,7 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
         {/* TODO(placeholder): product CTA URLs — set real destinations in lib/site.ts */}
         <a
           href={product.cta.href}
-          className="group mt-7 inline-flex h-10 items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 text-sm font-semibold text-amber-300 transition-all hover:border-amber-500/50 hover:bg-amber-500/15"
+          className="group mt-7 inline-flex h-10 items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 text-sm font-medium text-amber-300 transition-all hover:border-amber-500/50 hover:bg-amber-500/15"
         >
           {product.cta.text}
           <ArrowRight
@@ -217,7 +217,7 @@ export default function Solutions() {
       <div className="max-w-6xl px-6 pb-24 sm:px-10 lg:pl-16">
         <ScrollReveal
           text="Four systems in production. Each one closes a specific security or compliance gap."
-          className="max-w-4xl font-display text-2xl font-medium leading-[1.3] tracking-tight text-zinc-300 sm:text-3xl lg:text-[2.4rem]"
+          className="max-w-4xl font-display text-2xl font-normal leading-[1.3] tracking-tight text-zinc-300 sm:text-3xl lg:text-[2.4rem]"
         />
 
         <div className="mt-20 space-y-24 lg:space-y-32">

@@ -28,7 +28,7 @@ export default function Contact() {
 
       <div className="grid max-w-5xl gap-10 px-6 pb-24 sm:px-10 lg:pl-16 md:grid-cols-2">
         <FadeIn>
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
             Putting AI to work on data that can&apos;t leak?
           </h2>
           <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
@@ -55,7 +55,7 @@ export default function Contact() {
 
         <FadeIn delay={0.08}>
           <div className="glass-card rounded-2xl p-7 shadow-2xl">
-            <h3 className="font-display text-xl font-semibold text-foreground">
+            <h3 className="font-display text-xl font-medium text-foreground">
               Book a call
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -65,7 +65,7 @@ export default function Contact() {
             {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
             <a
               href={BOOKING_URL}
-              className="group btn-glow-primary mt-6 flex h-11 items-center justify-center gap-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all hover:scale-[1.02]"
+              className="group btn-glow-primary mt-6 flex h-11 items-center justify-center gap-2.5 rounded-xl text-sm font-medium tracking-wide transition-all hover:scale-[1.02]"
             >
               Book a call
               <ArrowRight
@@ -85,7 +85,7 @@ export default function Contact() {
             {/* TODO(placeholder): CONTACT_EMAIL — set real address in lib/site.ts */}
             <a
               href={mailto("AES AI Solutions — enquiry")}
-              className="flex h-10 items-center justify-center rounded-xl border border-border bg-surface-secondary text-sm font-medium text-muted-foreground transition-colors hover:text-foreground dark:bg-white/5 dark:hover:bg-white/10"
+              className="flex h-10 items-center justify-center rounded-xl border border-border bg-surface-secondary text-sm font-normal text-muted-foreground transition-colors hover:text-foreground dark:bg-white/5 dark:hover:bg-white/10"
             >
               Email us directly
             </a>

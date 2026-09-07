@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="mb-6 grid h-16 w-16 place-items-center rounded-2xl border border-border bg-surface-secondary/50 text-muted-foreground">
         <ShieldAlert className="size-8" />
       </div>
-      <h1 className="font-display text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+      <h1 className="font-display text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
         404
       </h1>
       <p className="mt-4 text-muted-foreground">
@@ -16,7 +16,7 @@ export default function NotFound() {
       <div className="mt-8">
         <Link
           href="/"
-          className="btn-glow-primary rounded-lg px-6 py-2.5 text-sm font-semibold tracking-wide"
+          className="btn-glow-primary rounded-lg px-6 py-2.5 text-sm font-medium tracking-wide"
         >
           Return Home
         </Link>

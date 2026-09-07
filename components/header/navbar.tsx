@@ -38,10 +38,10 @@ export default function Navbar() {
           href="#top"
           aria-label="AES AI Solutions — back to top"
           {...item(LOGO_AT)}
-          className="shrink-0 font-mono text-sm font-semibold tracking-[0.18em] transition-opacity hover:opacity-75"
+          className="shrink-0 font-mono text-sm font-medium tracking-[0.18em] transition-opacity hover:opacity-75"
         >
           <span style={{ color: "#e0870b" }}>AES</span>
-          <span style={{ color: "#f5a623", fontWeight: 900 }}> · </span>
+          <span style={{ color: "#f5a623", fontWeight: 500 }}> · </span>
           <span style={{ color: "#ededf0" }}>AI Solutions</span>
         </motion.a>
 
@@ -68,7 +68,7 @@ export default function Navbar() {
           {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
           <a
             href={BOOKING_URL}
-            className="hidden sm:inline-flex btn-glow-primary rounded-lg px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all hover:scale-105"
+            className="hidden sm:inline-flex btn-glow-primary rounded-lg px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider transition-all hover:scale-105"
           >
             Book a call
           </a>
@@ -122,7 +122,7 @@ export default function Navbar() {
               <a
                 href={BOOKING_URL}
                 onClick={() => setOpen(false)}
-                className="mt-2 btn-glow-primary flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold uppercase tracking-wider"
+                className="mt-2 btn-glow-primary flex items-center justify-center rounded-xl px-4 py-3 text-sm font-medium uppercase tracking-wider"
               >
                 Book a call
               </a>
