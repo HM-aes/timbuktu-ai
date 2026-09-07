@@ -72,10 +72,6 @@
   --color-slatey-300:   oklch(0.84 0.006 286.0);
   --color-slatey-200:   oklch(90% 0.004 286.32);
 
-  /* Hero-stat gradient endpoints */
-  --color-grad-a:              var(--grad-a);
-  --color-grad-b:              var(--grad-b);
-
   /* Fonts */
   --font-sans:    var(--font-plus-jakarta), system-ui, sans-serif;
   --font-display: var(--font-plus-jakarta), system-ui, sans-serif;
@@ -88,14 +84,6 @@
   --radius-xl:  calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
-}
-
-/* ── Reusable Gradient Utilities ──────────────────────────────────────── */
-.stat-gradient {
-  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* ── Base ────────────────────────────────────────────────────────────── */

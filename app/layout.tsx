@@ -21,9 +21,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AES AI Solutions — Hard problems, quietly solved",
+  title: "AES AI Solutions — Secure AI systems, architected from the first commit",
   description:
-    "AES builds AI tools for compliance, security, and complex work — built to run in production, explained in plain language, and yours to control.",
+    "AES designs and builds secure AI systems — RAG, agents, and access control that run in production, hosted with hard boundaries or fully air-gapped on your own infrastructure.",
 };
 
 // Force dark mode always, and always start a fresh load at the top.
@@ -55,7 +55,7 @@ export default function RootLayout({
           <Header />
           <main id="top">{children}</main>
           <footer className="border-t border-white/[.08] py-10">
-            <div className="mx-auto max-w-5xl px-6 font-mono text-xs text-slatey-400">
+            <div className="max-w-5xl px-6 font-mono text-xs text-slatey-400 sm:px-10 lg:pl-16">
               <p>
                 AES AI Solutions · KVK-registered, Netherlands · operating from
                 Porto

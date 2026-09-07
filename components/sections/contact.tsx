@@ -6,8 +6,8 @@ import SectionRule from "@/components/section-rule";
 import { BOOKING_URL, CONTACT_EMAIL, mailto } from "@/lib/site";
 
 const TRUST = [
-  "Hosted with strict boundaries — or air-gapped on your own hardware",
-  "Built to run in production, explained in plain language",
+  "Hosted with hard boundaries, or air-gapped on your own hardware",
+  "Runs in production, explained in language your stakeholders can follow",
   "KVK-registered, Netherlands · operating from Porto",
 ];
 
@@ -26,15 +26,16 @@ export default function Contact() {
 
       <SectionRule label="CONTACT" align="left" />
 
-      <div className="mx-auto grid max-w-5xl gap-10 px-6 pb-24 md:grid-cols-2">
+      <div className="grid max-w-5xl gap-10 px-6 pb-24 sm:px-10 lg:pl-16 md:grid-cols-2">
         <FadeIn>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Have a hard problem worth solving?
+            Putting AI to work on data that can&apos;t leak?
           </h2>
           <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
-            The fastest way to find out if we can help is a short call. No pitch
-            deck, no obligation — just a conversation about what you&apos;re
-            trying to do.
+            The quickest way to see whether this is a fit is a short call — no
+            slide deck, no obligation. Bring the architecture you are planning,
+            or the one already in production, and we will walk through where its
+            boundaries need to sit.
           </p>
           <ul className="mt-8 space-y-3">
             {TRUST.map((t) => (
@@ -58,7 +59,7 @@ export default function Contact() {
               Book a call
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              Roughly 30 minutes. We&apos;ll figure out if it&apos;s a fit.
+              About 30 minutes — enough to tell whether it is a fit.
             </p>
 
             {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}

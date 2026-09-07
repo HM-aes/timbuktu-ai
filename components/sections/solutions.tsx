@@ -29,16 +29,16 @@ const PRODUCTS: Product[] = [
     cta: { text: "Try NIS2 Analyzer", href: NIS2_APP_URL },
     blocks: [
       {
-        label: "The problem",
-        body: "You need to prove your organisation meets the EU NIS2 directive — but the answer is scattered across dozens of policies and buried in hundreds of pages of legal text. Getting it wrong carries real penalties.",
+        label: "The risk",
+        body: "Proving your organisation meets the EU NIS2 directive means reconciling dozens of policies against hundreds of pages of legal text. A gap you miss becomes a finding, and NIS2 attaches real penalties to findings.",
       },
       {
-        label: "Our solution",
-        body: "Upload your existing documents. The dashboard reads them, checks them against the full NIS2 directive, and surfaces every gap automatically.",
+        label: "The design",
+        body: "Upload the documents you already have. The analyzer reads them, maps each one against the full directive, and lists every gap on a single dashboard. Runs hosted, or fully air-gapped on your own infrastructure.",
       },
       {
-        label: "What you get",
-        body: "A clear compliance picture in minutes — every gap in plain language, with what's missing and why it matters. Available hosted, or fully air-gapped on your own infrastructure.",
+        label: "The proof",
+        body: "A compliance picture you can act on in minutes — each gap in plain language, with what is missing and why it matters. Export it for your board or your auditor.",
       },
     ],
   },
@@ -50,48 +50,48 @@ const PRODUCTS: Product[] = [
     cta: { text: "Book a demo", href: LEX_DEMO_URL },
     blocks: [
       {
-        label: "The problem",
-        body: "Law firms need real control over who sees what. A senior lawyer should be able to give a junior access to specific documents on a matter — not hand over the entire case file.",
+        label: "The risk",
+        body: "Matter-level access hands everyone on a case the entire file. A junior brought in for one document can open the rest, and nothing on record draws the line.",
       },
       {
-        label: "Our solution",
-        body: "Lex Legal brings file-level access control to legal work. Grant, restrict, and track access down to the individual document — not the whole matter.",
+        label: "The design",
+        body: "Lex Legal sets access at the level of the individual document. Grant it, restrict it, and revoke it per file and per person — not per matter.",
       },
       {
-        label: "What you get",
-        body: "Cleaner confidentiality, less risk, and a clear record of exactly who can see what, at any moment.",
+        label: "The proof",
+        body: "Tighter confidentiality, a smaller exposure surface, and a standing record of exactly who can open what, at any moment.",
       },
     ],
   },
   {
     name: "DocSense",
     label: "Available now",
-    tagline: "Stop digging through documents. Just ask.",
+    tagline: "Ask your documents a question. Get a sourced answer.",
     motif: "query",
     cta: { text: "Try it free", href: DOCSENSE_URL },
     blocks: [
       {
-        label: "The problem",
-        body: "The answer you need is somewhere in a stack of PDFs, contracts, reports, or manuals — so you scroll, skim, and Ctrl+F for an hour, hoping you didn't miss it. It's slow, it's old-school, and it doesn't scale.",
+        label: "The risk",
+        body: "The answer sits somewhere in a stack of PDFs, contracts, and reports. Reading by hand is slow, and an answer with no source behind it is one nobody can rely on.",
       },
       {
-        label: "Our solution",
-        body: "Upload your documents and the tool actually reads them. Ask a question in plain language and get a straight answer — with the exact source it came from, so you can trust it.",
+        label: "The design",
+        body: "DocSense reads the documents you upload and answers questions in plain language, each answer carrying the exact passage it came from. Hosted, or air-gapped on your own hardware.",
       },
       {
-        label: "What you get",
-        body: "The knowledge trapped in your files, on demand. No more hunting — just answers, sourced and ready to act on.",
+        label: "The proof",
+        body: "The knowledge held in your files, available on request — every answer traceable to its source and ready to act on.",
       },
     ],
   },
   {
     name: "TankSlim",
     label: "Coming soon",
-    tagline: "A costly everyday problem, about to get an obvious answer.",
+    tagline: "A costly routine expense, about to get an obvious answer.",
     motif: "chart",
     cta: { text: "Get notified", href: NOTIFY_URL },
     teaser:
-      "Something new is on the way. TankSlim tackles a costly, everyday problem most people just accept — and makes the smart move obvious.",
+      "TankSlim targets a recurring cost most operations absorb without questioning, and makes the better move obvious.",
     status: "In development. Full details at launch.",
   },
 ];
@@ -147,18 +147,21 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
         <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
           {product.name}
         </h3>
-        <p className="mt-2 text-lg font-medium text-amber-300 sm:text-xl">
+        <p className="mt-2.5 text-lg font-medium text-amber-300 sm:text-xl">
           {product.tagline}
         </p>
 
         {product.blocks && (
-          <dl className="mt-6 space-y-4">
+          <dl className="mt-7 space-y-6">
             {product.blocks.map((b) => (
-              <div key={b.label}>
-                <dt className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-slatey-400">
+              <div
+                key={b.label}
+                className="grid gap-x-5 gap-y-1.5 sm:grid-cols-[7rem_1fr]"
+              >
+                <dt className="pt-0.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-slatey-400">
                   {b.label}
                 </dt>
-                <dd className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                <dd className="text-sm leading-relaxed text-muted-foreground">
                   {b.body}
                 </dd>
               </div>
@@ -211,13 +214,13 @@ export default function Solutions() {
 
       <SectionRule label="SOLUTIONS" align="left" />
 
-      <div className="mx-auto max-w-6xl px-6 pb-24">
+      <div className="max-w-6xl px-6 pb-24 sm:px-10 lg:pl-16">
         <ScrollReveal
-          text="Each tool takes a hard, expert-level job off your team and hands back a clear answer."
+          text="Four systems in production. Each one closes a specific security or compliance gap."
           className="max-w-4xl font-display text-2xl font-medium leading-[1.3] tracking-tight text-zinc-300 sm:text-3xl lg:text-[2.4rem]"
         />
 
-        <div className="mt-16 space-y-20 lg:space-y-28">
+        <div className="mt-20 space-y-24 lg:space-y-32">
           {PRODUCTS.map((product, i) => (
             <ProductRow key={product.name} product={product} index={i} />
           ))}

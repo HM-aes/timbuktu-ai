@@ -37,35 +37,31 @@ export default function Hero() {
       </div>
 
       <motion.div style={{ opacity, y }} className="relative max-w-3xl">
-        {/* Eyebrow */}
-        <motion.p
-          {...settle(0, 12)}
-          className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-400/90"
-        >
-          AI solutions for compliance, security, and complex work
-        </motion.p>
-
         {/* Headline */}
         <motion.h1
-          {...settle(1, 24)}
-          className="mt-5 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[4.25rem]"
+          {...settle(0, 24)}
+          className="font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[4.25rem]"
         >
-          Hard problems,{" "}
-          <span className="text-amber-300">quietly solved.</span>
+          Secure AI systems,{" "}
+          <span className="text-amber-300">
+            architected from the first commit.
+          </span>
         </motion.h1>
 
         {/* Subhead */}
         <motion.p
-          {...settle(2, 18)}
+          {...settle(1, 18)}
           className="mt-6 max-w-xl text-base font-light leading-relaxed text-foreground/75 sm:text-lg"
         >
-          AES builds AI tools that take the heavy, expert-level work off your
-          team&apos;s plate — and hand back clear answers anyone can act on.
+          AES designs and builds RAG, agents, and access control that run in
+          production — hosted with hard boundaries, or fully air-gapped on your
+          own infrastructure. Built by one specialist, with no account layer in
+          between.
         </motion.p>
 
         {/* CTAs */}
         <motion.div
-          {...settle(3, 14)}
+          {...settle(2, 14)}
           className="mt-9 flex flex-wrap items-center gap-4"
         >
           {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
@@ -90,14 +86,14 @@ export default function Hero() {
 
         {/* Supporting line */}
         <motion.p
-          {...settle(4, 10)}
+          {...settle(3, 10)}
           className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-slatey-400"
         >
-          <span>Built to run in production.</span>
+          <span>Runs in production.</span>
           <span className="text-slatey-500">·</span>
           <span>Explained in plain language.</span>
           <span className="text-slatey-500">·</span>
-          <span>Yours to control.</span>
+          <span>Online or fully air-gapped.</span>
         </motion.p>
       </motion.div>
     </section>
