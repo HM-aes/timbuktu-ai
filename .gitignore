@@ -37,3 +37,9 @@ Thumbs.db
 *.swp
 *.swo
 node_modules
+
+# Local AI-assistant tooling (skills, agents, live-design cache)
+.agents/
+.claude/
+.codex/
+.impeccable/
