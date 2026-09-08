@@ -21,9 +21,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AES AI Solutions — Secure AI systems, architected from the first commit",
+  title: "Timbuktu AI Solutions — Secure AI systems, architected from the first commit",
   description:
-    "AES designs and builds secure AI systems — RAG, agents, and access control that run in production, hosted with hard boundaries or fully air-gapped on your own infrastructure.",
+    "Timbuktu AI Solutions designs and builds secure AI systems — RAG, agents, and access control that run in production, hosted with hard boundaries or fully air-gapped on your own infrastructure.",
 };
 
 // Force dark mode always, and always start a fresh load at the top.
@@ -57,12 +57,12 @@ export default function RootLayout({
           <footer className="border-t border-white/[.08] py-10">
             <div className="max-w-5xl px-6 font-mono text-xs text-slatey-400 sm:px-10 lg:pl-16">
               <p>
-                AES AI Solutions · KVK-registered, Netherlands · operating from
+                Timbuktu AI Solutions · KVK-registered, Netherlands · operating from
                 Porto
               </p>
               <p className="mt-2 text-slatey-500">Your data stays yours.</p>
               <p className="mt-4 text-slatey-500">
-                © {new Date().getFullYear()} AES AI Solutions
+                © {new Date().getFullYear()} Timbuktu AI Solutions
               </p>
             </div>
           </footer>

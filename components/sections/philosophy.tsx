@@ -268,7 +268,7 @@ export default function Philosophy() {
                 govern where data moves, where it rests, and who can reach it.
               </p>
               <p className="text-foreground/90">
-                That&apos;s how AES builds. Every system keeps your data under
+                That&apos;s how Timbuktu AI Solutions builds. Every system keeps your data under
                 your control: hosted with hard boundaries, or fully air-gapped
                 on your own infrastructure when the work demands it. No data
                 sold, no data shared, nothing to explain to a board later.

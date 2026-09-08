@@ -53,7 +53,7 @@ export default function Hero() {
           {...settle(1, 18)}
           className="mt-6 max-w-xl text-base font-light leading-relaxed text-foreground/75 sm:text-lg"
         >
-          AES designs and builds RAG, agents, and access control that run in
+          Timbuktu AI Solutions designs and builds RAG, agents, and access control that run in
           production — hosted with hard boundaries, or fully air-gapped on your
           own infrastructure. Built by one specialist, with no account layer in
           between.

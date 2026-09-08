@@ -84,7 +84,7 @@ export default function Contact() {
 
             {/* TODO(placeholder): CONTACT_EMAIL — set real address in lib/site.ts */}
             <a
-              href={mailto("AES AI Solutions — enquiry")}
+              href={mailto("Timbuktu AI Solutions — enquiry")}
               className="flex h-10 items-center justify-center rounded-xl border border-border bg-surface-secondary text-sm font-normal text-muted-foreground transition-colors hover:text-foreground dark:bg-white/5 dark:hover:bg-white/10"
             >
               Email us directly

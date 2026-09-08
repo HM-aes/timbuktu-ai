@@ -36,26 +36,26 @@ export default function Navbar() {
         {/* ── Logo — flush to the page's left edge, aligned with the hero ── */}
         <motion.a
           href="#top"
-          aria-label="AES AI Solutions — back to top"
+          aria-label="Timbuktu AI Solutions — back to top"
           {...item(LOGO_AT)}
           className="shrink-0 font-mono text-sm font-medium tracking-[0.18em] transition-opacity hover:opacity-75"
         >
-          <span style={{ color: "#e0870b" }}>AES</span>
+          <span style={{ color: "#e0870b" }}>Timbuktu</span>
           <span style={{ color: "#f5a623", fontWeight: 500 }}> · </span>
           <span style={{ color: "#ededf0" }}>AI Solutions</span>
         </motion.a>
 
-        {/* ── Desktop nav links ── */}
+        {/* ── Desktop nav links — floating rounded pill ── */}
         <nav
           aria-label="Sections"
-          className="hidden items-center gap-10 md:flex lg:gap-16"
+          className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1 backdrop-blur-md md:flex"
         >
           {SECTIONS.map((section, i) => (
             <motion.a
               key={section.label}
               href={section.href}
               {...item(NAV_START + i * NAV_STEP)}
-              className="py-2 text-sm font-normal text-white underline-offset-[6px] decoration-1 transition-opacity duration-200 hover:opacity-70 hover:underline"
+              className="rounded-full px-4 py-1.5 text-sm font-light text-white/80 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white"
             >
               {section.label}
             </motion.a>
@@ -83,13 +83,19 @@ export default function Navbar() {
         </motion.div>
       </div>
 
-      {/* ── Microline ── */}
-      <motion.p
+      {/* ── Trust tag ── */}
+      <motion.div
         {...item(CTA_AT + 0.15)}
-        className="hidden border-t border-white/[0.04] px-6 py-2 text-center font-mono text-[11px] tracking-[0.1em] text-slatey-400 md:block"
+        className="hidden justify-center pb-3 md:flex"
       >
-        KVK-registered, Netherlands · your data stays yours
-      </motion.p>
+        <span className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1 text-[11px] font-light tracking-[0.06em] text-slatey-400 backdrop-blur-md transition-colors duration-200 hover:border-amber-400/30 hover:bg-amber-400/[0.06] hover:text-slatey-200">
+          <span
+            aria-hidden
+            className="size-1.5 rounded-full bg-amber-400/80 transition-colors duration-200 group-hover:bg-amber-400"
+          />
+          KVK-registered, Netherlands · your data stays yours
+        </span>
+      </motion.div>
 
       {/* ── Mobile slide-down menu ── */}
       <AnimatePresence>
@@ -112,7 +118,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.06, duration: 0.3, ease }}
                   onClick={() => setOpen(false)}
-                  className="flex items-center rounded-xl px-3 py-3.5 text-sm font-normal text-white underline-offset-4 decoration-1 transition-opacity duration-150 hover:opacity-70 hover:underline"
+                  className="flex items-center rounded-full px-4 py-3 text-sm font-light text-white/80 transition-colors duration-150 hover:bg-white/[0.08] hover:text-white"
                 >
                   {section.label}
                 </motion.a>
