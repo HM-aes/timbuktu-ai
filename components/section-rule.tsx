@@ -1,25 +1,36 @@
-// Ruled hairline + mono dossier label between acts.
-// align="left" hugs the viewport edge like the Hero, instead of sitting
-// in the centered max-w-5xl chapter container.
+"use client";
+
+import { motion } from "motion/react";
+import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
+
+/**
+ * SectionRule — numbered chapter marker.
+ * `01 — Approach` in mono, followed by a hairline that draws in on scroll.
+ */
 export default function SectionRule({
+  index,
   label,
-  align = "center",
 }: {
+  index: string;
   label: string;
-  align?: "center" | "left";
 }) {
+  const reduced = useReducedMotionSafe();
   return (
-    <div
-      className={
-        align === "left"
-          ? "flex items-center gap-4 pl-6 pr-6 pt-20 pb-10 sm:pl-10 lg:pl-16"
-          : "mx-auto flex max-w-5xl items-center gap-4 px-6 pt-20 pb-10"
-      }
-    >
-      <span className="font-mono text-xs tracking-[0.2em] text-slatey-400">
-        {label}
+    <div className="shell flex items-center gap-5 pt-24 pb-12 sm:pt-28 sm:pb-14">
+      <span className="eyebrow flex items-center gap-3">
+        <span className="text-amber-400">{index}</span>
+        <span aria-hidden className="text-foreground/30">—</span>
+        <span className="text-foreground/80">{label}</span>
       </span>
-      <div className="rule-shimmer h-px flex-1" />
+      <motion.div
+        aria-hidden
+        className="h-px flex-1 origin-left bg-gradient-to-r from-foreground/20 via-foreground/10 to-transparent"
+        initial={{ scaleX: 0 }}
+        animate={reduced ? { scaleX: 1 } : undefined}
+        whileInView={reduced ? undefined : { scaleX: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={reduced ? INSTANT : { duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      />
     </div>
   );
 }

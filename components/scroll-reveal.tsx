@@ -6,7 +6,6 @@ import {
   useScroll,
   useTransform,
   useMotionTemplate,
-  useReducedMotion,
   type MotionValue,
 } from "motion/react";
 
@@ -23,7 +22,10 @@ function Word({
   const blurPx = useTransform(progress, range, [4, 0]);
   const filter = useMotionTemplate`blur(${blurPx}px)`;
   return (
-    <motion.span style={{ opacity, filter }} className="mr-[0.25em] inline-block">
+    <motion.span
+      style={{ opacity, filter }}
+      className="reveal-word mr-[0.25em] inline-block"
+    >
       {children}
     </motion.span>
   );
@@ -31,8 +33,12 @@ function Word({
 
 /**
  * Cinematic scroll-reveal heading — words illuminate one by one as the
- * block passes through the viewport. Renders fully visible when reduced
- * motion is requested.
+ * block passes through the viewport.
+ *
+ * The DOM is identical on server and client regardless of motion
+ * preference; `prefers-reduced-motion` is honoured in CSS (`.reveal-word`
+ * is forced fully visible in globals.css), which avoids hydration
+ * mismatches and unhydrated scroll targets.
  */
 export default function ScrollReveal({
   text,
@@ -43,7 +49,6 @@ export default function ScrollReveal({
   as?: "h2" | "h3" | "p";
   className?: string;
 }) {
-  const reduced = useReducedMotion();
   const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -52,11 +57,6 @@ export default function ScrollReveal({
 
   const Tag = motion[as];
   const words = text.split(" ");
-
-  if (reduced) {
-    const Static = as;
-    return <Static className={className}>{text}</Static>;
-  }
 
   return (
     <Tag ref={ref} className={className}>

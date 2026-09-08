@@ -1,11 +1,13 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import SectionRule from "@/components/section-rule";
 import ScrollReveal from "@/components/scroll-reveal";
+import Panel from "@/components/panel";
 import { Motif, type MotifKind } from "@/components/motifs";
 import { NIS2_APP_URL, LEX_DEMO_URL, DOCSENSE_URL, NOTIFY_URL } from "@/lib/site";
+import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -97,71 +99,41 @@ const PRODUCTS: Product[] = [
 ];
 
 function ProductRow({ product, index }: { product: Product; index: number }) {
-  const reduced = useReducedMotion();
-  const flip = index % 2 === 1;
+  const reduced = useReducedMotionSafe();
   const isSoon = product.label === "Coming soon";
 
-  function glowMove(e: React.MouseEvent<HTMLElement>) {
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--bx", `${e.clientX - r.left}px`);
-    e.currentTarget.style.setProperty("--by", `${e.clientY - r.top}px`);
-  }
-
   return (
-    <motion.div
-      initial={reduced ? false : { opacity: 0, y: 40 }}
+    <motion.article
+      initial={{ opacity: 0, y: 32 }}
+      animate={reduced ? { opacity: 1, y: 0 } : undefined}
       whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-120px" }}
-      transition={{ duration: 0.8, ease }}
-      className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12"
+      transition={reduced ? INSTANT : { duration: 0.8, ease }}
+      className="split"
     >
-      {/* Motif panel */}
-      <div
-        onMouseMove={glowMove}
-        className={`bento-tile group/card relative aspect-[16/10] overflow-hidden rounded-3xl border border-white/[.08] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] backdrop-blur-md sm:aspect-[16/9] ${
-          flip ? "lg:order-2" : ""
-        }`}
-      >
-        <div className="absolute inset-0 p-8 [mask-image:radial-gradient(120%_120%_at_50%_40%,#000_55%,transparent)]">
-          <Motif kind={product.motif} />
-        </div>
-        <span
-          className={`absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.14em] ${
-            isSoon
-              ? "border-white/10 bg-white/[.04] text-slatey-400"
-              : "border-emerald-400/25 bg-emerald-400/10 text-emerald-300"
-          }`}
-        >
-          <span
-            className={`size-1.5 rounded-full ${
-              isSoon ? "bg-slatey-400" : "bg-emerald-400"
-            }`}
-            style={{ animation: "bento-node-pulse 2.6s ease-in-out infinite" }}
-          />
-          {product.label}
-        </span>
-      </div>
-
       {/* Text */}
       <div>
-        <h3 className="font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+        <p className="eyebrow flex items-center gap-3">
+          <span className="text-amber-400">{String(index + 1).padStart(2, "0")}</span>
+          <span aria-hidden className="text-foreground/30">/</span>
+          <span>{String(PRODUCTS.length).padStart(2, "0")}</span>
+        </p>
+        <h3 className="mt-4 font-display text-[1.75rem] font-medium tracking-[-0.015em] text-foreground sm:text-3xl">
           {product.name}
         </h3>
-        <p className="mt-2.5 text-lg font-normal text-amber-300 sm:text-xl">
+        <p className="mt-2 text-lg font-light leading-snug text-amber-300/95 sm:text-xl">
           {product.tagline}
         </p>
 
         {product.blocks && (
-          <dl className="mt-7 space-y-6">
+          <dl className="mt-8 space-y-5 border-t border-foreground/10 pt-6">
             {product.blocks.map((b) => (
               <div
                 key={b.label}
-                className="grid gap-x-5 gap-y-1.5 sm:grid-cols-[7rem_1fr]"
+                className="grid gap-x-6 gap-y-1.5 sm:grid-cols-[6.5rem_1fr]"
               >
-                <dt className="pt-0.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slatey-400">
-                  {b.label}
-                </dt>
-                <dd className="text-sm leading-relaxed text-muted-foreground">
+                <dt className="eyebrow pt-1">{b.label}</dt>
+                <dd className="measure text-[14.5px] leading-relaxed text-muted-foreground">
                   {b.body}
                 </dd>
               </div>
@@ -170,18 +142,18 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
         )}
 
         {product.teaser && (
-          <div className="mt-6 space-y-3">
-            <p className="text-sm leading-relaxed text-muted-foreground">
+          <div className="mt-8 space-y-3 border-t border-foreground/10 pt-6">
+            <p className="measure text-[14.5px] leading-relaxed text-muted-foreground">
               {product.teaser}
             </p>
-            <p className="font-mono text-xs text-slatey-400">{product.status}</p>
+            <p className="font-mono text-[11px] tracking-[0.04em] text-foreground/50">{product.status}</p>
           </div>
         )}
 
         {/* TODO(placeholder): product CTA URLs — set real destinations in lib/site.ts */}
         <a
           href={product.cta.href}
-          className="group mt-7 inline-flex h-10 items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 text-sm font-medium text-amber-300 transition-all hover:border-amber-500/50 hover:bg-amber-500/15"
+          className="group mt-8 inline-flex h-10 items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 text-sm font-medium text-amber-300 transition-colors hover:border-amber-500/50 hover:bg-amber-500/15"
         >
           {product.cta.text}
           <ArrowRight
@@ -190,16 +162,28 @@ function ProductRow({ product, index }: { product: Product; index: number }) {
           />
         </a>
       </div>
-    </motion.div>
+
+      {/* Diagram panel */}
+      <Panel
+        caption={product.name}
+        status={isSoon ? "in development" : "in production"}
+        statusTone={isSoon ? "muted" : "verify"}
+        grid
+        delay={0.1}
+        className="w-full"
+        bodyClassName="relative aspect-[16/10] sm:aspect-[16/9]"
+      >
+        <div className="absolute inset-0 p-8 [mask-image:radial-gradient(120%_120%_at_50%_40%,#000_55%,transparent)]">
+          <Motif kind={product.motif} />
+        </div>
+      </Panel>
+    </motion.article>
   );
 }
 
 export default function Solutions() {
   return (
-    <section
-      id="solutions"
-      className="relative overflow-hidden border-t border-foreground/10 bg-background py-6"
-    >
+    <section id="solutions" className="relative overflow-hidden">
       {/* Ambient aurora */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
@@ -207,20 +191,20 @@ export default function Solutions() {
           style={{ animation: "bento-aurora-a 28s ease-in-out infinite" }}
         />
         <div
-          className="absolute left-[4%] bottom-[10%] h-[24rem] w-[24rem] rounded-full bg-violet-500/[.05] blur-[120px]"
+          className="absolute left-[4%] bottom-[10%] h-[24rem] w-[24rem] rounded-full bg-verify/[.05] blur-[120px]"
           style={{ animation: "bento-aurora-b 32s ease-in-out infinite" }}
         />
       </div>
 
-      <SectionRule label="SOLUTIONS" align="left" />
+      <SectionRule index="04" label="Solutions" />
 
-      <div className="max-w-6xl px-6 pb-24 sm:px-10 lg:pl-16">
+      <div className="shell pb-24 sm:pb-28">
         <ScrollReveal
           text="Four systems in production. Each one closes a specific security or compliance gap."
-          className="max-w-4xl font-display text-2xl font-normal leading-[1.3] tracking-tight text-zinc-300 sm:text-3xl lg:text-[2.4rem]"
+          className="max-w-3xl font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
         />
 
-        <div className="mt-20 space-y-24 lg:space-y-32">
+        <div className="mt-20 space-y-24 lg:space-y-28">
           {PRODUCTS.map((product, i) => (
             <ProductRow key={product.name} product={product} index={i} />
           ))}

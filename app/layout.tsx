@@ -55,14 +55,13 @@ export default function RootLayout({
           <Header />
           <main id="top">{children}</main>
           <footer className="border-t border-white/[.08] py-10">
-            <div className="max-w-5xl px-6 font-mono text-xs text-slatey-400 sm:px-10 lg:pl-16">
+            <div className="shell flex flex-col gap-3 text-[12.5px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
               <p>
-                Timbuktu AI Solutions · KVK-registered, Netherlands · operating from
-                Porto
+                Timbuktu AI Solutions · KVK-registered, Netherlands · operating
+                from Porto
               </p>
-              <p className="mt-2 text-slatey-500">Your data stays yours.</p>
-              <p className="mt-4 text-slatey-500">
-                © {new Date().getFullYear()} Timbuktu AI Solutions
+              <p className="text-foreground/50">
+                Your data stays yours. © {new Date().getFullYear()}
               </p>
             </div>
           </footer>

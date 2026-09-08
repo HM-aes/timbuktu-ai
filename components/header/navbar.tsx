@@ -6,8 +6,9 @@ import { Menu, X } from "lucide-react";
 import { BOOKING_URL } from "@/lib/site";
 
 const SECTIONS = [
-  { label: "Home", href: "#top" },
   { label: "Approach", href: "#philosophy" },
+  { label: "Security", href: "#security" },
+  { label: "Stack", href: "#stack" },
   { label: "Solutions", href: "#solutions" },
   { label: "Contact", href: "#contact" },
 ];
@@ -31,18 +32,35 @@ export default function Navbar() {
   return (
     <>
       {/* ── Main navbar bar ── */}
-      <div className="flex h-16 items-center justify-between px-6 sm:px-10 lg:px-16">
+      <div className="shell flex h-16 items-center justify-between">
 
-        {/* ── Logo — flush to the page's left edge, aligned with the hero ── */}
+        {/* ── Brand wordmark — elegant, high-visibility ── */}
         <motion.a
           href="#top"
           aria-label="Timbuktu AI Solutions — back to top"
           {...item(LOGO_AT)}
-          className="shrink-0 font-mono text-sm font-medium tracking-[0.18em] transition-opacity hover:opacity-75"
+          className="group/brand shrink-0"
         >
-          <span style={{ color: "#e0870b" }}>Timbuktu</span>
-          <span style={{ color: "#f5a623", fontWeight: 500 }}> · </span>
-          <span style={{ color: "#ededf0" }}>AI Solutions</span>
+          <span className="inline-flex items-center gap-3">
+            {/* Amber mark — soft glow, geometric T */}
+            <span
+              aria-hidden
+              className="relative grid size-8 place-items-center rounded-lg border border-amber-400/35 bg-gradient-to-br from-amber-400/20 to-amber-600/5 shadow-[0_0_20px_-4px_rgba(245,166,35,0.45)] transition-shadow duration-300 group-hover/brand:shadow-[0_0_28px_-2px_rgba(245,166,35,0.55)]"
+            >
+              <span className="font-display text-[13px] font-semibold tracking-tight text-amber-300">
+                T
+              </span>
+            </span>
+
+            <span className="flex flex-col leading-none">
+              <span className="font-display text-[15px] font-semibold tracking-[-0.02em] text-white sm:text-base">
+                Timbuktu
+              </span>
+              <span className="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-amber-400/90">
+                AI Solutions
+              </span>
+            </span>
+          </span>
         </motion.a>
 
         {/* ── Desktop nav links — floating rounded pill ── */}
@@ -82,20 +100,6 @@ export default function Navbar() {
           </button>
         </motion.div>
       </div>
-
-      {/* ── Trust tag ── */}
-      <motion.div
-        {...item(CTA_AT + 0.15)}
-        className="hidden justify-center pb-3 md:flex"
-      >
-        <span className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1 text-[11px] font-light tracking-[0.06em] text-slatey-400 backdrop-blur-md transition-colors duration-200 hover:border-amber-400/30 hover:bg-amber-400/[0.06] hover:text-slatey-200">
-          <span
-            aria-hidden
-            className="size-1.5 rounded-full bg-amber-400/80 transition-colors duration-200 group-hover:bg-amber-400"
-          />
-          KVK-registered, Netherlands · your data stays yours
-        </span>
-      </motion.div>
 
       {/* ── Mobile slide-down menu ── */}
       <AnimatePresence>

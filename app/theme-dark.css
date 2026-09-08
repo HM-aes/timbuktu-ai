@@ -13,26 +13,26 @@
   --snow:     #fafafa;
   --eclipse:  #18181b;
 
-  /* ── Base ── */
-  --background:          #0c0c0e;
+  /* ── Base — "vault graphite": deep, faintly cool, so amber reads warm ── */
+  --background:          oklch(0.145 0.010 262);       /* ~#0e1015 */
   --foreground:          var(--snow);
-  /* ── Surface layers (HeroUI dark card hierarchy) ── */
-  --surface:             oklch(0.2103 0.0059 285.89);  /* ~#1C1C22 — eclipse, dark card */
-  --surface-secondary:   oklch(0.257 0.0037 286.14);  /* ~#232327 — slightly lighter */
-  --surface-tertiary:    oklch(0.2721 0.0024 247.91); /* ~#27273A — tertiary panel */
-  --card:                oklch(0.2103 0.0059 285.89);  /* = surface */
+  /* ── Surface layers ── */
+  --surface:             oklch(0.20 0.010 262);        /* card base */
+  --surface-secondary:   oklch(0.24 0.010 262);        /* raised card / input */
+  --surface-tertiary:    oklch(0.27 0.010 262);        /* tertiary panel */
+  --card:                oklch(0.20 0.010 262);
   --card-foreground:     var(--snow);
-  --overlay:             oklch(0.2103 0.0059 285.89);
+  --overlay:             oklch(0.20 0.010 262);
   --overlay-foreground:  var(--snow);
 
   /* ── Text tones ── */
-  --muted:               oklch(27.4% 0.006 286.033);   /* default chip colour in dark */
-  --muted-foreground:    oklch(80% 0.013 286.067);  /* ~#C3C3CC — lifted, less grey */
+  --muted:               oklch(0.27 0.010 262);        /* default chip colour in dark */
+  --muted-foreground:    oklch(0.80 0.012 262);        /* lifted grey — AA on background */
 
   /* ── Borders & Inputs ── */
-  --border:              oklch(28% 0.006 286.033);     /* ~#252529 — subtle dark border */
-  --separator:           oklch(25% 0.006 286.033);
-  --input:               oklch(0.2103 0.0059 285.89);
+  --border:              oklch(0.29 0.010 262);
+  --separator:           oklch(0.25 0.010 262);
+  --input:               oklch(0.20 0.010 262);
   --ring:                oklch(0.7819 0.1585 72.33);  /* amber focus ring */
 
   /* ── Interactive ── */
@@ -70,8 +70,8 @@
   --amber-400:           oklch(0.7819 0.1585 72.33);
   --amber-500:           oklch(0.7065 0.185 59.5);
   --amber-600:           oklch(0.6604 0.173 59.0);
-  --verify:              oklch(0.7 0.17 72); /* dark amber verify */
-  --verify-soft:         oklch(0.8 0.15 150.0);
+  --verify:              oklch(0.72 0.11 195); /* teal — "passed the check" in diagrams only */
+  --verify-soft:         oklch(0.80 0.09 195);
 
   /* ── Severity (brighter for dark contrast) ── */
   --sev-critical:        oklch(0.6532 0.2328 25.74);

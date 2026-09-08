@@ -7,7 +7,7 @@ export type MotifKind = "audit" | "tree" | "chart" | "query" | "vault";
 export function Motif({ kind }: { kind: MotifKind }) {
   const stroke = "currentColor";
   const common =
-    "motif h-full w-full text-foreground/[0.18] transition-colors duration-500 group-hover/card:text-foreground/[0.3]";
+    "motif h-full w-full text-foreground/[0.28] transition-colors duration-500 group-hover/card:text-foreground/[0.42]";
 
   if (kind === "audit") {
     const rows = [16, 30, 44, 58, 72, 86, 100, 114];

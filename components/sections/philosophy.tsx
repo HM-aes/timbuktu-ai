@@ -1,8 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import SectionRule from "@/components/section-rule";
 import ScrollReveal from "@/components/scroll-reveal";
+import Panel from "@/components/panel";
+import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -24,7 +26,7 @@ function BoundaryMotif({ reduced }: { reduced: boolean }) {
     <svg
       viewBox="0 0 300 332"
       fill="none"
-      className="h-full w-full text-foreground/[0.42] transition-colors duration-500 group-hover/card:text-foreground/[0.55]"
+      className="h-full w-full text-foreground/[0.5] transition-colors duration-500 group-hover/card:text-foreground/[0.62]"
       aria-hidden
     >
       {/* ungoverned input — dashed streams converging on the gate */}
@@ -184,35 +186,25 @@ const POINTS = [
   },
 ];
 
-function glowMove(e: React.MouseEvent<HTMLElement>) {
-  const r = e.currentTarget.getBoundingClientRect();
-  e.currentTarget.style.setProperty("--bx", `${e.clientX - r.left}px`);
-  e.currentTarget.style.setProperty("--by", `${e.clientY - r.top}px`);
-}
-
 function Move({
   children,
   delay = 0,
-  x = 0,
   y = 24,
   className = "",
-  glow = false,
 }: {
   children: React.ReactNode;
   delay?: number;
-  x?: number;
   y?: number;
   className?: string;
-  glow?: boolean;
 }) {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   return (
     <motion.div
-      onMouseMove={glow ? glowMove : undefined}
-      initial={reduced ? false : { opacity: 0, x, y }}
-      whileInView={reduced ? undefined : { opacity: 1, x: 0, y: 0 }}
+      initial={{ opacity: 0, y }}
+      animate={reduced ? { opacity: 1, y: 0 } : undefined}
+      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, delay, ease }}
+      transition={reduced ? INSTANT : { duration: 0.7, delay, ease }}
       className={className}
     >
       {children}
@@ -221,13 +213,12 @@ function Move({
 }
 
 export default function Philosophy() {
-  const reduced = useReducedMotion() ?? false;
+  // SMIL <animate> children are conditional; the safe hook keeps server and
+  // first client render identical, then honours the preference after mount.
+  const reduced = useReducedMotionSafe();
 
   return (
-    <section
-      id="philosophy"
-      className="relative overflow-hidden border-t border-foreground/10 py-6"
-    >
+    <section id="philosophy" className="relative overflow-hidden">
       {/* Ambient aurora */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
@@ -236,81 +227,73 @@ export default function Philosophy() {
         />
       </div>
 
-      <SectionRule label="APPROACH" align="left" />
+      <SectionRule index="01" label="Approach" />
 
-      <div className="px-6 pb-24 sm:px-10 lg:px-16">
-        <Move
-          delay={0.1}
-          x={-40}
-          y={0}
-          glow
-          className="bento-tile group/card glass-card-hover grid w-full gap-10 rounded-3xl border border-white/[.08] bg-[color-mix(in_srgb,var(--surface)_68%,transparent)] p-8 backdrop-blur-md sm:p-10 lg:p-14 md:grid-cols-[1.15fr_1fr] md:items-center md:gap-14 lg:gap-20"
-        >
+      <div className="shell pb-24 sm:pb-28">
+        <div className="split">
           <div>
             <ScrollReveal
               text="Everyone is racing to add AI. Almost no one is securing it."
-              className="font-display text-2xl font-normal leading-[1.2] tracking-tight text-foreground sm:text-3xl lg:text-[2.3rem]"
+              className="font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
             />
 
-            <div aria-hidden className="mt-7 h-px w-12 bg-amber-400/70" />
-
-            <div className="mt-7 max-w-[40rem] space-y-4 text-base leading-[1.7] text-muted-foreground">
+            <div className="measure-wide mt-8 space-y-5 text-base leading-[1.75] text-muted-foreground">
               <p>
-                Models, agents, and connectors like MCP are wired into
-                production systems every week — with sensitive data passing
+                Models, agents and connectors like MCP are wired into
+                production systems every week, with sensitive data passing
                 straight through them. The security review, when it comes,
                 arrives after the architecture is already set.
               </p>
               <p>
                 By then the choices are narrow. A system that touches your
-                documents, your compliance data, or your clients&apos; files
-                needs its boundaries drawn at design time — while you can still
+                documents, your compliance data or your clients&apos; files
+                needs its boundaries drawn at design time, while you can still
                 govern where data moves, where it rests, and who can reach it.
               </p>
               <p className="text-foreground/90">
-                That&apos;s how Timbuktu AI Solutions builds. Every system keeps your data under
-                your control: hosted with hard boundaries, or fully air-gapped
-                on your own infrastructure when the work demands it. No data
-                sold, no data shared, nothing to explain to a board later.
+                That is how Timbuktu AI Solutions builds. Every system keeps
+                your data under your control: hosted inside hard boundaries, or
+                fully air-gapped on your own infrastructure when the work
+                demands it. No data sold, no data shared, nothing to explain to
+                a board later.
               </p>
             </div>
           </div>
 
-          <div
-            aria-hidden
-            className="mx-auto w-full max-w-[21rem] md:max-w-none"
+          <Panel
+            caption="Boundary"
+            status="one gate · your perimeter · air-gap option"
+            grid
+            delay={0.1}
+            bodyClassName="p-6 sm:p-8"
           >
-            <BoundaryMotif reduced={reduced} />
-          </div>
-        </Move>
+            <div aria-hidden className="mx-auto w-full max-w-[22rem] lg:max-w-none">
+              <BoundaryMotif reduced={reduced} />
+            </div>
+          </Panel>
+        </div>
 
         {/* Pull-quote */}
-        <Move delay={0.05} y={28} className="mt-16 max-w-3xl">
+        <Move delay={0.05} y={28} className="mt-20 max-w-3xl">
           <div aria-hidden className="h-px w-12 bg-amber-400/70" />
-          <p className="mt-5 font-display text-xl font-normal leading-snug text-foreground/90 sm:text-2xl lg:text-[1.75rem]">
+          <p className="mt-5 font-display text-xl font-normal leading-snug text-foreground/90 sm:text-2xl lg:text-[1.7rem]">
             Making AI capable is the easy half. Making it something you can put
             in front of an auditor is the half you design in from the start.
           </p>
         </Move>
 
-        {/* Supporting points */}
-        <div className="mt-14 grid max-w-5xl gap-4 md:grid-cols-3">
+        {/* Principles */}
+        <div className="mt-14 grid gap-4 md:grid-cols-3">
           {POINTS.map((p, i) => (
-            <Move
-              key={p.title}
-              delay={i * 0.08}
-              y={20}
-              glow
-              className="bento-tile group/card rounded-2xl border border-white/[.08] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] p-6 backdrop-blur-md"
-            >
-              <span aria-hidden className="block size-1.5 rounded-full bg-amber-400" />
-              <h3 className="mt-4 font-display text-base font-medium text-foreground">
+            <Panel key={p.title} delay={i * 0.08} y={20} bodyClassName="p-6 sm:p-7">
+              <span aria-hidden className="block h-px w-8 bg-amber-400/80" />
+              <h3 className="mt-5 font-display text-[17px] font-medium text-foreground">
                 {p.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2.5 text-[14.5px] leading-relaxed text-muted-foreground">
                 {p.body}
               </p>
-            </Move>
+            </Panel>
           ))}
         </div>
       </div>
