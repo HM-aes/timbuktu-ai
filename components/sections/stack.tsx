@@ -121,7 +121,7 @@ export default function Stack() {
 
       <SectionRule index="03" label="Stack" />
 
-      <div className="shell pb-24 sm:pb-28">
+      <div className="shell section-body">
         <div className="max-w-3xl">
           <ScrollReveal
             text="A Python stack chosen for security, not convenience."
@@ -136,7 +136,7 @@ export default function Stack() {
           </FadeIn>
         </div>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="block-stack grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {STACK.map((s, i) => (
             <Panel key={s.key} delay={(i % 3) * 0.08} y={20} bodyClassName="flex h-full flex-col p-6 sm:p-7">
               <div className="flex items-start justify-between gap-4">

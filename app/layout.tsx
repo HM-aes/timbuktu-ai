@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
-import "@heroui/styles";
-import "./theme-light.css";
-import "./theme-dark.css";
 import "./globals.css";
 import LenisProvider from "@/components/lenis-provider";
 import Header from "@/components/header";

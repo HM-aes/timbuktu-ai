@@ -112,29 +112,145 @@ body {
   background-size: 28px 28px;
 }
 
+/* ── Layout rhythm — shared spacing scale ─────────────────────────────── */
+:root {
+  /* Shell horizontal inset */
+  --space-gutter:           1.5rem;   /* 24px */
+  --space-gutter-md:        2.5rem;   /* 40px @ ≥640px */
+  --space-gutter-lg:        4rem;     /* 64px @ ≥1024px */
+
+  /* Two-column split gap (text ↔ media) */
+  --space-column-gap:       4rem;     /* 64px — mobile/tablet stacked */
+  --space-column-gap-lg:    8rem;     /* 128px — desktop ≥1024px */
+  /* Inset each column away from the centre seam (adds to gap visually) */
+  --space-column-inset:     0;
+  --space-column-inset-lg:  2rem;     /* 32px per column @ ≥1024px */
+
+  /* Stacking — ambient backgrounds sit behind interactive content */
+  --z-ambient:              0;
+  --z-content:              1;
+
+  /* Section vertical block padding (content area below SectionRule) */
+  --space-section-y:        7rem;   /* 112px */
+  --space-section-y-md:     8rem;   /* 128px @ ≥640px */
+
+  /* SectionRule chapter marker spacing */
+  --space-rule-pt:          7rem;   /* 112px */
+  --space-rule-pt-md:       8rem;   /* 128px @ ≥640px */
+  --space-rule-pb:          3.5rem; /* 56px */
+  --space-rule-pb-md:       4rem;   /* 64px @ ≥640px */
+
+  /* Hero (first section — no SectionRule) */
+  --space-hero-pt:          4rem;   /* 64px */
+  --space-hero-pt-md:       6rem;   /* 96px @ ≥640px */
+  --space-hero-pb:          7rem;   /* 112px */
+  --space-hero-pb-md:       9rem;   /* 144px @ ≥640px */
+
+  /* In-section vertical rhythm */
+  --space-block-gap:        4rem;   /* 64px — headline → grid/panel */
+  --space-block-gap-lg:     6rem;   /* 96px — headline → product list, pull-quote */
+  --space-row-gap:          7rem;   /* 112px — stacked split rows (mobile) */
+  --space-row-gap-lg:       8rem;   /* 128px — stacked split rows (desktop) */
+}
+
 /* Section container — left-aligned with the header wordmark. */
 .shell {
   width: 100%;
   max-width: 78rem;
   margin-inline: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: var(--space-gutter);
+  padding-right: var(--space-gutter);
 }
-@media (min-width: 640px) { .shell { padding-left: 2.5rem; padding-right: 2.5rem; } }
-@media (min-width: 1024px) { .shell { padding-left: 4rem; padding-right: 4rem; } }
+@media (min-width: 640px) {
+  .shell {
+    padding-left: var(--space-gutter-md);
+    padding-right: var(--space-gutter-md);
+  }
+}
+@media (min-width: 1024px) {
+  .shell {
+    padding-left: var(--space-gutter-lg);
+    padding-right: var(--space-gutter-lg);
+  }
+}
 
 /* Text-left / diagram-right split used by every content section. */
 .split {
   display: grid;
-  gap: 3rem;
+  gap: var(--space-column-gap);
   align-items: start;
 }
 @media (min-width: 1024px) {
   .split {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: 5rem;
+    gap: var(--space-column-gap-lg);
     align-items: center;
   }
+  /* Push text and media inward from the centre — widens the visual seam */
+  .split > :first-child {
+    padding-inline-end: var(--space-column-inset-lg);
+  }
+  .split > :last-child {
+    padding-inline-start: var(--space-column-inset-lg);
+  }
+}
+
+/* Section content layers above decorative ambient backgrounds */
+section[id] > [aria-hidden].absolute,
+section.hero-section > [aria-hidden].absolute {
+  z-index: var(--z-ambient);
+}
+section[id] > .shell,
+section[id] > .section-rule,
+section.hero-section > .shell {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* Section content block — consistent bottom padding across sections. */
+.section-body {
+  padding-bottom: var(--space-section-y);
+}
+@media (min-width: 640px) {
+  .section-body { padding-bottom: var(--space-section-y-md); }
+}
+
+/* SectionRule chapter marker — top/bottom padding before main content. */
+.section-rule {
+  padding-top: var(--space-rule-pt);
+  padding-bottom: var(--space-rule-pb);
+}
+@media (min-width: 640px) {
+  .section-rule {
+    padding-top: var(--space-rule-pt-md);
+    padding-bottom: var(--space-rule-pb-md);
+  }
+}
+
+/* Hero — first section without a SectionRule. */
+.hero-section {
+  padding-top: var(--space-hero-pt);
+  padding-bottom: var(--space-hero-pb);
+}
+@media (min-width: 640px) {
+  .hero-section {
+    padding-top: var(--space-hero-pt-md);
+    padding-bottom: var(--space-hero-pb-md);
+  }
+}
+
+/* In-section vertical rhythm utilities. */
+.block-stack { margin-top: var(--space-block-gap); }
+.block-stack-lg { margin-top: var(--space-block-gap-lg); }
+
+.product-stack {
+  margin-top: var(--space-block-gap-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-row-gap);
+}
+@media (min-width: 1024px) {
+  .product-stack { gap: var(--space-row-gap-lg); }
 }
 
 /* Measure: keep body copy under ~68 characters. */

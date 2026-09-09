@@ -39,13 +39,13 @@ export default function Process() {
     <section id="process" className="relative overflow-hidden">
       <SectionRule index="05" label="How it runs" />
 
-      <div className="shell pb-24 sm:pb-28">
+      <div className="shell section-body">
         <ScrollReveal
           text="From first call to a system you can hand to an auditor."
           className="max-w-3xl font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
         />
 
-        <Panel className="mt-14 w-full" bodyClassName="relative p-2 sm:p-3">
+        <Panel className="block-stack w-full" bodyClassName="relative p-2 sm:p-3">
           {/* progress rail */}
           <motion.div
             aria-hidden

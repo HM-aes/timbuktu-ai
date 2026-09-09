@@ -24,7 +24,7 @@ function Word({
   return (
     <motion.span
       style={{ opacity, filter }}
-      className="reveal-word mr-[0.25em] inline-block"
+      className="reveal-word inline-block"
     >
       {children}
     </motion.span>
@@ -68,7 +68,11 @@ export default function ScrollReveal({
             {w}
           </Word>
         );
-      })}
+      })
+        /* Real whitespace between word spans: the browser lays out normal
+           inter-word gaps, wraps at them, and the text node reads as
+           "Everyone is racing…" for copy, search and screen readers. */
+        .flatMap((node, i) => (i === 0 ? [node] : [" ", node]))}
     </Tag>
   );
 }

@@ -24,7 +24,7 @@ export default function Hero() {
   const y = useTransform(scrollY, [160, 760], [0, -36]);
 
   return (
-    <section className="relative overflow-hidden pt-16 pb-24 sm:pt-24 sm:pb-32">
+    <section className="hero-section relative overflow-hidden">
       {/* Ambient aurora — one warm field, one cool, both slow */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div

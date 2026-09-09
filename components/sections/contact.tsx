@@ -24,7 +24,7 @@ export default function Contact() {
 
       <SectionRule index="06" label="Contact" />
 
-      <div className="shell split pb-28 sm:pb-32">
+      <div className="shell split section-body">
         <FadeIn>
           <h2 className="font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]">
             Putting AI to work on data that can&apos;t leak?

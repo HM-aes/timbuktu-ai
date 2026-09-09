@@ -229,7 +229,7 @@ export default function Philosophy() {
 
       <SectionRule index="01" label="Approach" />
 
-      <div className="shell pb-24 sm:pb-28">
+      <div className="shell section-body">
         <div className="split">
           <div>
             <ScrollReveal
@@ -274,7 +274,7 @@ export default function Philosophy() {
         </div>
 
         {/* Pull-quote */}
-        <Move delay={0.05} y={28} className="mt-20 max-w-3xl">
+        <Move delay={0.05} y={28} className="block-stack-lg max-w-3xl">
           <div aria-hidden className="h-px w-12 bg-amber-400/70" />
           <p className="mt-5 font-display text-xl font-normal leading-snug text-foreground/90 sm:text-2xl lg:text-[1.7rem]">
             Making AI capable is the easy half. Making it something you can put
@@ -283,7 +283,7 @@ export default function Philosophy() {
         </Move>
 
         {/* Principles */}
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
+        <div className="block-stack grid gap-4 md:grid-cols-3">
           {POINTS.map((p, i) => (
             <Panel key={p.title} delay={i * 0.08} y={20} bodyClassName="p-6 sm:p-7">
               <span aria-hidden className="block h-px w-8 bg-amber-400/80" />

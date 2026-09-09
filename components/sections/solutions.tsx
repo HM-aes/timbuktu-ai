@@ -198,13 +198,13 @@ export default function Solutions() {
 
       <SectionRule index="04" label="Solutions" />
 
-      <div className="shell pb-24 sm:pb-28">
+      <div className="shell section-body">
         <ScrollReveal
           text="Four systems in production. Each one closes a specific security or compliance gap."
           className="max-w-3xl font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
         />
 
-        <div className="mt-20 space-y-24 lg:space-y-28">
+        <div className="product-stack">
           {PRODUCTS.map((product, i) => (
             <ProductRow key={product.name} product={product} index={i} />
           ))}

@@ -18,7 +18,7 @@ export default function Security() {
 
       <SectionRule index="02" label="Security" />
 
-      <div className="shell split pb-24 sm:pb-28 lg:!items-start">
+      <div className="shell split section-body lg:!items-start">
         {/* Text */}
         <div className="lg:sticky lg:top-28">
           <ScrollReveal

@@ -16,7 +16,7 @@ export default function SectionRule({
 }) {
   const reduced = useReducedMotionSafe();
   return (
-    <div className="shell flex items-center gap-5 pt-24 pb-12 sm:pt-28 sm:pb-14">
+    <div className="shell section-rule flex items-center gap-5">
       <span className="eyebrow flex items-center gap-3">
         <span className="text-amber-400">{index}</span>
         <span aria-hidden className="text-foreground/30">—</span>
