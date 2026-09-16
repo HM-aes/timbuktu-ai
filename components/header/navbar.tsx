@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
+import BrandMark from "@/components/brand-mark";
 import { BOOKING_URL } from "@/lib/site";
 
 const SECTIONS = [
@@ -34,34 +35,8 @@ export default function Navbar() {
       {/* ── Main navbar bar ── */}
       <div className="shell flex h-16 items-center justify-between">
 
-        {/* ── Brand wordmark — elegant, high-visibility ── */}
-        <motion.a
-          href="#top"
-          aria-label="Timbuktu AI Solutions — back to top"
-          {...item(LOGO_AT)}
-          className="group/brand shrink-0"
-        >
-          <span className="inline-flex items-center gap-3">
-            {/* Amber mark — soft glow, geometric T */}
-            <span
-              aria-hidden
-              className="relative grid size-8 place-items-center rounded-lg border border-amber-400/35 bg-gradient-to-br from-amber-400/20 to-amber-600/5 shadow-[0_0_20px_-4px_rgba(245,166,35,0.45)] transition-shadow duration-300 group-hover/brand:shadow-[0_0_28px_-2px_rgba(245,166,35,0.55)]"
-            >
-              <span className="font-display text-[13px] font-semibold tracking-tight text-amber-300">
-                T
-              </span>
-            </span>
-
-            <span className="flex flex-col leading-none">
-              <span className="font-display text-[15px] font-semibold tracking-[-0.02em] text-white sm:text-base">
-                Timbuktu
-              </span>
-              <span className="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-amber-400/90">
-                AI Solutions
-              </span>
-            </span>
-          </span>
-        </motion.a>
+        {/* ── Brand identity badge ── */}
+        <BrandMark href="#top" {...item(LOGO_AT)} className="shrink-0" />
 
         {/* ── Desktop nav links — floating rounded pill ── */}
         <nav

@@ -4,172 +4,10 @@ import { motion } from "motion/react";
 import SectionRule from "@/components/section-rule";
 import ScrollReveal from "@/components/scroll-reveal";
 import Panel from "@/components/panel";
+import BoundaryDiagram from "@/components/diagrams/boundary";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-/* Perimeter diagram — reads left to right, then down:
-   ungoverned input converges on one governed gate, is admitted into your
-   boundary where the model / agent / MCP run, and can also stand fully
-   detached as an air-gapped deployment. Labels track the paragraph beside
-   it. Ambient SVG language of the Solutions tiles; SMIL gated on reduced. */
-function BoundaryMotif({ reduced }: { reduced: boolean }) {
-  const label = {
-    fontFamily:
-      "var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif",
-    fontSize: 9.5,
-    fontWeight: 500,
-    letterSpacing: "0.12em",
-  } as const;
-
-  return (
-    <svg
-      viewBox="0 0 300 332"
-      fill="none"
-      className="h-full w-full text-foreground/[0.5] transition-colors duration-500 group-hover/card:text-foreground/[0.62]"
-      aria-hidden
-    >
-      {/* ungoverned input — dashed streams converging on the gate */}
-      <text x="6" y="70" fill="var(--muted-foreground)" style={label}>
-        UNGOVERNED INPUT
-      </text>
-      <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        {[92, 126, 160, 194].map((y, i) => (
-          <path key={y} d={`M0 ${y} L112 150`} strokeDasharray="5 7">
-            {!reduced && (
-              <animate
-                attributeName="stroke-dashoffset"
-                from="24"
-                to="0"
-                dur={`${1.05 + i * 0.18}s`}
-                repeatCount="indefinite"
-              />
-            )}
-          </path>
-        ))}
-      </g>
-
-      {/* one governed gate */}
-      <text x="52" y="132" fill="var(--signal)" style={label}>
-        ONE GATE
-      </text>
-      <circle cx="112" cy="150" r="5" fill="var(--signal)" />
-      <path d="M112 150 H150" stroke="var(--signal)" strokeWidth="2" />
-      {!reduced && (
-        <circle r="2.6" fill="var(--signal)">
-          <animate
-            attributeName="cx"
-            from="114"
-            to="148"
-            dur="1.9s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="cy"
-            from="150"
-            to="150"
-            dur="1.9s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="opacity"
-            values="0;1;0"
-            dur="1.9s"
-            repeatCount="indefinite"
-          />
-        </circle>
-      )}
-
-      {/* your boundary */}
-      <text x="150" y="92" fill="var(--signal)" style={label}>
-        YOUR BOUNDARY
-      </text>
-      <rect
-        x="150"
-        y="104"
-        width="140"
-        height="120"
-        rx="18"
-        stroke="var(--signal)"
-        strokeWidth="2"
-      />
-
-      {/* the system within — model / agent / MCP */}
-      <g stroke="currentColor" strokeWidth="2">
-        <path d="M186 140 L254 140 M186 140 L220 172 M254 140 L220 172" />
-      </g>
-      {[
-        { cx: 186, cy: 140, t: "model", tx: 186, ty: 126 },
-        { cx: 254, cy: 140, t: "agent", tx: 254, ty: 126 },
-      ].map((n, i) => (
-        <g key={n.t}>
-          <circle
-            cx={n.cx}
-            cy={n.cy}
-            r="8"
-            stroke="currentColor"
-            strokeWidth="2"
-            style={
-              reduced
-                ? undefined
-                : {
-                    animation: `bento-node-pulse 2.8s ease-in-out ${i * 0.6}s infinite`,
-                  }
-            }
-          />
-          <text
-            x={n.tx}
-            y={n.ty}
-            fill="var(--muted-foreground)"
-            textAnchor="middle"
-            style={{ ...label, fontSize: 8.5, letterSpacing: "0.06em" }}
-          >
-            {n.t}
-          </text>
-        </g>
-      ))}
-      <rect
-        x="206"
-        y="170"
-        width="28"
-        height="22"
-        rx="4"
-        stroke="var(--signal)"
-        strokeWidth="2"
-      />
-      <text
-        x="220"
-        y="212"
-        fill="var(--muted-foreground)"
-        textAnchor="middle"
-        style={{ ...label, fontSize: 8.5, letterSpacing: "0.06em" }}
-      >
-        MCP
-      </text>
-
-      {/* air-gapped — a deliberate, marked break */}
-      <path d="M240 224 V246" stroke="currentColor" strokeWidth="2" />
-      <path
-        d="M231 251 H249 M231 257 H249"
-        stroke="var(--signal)"
-        strokeWidth="1.5"
-        opacity="0.85"
-      />
-      <path d="M240 262 V282" stroke="currentColor" strokeWidth="2" />
-      <circle cx="240" cy="296" r="11" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="240" cy="296" r="3.5" fill="currentColor" fillOpacity="0.55" />
-      <text
-        x="240"
-        y="324"
-        fill="var(--signal)"
-        textAnchor="middle"
-        style={label}
-      >
-        AIR-GAPPED
-      </text>
-    </svg>
-  );
-}
 
 const POINTS = [
   {
@@ -213,10 +51,6 @@ function Move({
 }
 
 export default function Philosophy() {
-  // SMIL <animate> children are conditional; the safe hook keeps server and
-  // first client render identical, then honours the preference after mount.
-  const reduced = useReducedMotionSafe();
-
   return (
     <section id="philosophy" className="relative overflow-hidden">
       {/* Ambient aurora */}
@@ -230,14 +64,15 @@ export default function Philosophy() {
       <SectionRule index="01" label="Approach" />
 
       <div className="shell section-body">
-        <div className="split">
+        {/* Text steps back; the diagram carries the argument. */}
+        <div className="split split-media">
           <div>
             <ScrollReveal
               text="Everyone is racing to add AI. Almost no one is securing it."
-              className="font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
+              className="font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.4rem]"
             />
 
-            <div className="measure-wide mt-8 space-y-5 text-base leading-[1.75] text-muted-foreground">
+            <div className="measure mt-8 space-y-5 text-base leading-[1.75] text-muted-foreground">
               <p>
                 Models, agents and connectors like MCP are wired into
                 production systems every week, with sensitive data passing
@@ -261,15 +96,13 @@ export default function Philosophy() {
           </div>
 
           <Panel
-            caption="Boundary"
-            status="one gate · your perimeter · air-gap option"
+            caption="How a request is governed"
+            status="live"
             grid
             delay={0.1}
-            bodyClassName="p-6 sm:p-8"
+            bodyClassName="p-5 sm:p-7"
           >
-            <div aria-hidden className="mx-auto w-full max-w-[22rem] lg:max-w-none">
-              <BoundaryMotif reduced={reduced} />
-            </div>
+            <BoundaryDiagram />
           </Panel>
         </div>
 

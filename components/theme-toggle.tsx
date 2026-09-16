@@ -22,7 +22,6 @@ export default function ThemeToggle() {
     document.documentElement.classList.toggle("dark", next);
     document.documentElement.classList.toggle("light", !next);
     
-    // Toggle HeroUI data-theme
     document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
     
     localStorage.setItem("theme", next ? "dark" : "light");

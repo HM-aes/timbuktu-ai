@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "@heroui/styles";
 @import "tw-animate-css";
 
 /* ── Theme files (edit independently) ── */
@@ -112,6 +111,16 @@ body {
   background-size: 28px 28px;
 }
 
+/* Hero showcase stage — warm light bleeding in from the top corners,
+   the one place ambient glow is allowed: it frames the live product. */
+.stage-glow {
+  background:
+    radial-gradient(70% 60% at 6% 0%, color-mix(in srgb, var(--signal) 34%, transparent), transparent 70%),
+    radial-gradient(60% 55% at 96% 0%, color-mix(in srgb, var(--signal) 22%, transparent), transparent 70%),
+    radial-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
+    color-mix(in srgb, var(--background) 70%, black);
+}
+
 /* ── Layout rhythm — shared spacing scale ─────────────────────────────── */
 :root {
   /* Shell horizontal inset */
@@ -185,6 +194,10 @@ body {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     gap: var(--space-column-gap-lg);
     align-items: center;
+  }
+  /* Media-led variant: text steps back, the diagram carries the argument */
+  .split.split-media {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
   /* Push text and media inward from the centre — widens the visual seam */
   .split > :first-child {
@@ -545,6 +558,46 @@ section.hero-section > .shell {
 .bento-tile > * {
   position: relative;
   z-index: 2;
+}
+
+/* ── Brand mark — header identity badge ─────────────────────────────── */
+.brand-mark {
+  isolation: isolate;
+}
+.brand-mark__logo {
+  border: 1px solid color-mix(in srgb, var(--signal) 38%, transparent);
+  background:
+    radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--signal) 28%, transparent), transparent 55%),
+    linear-gradient(145deg, color-mix(in srgb, var(--signal) 16%, transparent), color-mix(in srgb, var(--background) 88%, transparent));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 10%, transparent),
+    0 0 18px -6px color-mix(in srgb, var(--signal) 55%, transparent);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.group\/brand:hover .brand-mark__logo {
+  border-color: color-mix(in srgb, var(--signal) 55%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 12%, transparent),
+    0 0 24px -4px color-mix(in srgb, var(--signal) 65%, transparent);
+}
+.brand-mark__logo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0.55;
+  mask-image: radial-gradient(circle at 50% 50%, #000 35%, transparent 100%);
+}
+.brand-mark__rail {
+  box-shadow: 1px 0 12px color-mix(in srgb, var(--signal) 35%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark__dot.pulse-dot {
+    animation: none;
+  }
 }
 
 /* Ambient tile motifs */
