@@ -1,15 +1,8 @@
-"use client";
-
-import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import SectionRule from "@/components/section-rule";
-import ScrollReveal from "@/components/scroll-reveal";
+import Section, { SectionHead } from "@/components/layout/section";
 import Panel from "@/components/panel";
 import { Motif, type MotifKind } from "@/components/motifs";
 import { NIS2_APP_URL, LEX_DEMO_URL, DOCSENSE_URL, NOTIFY_URL } from "@/lib/site";
-import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 type Product = {
   name: string;
@@ -98,118 +91,87 @@ const PRODUCTS: Product[] = [
   },
 ];
 
-function ProductRow({ product, index }: { product: Product; index: number }) {
-  const reduced = useReducedMotionSafe();
+function ProductRow({ product }: { product: Product }) {
   const isSoon = product.label === "Coming soon";
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 32 }}
-      animate={reduced ? { opacity: 1, y: 0 } : undefined}
-      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-120px" }}
-      transition={reduced ? INSTANT : { duration: 0.8, ease }}
-      className="split"
-    >
+    <article className="cells cells-split">
       {/* Text */}
-      <div>
-        <p className="eyebrow flex items-center gap-3">
-          <span className="text-amber-400">{String(index + 1).padStart(2, "0")}</span>
-          <span aria-hidden className="text-foreground/30">/</span>
-          <span>{String(PRODUCTS.length).padStart(2, "0")}</span>
-        </p>
-        <h3 className="mt-4 font-display text-[1.75rem] font-medium tracking-[-0.015em] text-foreground sm:text-3xl">
-          {product.name}
-        </h3>
-        <p className="mt-2 text-lg font-light leading-snug text-amber-300/95 sm:text-xl">
-          {product.tagline}
-        </p>
+      <div className="cell">
+        <div>
+          <span className="pill">
+            <span className="dot" data-tone={isSoon ? "muted" : "verify"} aria-hidden />
+            {product.label}
+          </span>
+          <h3 className="mt-6 font-display text-[1.75rem] font-medium tracking-[-0.02em] text-foreground sm:text-[2rem]">
+            {product.name}
+          </h3>
+          <p className="mt-2 max-w-[30rem] text-lg leading-snug text-foreground/85 sm:text-xl">
+            {product.tagline}
+          </p>
 
-        {product.blocks && (
-          <dl className="mt-8 space-y-5 border-t border-foreground/10 pt-6">
-            {product.blocks.map((b) => (
-              <div
-                key={b.label}
-                className="grid gap-x-6 gap-y-1.5 sm:grid-cols-[6.5rem_1fr]"
-              >
-                <dt className="eyebrow pt-1">{b.label}</dt>
-                <dd className="measure text-[14.5px] leading-relaxed text-muted-foreground">
-                  {b.body}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        )}
+          {product.blocks && (
+            <dl className="mt-8 divide-y divide-[var(--line)] border-y border-[var(--line)]">
+              {product.blocks.map((b) => (
+                <div key={b.label} className="grid gap-x-6 gap-y-1.5 py-4 sm:grid-cols-[6.5rem_1fr]">
+                  <dt className="label pt-1">{b.label}</dt>
+                  <dd className="cell-body max-w-[32rem]">{b.body}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
 
-        {product.teaser && (
-          <div className="mt-8 space-y-3 border-t border-foreground/10 pt-6">
-            <p className="measure text-[14.5px] leading-relaxed text-muted-foreground">
-              {product.teaser}
-            </p>
-            <p className="font-mono text-[11px] tracking-[0.04em] text-foreground/50">{product.status}</p>
-          </div>
-        )}
+          {product.teaser && (
+            <div className="mt-8 space-y-3 border-y border-[var(--line)] py-4">
+              <p className="cell-body max-w-[32rem]">{product.teaser}</p>
+              <p className="label normal-case tracking-[0.04em]">{product.status}</p>
+            </div>
+          )}
 
-        {/* TODO(placeholder): product CTA URLs — set real destinations in lib/site.ts */}
-        <a
-          href={product.cta.href}
-          className="group mt-8 inline-flex h-10 items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 text-sm font-medium text-amber-300 transition-colors hover:border-amber-500/50 hover:bg-amber-500/15"
-        >
-          {product.cta.text}
-          <ArrowRight
-            size={15}
-            className="transition-transform group-hover:translate-x-1"
-          />
-        </a>
+          {/* TODO(placeholder): product CTA URLs — set real destinations in lib/site.ts */}
+          <a href={product.cta.href} className="btn btn-ghost btn-sm mt-8">
+            {product.cta.text}
+            <ArrowRight size={15} data-arrow />
+          </a>
+        </div>
       </div>
 
-      {/* Diagram panel */}
-      <Panel
-        caption={product.name}
-        status={isSoon ? "in development" : "in production"}
-        statusTone={isSoon ? "muted" : "verify"}
-        grid
-        delay={0.1}
-        className="w-full"
-        bodyClassName="relative aspect-[16/10] sm:aspect-[16/9]"
-      >
-        <div className="absolute inset-0 p-8 [mask-image:radial-gradient(120%_120%_at_50%_40%,#000_55%,transparent)]">
-          <Motif kind={product.motif} />
-        </div>
-      </Panel>
-    </motion.article>
+      {/* Motif */}
+      <div className="cell cell-media">
+        <Panel
+          caption={product.name}
+          status={isSoon ? "in development" : "in production"}
+          statusTone={isSoon ? "muted" : "verify"}
+          grid
+          flush
+          className="h-full"
+          bodyClassName="relative aspect-[16/10] lg:aspect-auto lg:h-[calc(100%-2.6rem)] lg:min-h-[26rem]"
+        >
+          <div className="absolute inset-0 p-8 [mask-image:radial-gradient(120%_120%_at_50%_40%,#000_55%,transparent)]">
+            <Motif kind={product.motif} />
+          </div>
+        </Panel>
+      </div>
+    </article>
   );
 }
 
 export default function Solutions() {
   return (
-    <section id="solutions" className="relative overflow-hidden">
-      {/* Ambient aurora */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute right-[6%] top-[12%] h-[30rem] w-[30rem] rounded-full bg-amber-500/[.07] blur-[130px]"
-          style={{ animation: "bento-aurora-a 28s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute left-[4%] bottom-[10%] h-[24rem] w-[24rem] rounded-full bg-verify/[.05] blur-[120px]"
-          style={{ animation: "bento-aurora-b 32s ease-in-out infinite" }}
-        />
+    <Section id="solutions">
+      <SectionHead
+        title={
+          <>
+            Three systems in production, a fourth on the way. Each one closes a specific <span className="accent">security or compliance gap.</span>
+          </>
+        }
+      />
+
+      <div>
+        {PRODUCTS.map((product) => (
+          <ProductRow key={product.name} product={product} />
+        ))}
       </div>
-
-      <SectionRule index="04" label="Solutions" />
-
-      <div className="shell section-body">
-        <ScrollReveal
-          text="Four systems in production. Each one closes a specific security or compliance gap."
-          className="max-w-3xl font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
-        />
-
-        <div className="product-stack">
-          {PRODUCTS.map((product, i) => (
-            <ProductRow key={product.name} product={product} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
+    </Section>
   );
 }

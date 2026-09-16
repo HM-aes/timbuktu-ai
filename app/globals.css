@@ -83,10 +83,10 @@
   /* Radii */
   --radius-sm:  6px;
   --radius-md:  8px;
-  --radius-lg:  10px;
-  --radius-xl:  calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-lg:  var(--radius-control);   /* buttons, inputs, chips */
+  --radius-xl:  var(--radius-panel);     /* diagram / dashboard panels */
+  --radius-2xl: calc(var(--radius-panel) * 1.5);
+  --radius-3xl: calc(var(--radius-panel) * 2);
 }
 
 /* ── Base ────────────────────────────────────────────────────────────── */
@@ -99,234 +99,373 @@ html.dark {
 }
 body {
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   background-color: var(--background);
   color: var(--foreground);
 }
 
-/* ── Utilities ───────────────────────────────────────────────────────── */
-.bg-grid-dots {
-  background-image: radial-gradient(color-mix(in srgb, var(--foreground) 11%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-/* Hero showcase stage — warm light bleeding in from the top corners,
-   the one place ambient glow is allowed: it frames the live product. */
-.stage-glow {
-  background:
-    radial-gradient(70% 60% at 6% 0%, color-mix(in srgb, var(--signal) 34%, transparent), transparent 70%),
-    radial-gradient(60% 55% at 96% 0%, color-mix(in srgb, var(--signal) 22%, transparent), transparent 70%),
-    radial-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
-    color-mix(in srgb, var(--background) 70%, black);
-}
-
-/* ── Layout rhythm — shared spacing scale ─────────────────────────────── */
+/* ── Layout system ────────────────────────────────────────────────────
+   One framed column (the "rail") runs the whole page: a 1280px frame with
+   hairline side borders, sections stacked inside it and separated by
+   hairline rules, content laid out as grid cells that share those lines.
+   Every value below is a shared token — sections do not invent their own. */
 :root {
-  /* Shell horizontal inset */
-  --space-gutter:           1.5rem;   /* 24px */
-  --space-gutter-md:        2.5rem;   /* 40px @ ≥640px */
-  --space-gutter-lg:        4rem;     /* 64px @ ≥1024px */
+  /* Frame */
+  --frame-max:              80rem;    /* 1280px — page column incl. rails */
+  --line:                   color-mix(in srgb, var(--foreground) 10%, transparent);
+  --line-strong:            color-mix(in srgb, var(--foreground) 18%, transparent);
 
-  /* Two-column split gap (text ↔ media) */
-  --space-column-gap:       4rem;     /* 64px — mobile/tablet stacked */
-  --space-column-gap-lg:    8rem;     /* 128px — desktop ≥1024px */
-  /* Inset each column away from the centre seam (adds to gap visually) */
-  --space-column-inset:     0;
-  --space-column-inset-lg:  2rem;     /* 32px per column @ ≥1024px */
+  /* Gutter — inset of content from the rails */
+  --space-gutter:           1.5rem;   /* 24px  mobile */
+  --space-gutter-md:        2.5rem;   /* 40px  ≥640px */
+  --space-gutter-lg:        4rem;     /* 64px  ≥1024px */
 
-  /* Stacking — ambient backgrounds sit behind interactive content */
-  --z-ambient:              0;
-  --z-content:              1;
+  /* Section vertical padding (heading blocks, statement blocks, CTA) */
+  --space-section-y:        3.5rem;   /* 56px  mobile */
+  --space-section-y-md:     5rem;     /* 80px  ≥640px */
+  --space-section-y-lg:     6rem;     /* 96px  ≥1024px */
 
-  /* Section vertical block padding (content area below SectionRule) */
-  --space-section-y:        7rem;   /* 112px */
-  --space-section-y-md:     8rem;   /* 128px @ ≥640px */
+  /* Hero */
+  --space-hero-pt:          4rem;     /* 64px  mobile */
+  --space-hero-pt-lg:       7rem;     /* 112px ≥1024px */
+  --space-hero-gap:         3.5rem;   /* 56px  copy → showcase, mobile */
+  --space-hero-gap-lg:      5rem;     /* 80px  ≥1024px */
 
-  /* SectionRule chapter marker spacing */
-  --space-rule-pt:          7rem;   /* 112px */
-  --space-rule-pt-md:       8rem;   /* 128px @ ≥640px */
-  --space-rule-pb:          3.5rem; /* 56px */
-  --space-rule-pb-md:       4rem;   /* 64px @ ≥640px */
+  /* Heading block internals */
+  --space-head-gap:         1.25rem;  /* 20px  h2 → paragraph */
+  --space-head-gap-lg:      1.5rem;   /* 24px  ≥640px */
 
-  /* Hero (first section — no SectionRule) */
-  --space-hero-pt:          4rem;   /* 64px */
-  --space-hero-pt-md:       6rem;   /* 96px @ ≥640px */
-  --space-hero-pb:          7rem;   /* 112px */
-  --space-hero-pb-md:       9rem;   /* 144px @ ≥640px */
+  /* Grid cells — internal padding */
+  --space-cell:             1.5rem;   /* 24px  mobile */
+  --space-cell-md:          2rem;     /* 32px  ≥640px */
+  --space-cell-lg:          2.5rem;   /* 40px  ≥1024px */
+  --space-cell-y:           2rem;     /* 32px  vertical, mobile */
+  --space-cell-y-lg:        3rem;     /* 48px  vertical, ≥1024px */
 
-  /* In-section vertical rhythm */
-  --space-block-gap:        4rem;   /* 64px — headline → grid/panel */
-  --space-block-gap-lg:     6rem;   /* 96px — headline → product list, pull-quote */
-  --space-row-gap:          7rem;   /* 112px — stacked split rows (mobile) */
-  --space-row-gap-lg:       8rem;   /* 128px — stacked split rows (desktop) */
+  /* Two-column split gap when columns are not cells */
+  --space-column-gap:       2.5rem;   /* 40px  stacked */
+  --space-column-gap-lg:    4rem;     /* 64px  ≥1024px */
+
+  /* Stack rhythm inside a cell */
+  --space-stack:            1rem;     /* 16px  title → body */
+  --space-stack-lg:         1.5rem;   /* 24px  icon → title */
+
+  /* Controls */
+  --control-h:              2.75rem;  /* 44px  primary/secondary buttons */
+  --control-h-sm:           2.5rem;   /* 40px  header + inline buttons */
+  --control-px:             1.5rem;   /* 24px */
+  --radius-control:         0.5rem;   /* 8px   buttons, inputs, chips */
+  --radius-panel:           0.75rem;  /* 12px  dashboards, diagrams */
+
 }
 
-/* Section container — left-aligned with the header wordmark. */
-.shell {
-  width: 100%;
-  max-width: 78rem;
-  margin-inline: auto;
-  padding-left: var(--space-gutter);
-  padding-right: var(--space-gutter);
-}
-@media (min-width: 640px) {
-  .shell {
-    padding-left: var(--space-gutter-md);
-    padding-right: var(--space-gutter-md);
+/* Layered below Tailwind utilities so per-element utility overrides win. */
+@layer components {
+  /* Frame — the single page column. Rails are the side borders. */
+  .frame {
+    width: 100%;
+    max-width: var(--frame-max);
+    margin-inline: auto;
   }
-}
-@media (min-width: 1024px) {
-  .shell {
-    padding-left: var(--space-gutter-lg);
-    padding-right: var(--space-gutter-lg);
+  @media (min-width: 640px) {
+    .frame { border-inline: 1px solid var(--line); }
   }
-}
 
-/* Text-left / diagram-right split used by every content section. */
-.split {
-  display: grid;
-  gap: var(--space-column-gap);
-  align-items: start;
-}
-@media (min-width: 1024px) {
-  .split {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: var(--space-column-gap-lg);
+  /* Gutter — content inset from the rails (used on non-cell content). */
+  .gutter {
+    padding-inline: var(--space-gutter);
+  }
+  @media (min-width: 640px)  { .gutter { padding-inline: var(--space-gutter-md); } }
+  @media (min-width: 1024px) { .gutter { padding-inline: var(--space-gutter-lg); } }
+
+  /* Section — stacked inside the frame, separated by a hairline. */
+  .section { border-top: 1px solid var(--line); }
+
+  /* Section heading block: h2 + supporting paragraph, left-aligned, measured. */
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-head-gap);
+    max-width: 42rem;
+    padding-block: var(--space-section-y);
+  }
+  @media (min-width: 640px) {
+    .section-head { gap: var(--space-head-gap-lg); padding-block: var(--space-section-y-md); }
+  }
+  @media (min-width: 1024px) {
+    .section-head { padding-block: var(--space-section-y-lg); }
+  }
+  .section-head h2, .section-head .h2 { max-width: 20ch; }
+  .section-head p { max-width: 36rem; }
+
+  /* Statement / CTA block — centred, vertical padding from the section scale. */
+  .section-block {
+    padding-block: var(--space-section-y);
+  }
+  @media (min-width: 640px)  { .section-block { padding-block: var(--space-section-y-md); } }
+  @media (min-width: 1024px) { .section-block { padding-block: var(--space-section-y-lg); } }
+
+  /* Cells — bordered grid where every tile shares the hairlines.
+     The grid draws the top rule; each cell draws its right and bottom rule,
+     and the last column / row drop theirs so nothing doubles up. */
+  .cells {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .cell {
+    min-width: 0;
+    padding: var(--space-cell-y) var(--space-cell);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 640px)  { .cell { padding-inline: var(--space-cell-md); } }
+  @media (min-width: 1024px) { .cell { padding: var(--space-cell-y-lg) var(--space-cell-lg); } }
+  .cells > .cell:last-child { border-bottom: 0; }
+
+  /* Column variants: each cell in a row gets a right rule except the last. */
+  @media (min-width: 640px) {
+    .cells-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cells-2 > .cell:nth-child(2n) { border-right: 0; }
+    .cells-2 > .cell:nth-child(2n+1) { border-right: 1px solid var(--line); }
+    .cells-2 > .cell:nth-last-child(-n+2):nth-child(2n+1),
+    .cells-2 > .cell:last-child { border-bottom: 0; }
+  }
+  @media (min-width: 1024px) {
+    .cells-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cells-3 > .cell { border-right: 1px solid var(--line); }
+    .cells-3 > .cell:nth-child(3n) { border-right: 0; }
+    .cells-3 > .cell:nth-last-child(-n+3):nth-child(3n+1),
+    .cells-3 > .cell:nth-last-child(-n+3):nth-child(3n+1) ~ .cell { border-bottom: 0; }
+
+    .cells-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .cells-4 > .cell { border-right: 1px solid var(--line); border-bottom: 0; }
+    .cells-4 > .cell:nth-child(4n) { border-right: 0; }
+
+    /* Split row: text cell + media cell, media slightly wider. */
+    .cells-split { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+    .cells-split > .cell { border-bottom: 0; }
+    .cells-split > .cell:first-child { border-right: 1px solid var(--line); }
+    .cells-split.cells-split-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  /* Below the desktop breakpoint, 3/4-column grids collapse to 2 columns. */
+  @media (min-width: 640px) and (max-width: 1023.98px) {
+    .cells-3, .cells-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cells-3 > .cell:nth-child(2n+1), .cells-4 > .cell:nth-child(2n+1) { border-right: 1px solid var(--line); }
+    .cells-3 > .cell:nth-child(2n), .cells-4 > .cell:nth-child(2n) { border-right: 0; }
+    .cells-3 > .cell:nth-last-child(-n+2):nth-child(2n+1),
+    .cells-3 > .cell:nth-last-child(-n+2):nth-child(2n+1) ~ .cell,
+    .cells-4 > .cell:nth-last-child(-n+2) { border-bottom: 0; }
+  }
+
+  /* Short-content 3-up grids (stats, trust line) stay three across from tablet up. */
+  @media (min-width: 640px) {
+    .cells-md.cells-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cells-md.cells-3 > .cell { border-right: 1px solid var(--line); border-bottom: 0; }
+    .cells-md.cells-3 > .cell:nth-child(3n) { border-right: 0; }
+  }
+
+  /* Media cell — a diagram fills the cell edge to edge; no inner padding. */
+  .cell-media { padding: 0; overflow: hidden; }
+
+  /* ── Type scale ──────────────────────────────────────────────────────── */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    font-size: clamp(2.5rem, 1.6rem + 3.4vw, 3.75rem);   /* 40 → 60px */
+    text-wrap: balance;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-size: clamp(1.875rem, 1.35rem + 1.9vw, 3rem);   /* 30 → 48px */
+    text-wrap: balance;
+  }
+  .statement {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);    /* 24 → 40px */
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+  @media (min-width: 640px) { .lede { font-size: 1.125rem; } }
+  .cell-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+  .cell-body {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--muted-foreground);
+  }
+  /* Data label: mono is reserved for measurement, ids, status — not prose. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  /* The one phrase per heading that carries the accent. */
+  .accent { color: var(--signal); }
+
+  /* ── Backgrounds ─────────────────────────────────────────────────────── */
+  /* Dot field — used only behind statement and CTA blocks. */
+  .bg-dots {
+    background-image: radial-gradient(color-mix(in srgb, var(--foreground) 12%, transparent) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  /* Hero showcase stage — warm light from the top corners, the one place
+     ambient glow is allowed: it frames the live product. */
+  .stage-glow {
+    background:
+      radial-gradient(70% 60% at 6% 0%, color-mix(in srgb, var(--signal) 34%, transparent), transparent 70%),
+      radial-gradient(60% 55% at 96% 0%, color-mix(in srgb, var(--signal) 22%, transparent), transparent 70%),
+      radial-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
+      color-mix(in srgb, var(--background) 70%, black);
+  }
+
+  /* ── Panel — flat product surface for diagrams and dashboards ────────── */
+  .panel {
+    position: relative;
+    border-radius: var(--radius-panel);
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .panel-caption {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
   }
-  /* Media-led variant: text steps back, the diagram carries the argument */
-  .split.split-media {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  .panel-caption .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--signal);
   }
-  /* Push text and media inward from the centre — widens the visual seam */
-  .split > :first-child {
-    padding-inline-end: var(--space-column-inset-lg);
+  /* faint engineering grid inside diagram panels */
+  .panel-grid {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
-  .split > :last-child {
-    padding-inline-start: var(--space-column-inset-lg);
+
+  /* ── Buttons ─────────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: var(--control-h);
+    padding-inline: var(--control-px);
+    border-radius: var(--radius-control);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-}
-
-/* Section content layers above decorative ambient backgrounds */
-section[id] > [aria-hidden].absolute,
-section.hero-section > [aria-hidden].absolute {
-  z-index: var(--z-ambient);
-}
-section[id] > .shell,
-section[id] > .section-rule,
-section.hero-section > .shell {
-  position: relative;
-  z-index: var(--z-content);
-}
-
-/* Section content block — consistent bottom padding across sections. */
-.section-body {
-  padding-bottom: var(--space-section-y);
-}
-@media (min-width: 640px) {
-  .section-body { padding-bottom: var(--space-section-y-md); }
-}
-
-/* SectionRule chapter marker — top/bottom padding before main content. */
-.section-rule {
-  padding-top: var(--space-rule-pt);
-  padding-bottom: var(--space-rule-pb);
-}
-@media (min-width: 640px) {
-  .section-rule {
-    padding-top: var(--space-rule-pt-md);
-    padding-bottom: var(--space-rule-pb-md);
+  .btn:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
-}
+  .btn-sm { height: var(--control-h-sm); padding-inline: 1.125rem; font-size: 0.875rem; }
+  .btn svg { transition: transform 0.2s ease; }
+  .btn:hover svg[data-arrow] { transform: translateX(3px); }
 
-/* Hero — first section without a SectionRule. */
-.hero-section {
-  padding-top: var(--space-hero-pt);
-  padding-bottom: var(--space-hero-pb);
-}
-@media (min-width: 640px) {
-  .hero-section {
-    padding-top: var(--space-hero-pt-md);
-    padding-bottom: var(--space-hero-pb-md);
+  /* Primary — dark plate with an amber edge light along the bottom. */
+  .btn-primary {
+    position: relative;
+    background: var(--eclipse);
+    color: var(--snow);
+    border-color: color-mix(in srgb, var(--foreground) 14%, transparent);
+    box-shadow:
+      inset 0 -1px 0 color-mix(in srgb, var(--signal) 70%, transparent),
+      0 6px 20px -8px color-mix(in srgb, var(--signal) 45%, transparent);
   }
+  .btn-primary:hover {
+    border-color: color-mix(in srgb, var(--signal) 45%, transparent);
+    box-shadow:
+      inset 0 -1px 0 var(--signal),
+      0 10px 28px -8px color-mix(in srgb, var(--signal) 55%, transparent);
+    transform: translateY(-1px);
+  }
+  /* Secondary — quiet filled plate, full-contrast text on hover. */
+  .btn-secondary {
+    background: color-mix(in srgb, var(--foreground) 7%, transparent);
+    color: var(--foreground);
+    border-color: var(--line);
+  }
+  .btn-secondary:hover {
+    background: color-mix(in srgb, var(--foreground) 12%, transparent);
+    border-color: var(--line-strong);
+  }
+  /* Ghost — text-only link button, used for per-product actions. */
+  .btn-ghost {
+    background: transparent;
+    color: var(--foreground);
+    border-color: var(--line-strong);
+  }
+  .btn-ghost:hover { background: color-mix(in srgb, var(--foreground) 6%, transparent); border-color: color-mix(in srgb, var(--signal) 55%, transparent); }
+
+  /* ── Status pill ─────────────────────────────────────────────────────── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 1.75rem;
+    padding-inline: 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--foreground) 4%, transparent);
+    font-size: 0.8125rem;
+    color: var(--foreground);
+  }
+  .pill .dot {
+    width: 6px; height: 6px; border-radius: 9999px; background: var(--signal);
+  }
+  .pill .dot[data-tone="verify"] { background: var(--verify); }
+  .pill .dot[data-tone="muted"] { background: var(--muted-foreground); }
+
+  /* ── Nav links ───────────────────────────────────────────────────────── */
+  .nav-link {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--muted-foreground);
+    transition: color 0.2s ease;
+  }
+  .nav-link:hover, .nav-link[aria-current="true"] { color: var(--foreground); }
 }
 
-/* In-section vertical rhythm utilities. */
-.block-stack { margin-top: var(--space-block-gap); }
-.block-stack-lg { margin-top: var(--space-block-gap-lg); }
+/* ── Browser surfaces ────────────────────────────────────────────────── */
+::selection { background: color-mix(in srgb, var(--signal) 35%, transparent); color: var(--foreground); }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) transparent; }
 
-.product-stack {
-  margin-top: var(--space-block-gap-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-row-gap);
-}
-@media (min-width: 1024px) {
-  .product-stack { gap: var(--space-row-gap-lg); }
-}
-
-/* Measure: keep body copy under ~68 characters. */
-.measure { max-width: 34rem; }
-.measure-wide { max-width: 40rem; }
-
-/* ── Panel — the one card language ("instrument panel") ─────────────── */
-.panel {
-  position: relative;
-  border-radius: 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
-    0 24px 60px -30px rgba(0, 0, 0, 0.7);
-}
-.panel-caption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.7rem 1.1rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 7%, transparent);
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-}
-.panel-caption .dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: var(--signal);
-}
-/* faint engineering grid inside diagram panels */
-.panel-grid {
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* Eyebrow: numeral + title on section rules */
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-}
-
-.leader {
-  flex: 1;
-  margin: 0 0.6em;
-  border-bottom: 1px dotted color-mix(in srgb, var(--muted-foreground) 55%, transparent);
-  transform: translateY(-0.28em);
-}
-
-/* ── Animations ──────────────────────────────────────────────────────── */
+/* ── Animations (used by diagrams and motifs) ────────────────────────── */
 @keyframes dash-flow {
   to { stroke-dashoffset: -16; }
 }
@@ -334,273 +473,12 @@ section.hero-section > .shell {
   stroke-dasharray: 2 6;
   animation: dash-flow 1.6s linear infinite;
 }
-
-@keyframes amber-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 40%, transparent); }
-  50%       { box-shadow: 0 0 14px 4px color-mix(in srgb, var(--signal) 25%, transparent); }
-}
-.pulse-signal, .pulse-brass {
-  animation: amber-pulse 3s ease-in-out infinite;
-}
-
 @keyframes dot-pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.35; }
 }
 .pulse-dot { animation: dot-pulse 2.2s ease-in-out infinite; }
 
-@keyframes ping-soft {
-  0%   { transform: scale(1);   opacity: 0.8; }
-  100% { transform: scale(1.9); opacity: 0; }
-}
-
-@keyframes glow-line-sweep {
-  0%, 100% { background-position: 0 0, -45% 0; }
-  50%       { background-position: 0 0, 145% 0; }
-}
-.header-glow-line {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 2px;
-  background-image:
-    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 8%, transparent) 0%, color-mix(in srgb, var(--foreground) 8%, transparent) 100%),
-    linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--signal) 80%, transparent) 50%, transparent 100%);
-  background-size: 100% 100%, 60% 100%;
-  background-repeat: no-repeat;
-  box-shadow: 0 0 20px 2px color-mix(in srgb, var(--signal) 40%, transparent);
-  animation: glow-line-sweep 5s ease-in-out infinite;
-}
-
-@keyframes rule-shimmer {
-  0%   { background-position: -120% 0; }
-  100% { background-position: 220% 0; }
-}
-.rule-shimmer {
-  background-image: linear-gradient(
-    90deg,
-    var(--border) 0%, var(--border) 42%,
-    color-mix(in srgb, var(--signal) 60%, var(--border)) 50%,
-    var(--border) 58%, var(--border) 100%
-  );
-  background-size: 240% 100%;
-  animation: rule-shimmer 3.5s ease-in-out infinite;
-}
-
-/* ── Button: Primary CTA ─────────────────────────────────────────────── */
-/* Always dark-on-amber for brand impact in both modes */
-.btn-glow-primary {
-  position: relative;
-  background: var(--eclipse);
-  color: var(--snow);
-  border: 1px solid color-mix(in srgb, var(--signal) 40%, transparent);
-  box-shadow: 0 0 20px -2px color-mix(in srgb, var(--signal) 25%, transparent),
-              inset 0 1px 0 color-mix(in srgb, white 15%, transparent);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.btn-glow-primary:hover {
-  background: var(--surface-secondary, var(--eclipse));
-  border-color: color-mix(in srgb, var(--signal) 65%, transparent);
-  box-shadow: 0 0 28px 2px color-mix(in srgb, var(--signal) 40%, transparent),
-              inset 0 1px 0 color-mix(in srgb, white 30%, transparent);
-  transform: translateY(-1px) scale(1.02);
-}
-
-/* ── Button: Corporate secondary ────────────────────────────────────── */
-.btn-corporate-light {
-  background: color-mix(in srgb, var(--foreground) 6%, transparent);
-  color: var(--muted-foreground);
-  border: 1px solid var(--border);
-  transition: all 0.25s ease;
-}
-.btn-corporate-light:hover {
-  background: color-mix(in srgb, var(--foreground) 10%, transparent);
-  border-color: color-mix(in srgb, var(--foreground) 25%, transparent);
-  color: var(--foreground);
-}
-
-/* ── Glass card ──────────────────────────────────────────────────────── */
-/* Light: crisp white glass | Dark: dark zinc glass */
-.glass-card {
-  background: color-mix(in srgb, var(--surface, white) 85%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 3px color-mix(in srgb, var(--foreground) 6%, transparent),
-              0 4px 12px color-mix(in srgb, var(--foreground) 4%, transparent);
-}
-.dark .glass-card {
-  background: color-mix(in srgb, var(--surface) 75%, transparent);
-  border: 1px solid oklch(28% 0.006 286.033);
-  box-shadow: none;
-}
-.glass-card-hover {
-  transition: all 0.3s ease;
-}
-.glass-card-hover:hover {
-  border-color: color-mix(in srgb, var(--signal) 30%, transparent);
-  box-shadow: 0 8px 30px color-mix(in srgb, var(--foreground) 8%, transparent),
-              0 0 20px color-mix(in srgb, var(--signal) 10%, transparent);
-}
-.dark .glass-card-hover:hover {
-  border-color: color-mix(in srgb, var(--signal) 30%, transparent);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5),
-              0 0 20px color-mix(in srgb, var(--signal) 12%, transparent);
-}
-
-/* ── Tag / Chip: adapts to light & dark ─────────────────────────────── */
-.tag-dark {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.2rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  font-family: var(--font-mono, monospace);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  /* Light mode — HeroUI zinc-800 background, readable on white */
-  background: oklch(25% 0.006 286);
-  color: oklch(93% 0.003 286) !important;
-  border: 1px solid oklch(35% 0.006 286 / 0.5);
-  box-shadow: 0 1px 4px oklch(0% 0 0 / 0.12);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-}
-.tag-dark:hover {
-  background: oklch(32% 0.008 286);
-  box-shadow: 0 2px 8px oklch(0% 0 0 / 0.18);
-}
-/* Light mode: use a softer zinc-100/zinc-200 style instead of near-black */
-:root .tag-dark,
-.light .tag-dark,
-[data-theme="light"] .tag-dark {
-  background: oklch(0.92 0.005 286);
-  color: oklch(0.22 0.012 286) !important;
-  border: 1px solid oklch(0.82 0.008 286 / 0.8);
-  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06);
-}
-:root .tag-dark:hover,
-.light .tag-dark:hover,
-[data-theme="light"] .tag-dark:hover {
-  background: oklch(0.86 0.006 286);
-  box-shadow: 0 2px 6px oklch(0% 0 0 / 0.10);
-}
-
-/* ── Bento grid (Projects) ──────────────────────────────────────────── */
-.bento-grid {
-  --bento-ease: cubic-bezier(0.16, 1, 0.3, 1);
-}
-/* Cinematic focus: dim the siblings of the hovered tile. */
-@media (hover: hover) {
-  .bento-grid:hover .bento-tile {
-    opacity: 0.48;
-    filter: saturate(0.75);
-  }
-  .bento-grid:hover .bento-tile:hover {
-    opacity: 1;
-    filter: none;
-  }
-}
-.bento-tile {
-  position: relative;
-  isolation: isolate;
-  transition:
-    opacity 0.4s var(--bento-ease),
-    filter 0.4s var(--bento-ease),
-    transform 0.4s var(--bento-ease),
-    border-color 0.4s var(--bento-ease);
-}
-.bento-tile:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--signal) 45%, transparent);
-}
-/* Pointer-tracked border highlight (Aceternity-style). */
-.bento-tile::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(
-    220px circle at var(--bx, -200px) var(--by, -200px),
-    color-mix(in srgb, var(--signal) 65%, transparent),
-    transparent 70%
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.35s var(--bento-ease);
-  z-index: 1;
-}
-/* Soft inner glow that follows the cursor. */
-.bento-tile::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    460px circle at var(--bx, -200px) var(--by, -200px),
-    color-mix(in srgb, var(--signal) 12%, transparent),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.35s var(--bento-ease);
-  pointer-events: none;
-  z-index: 0;
-}
-.bento-tile:hover::before,
-.bento-tile:hover::after {
-  opacity: 1;
-}
-.bento-tile > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* ── Brand mark — header identity badge ─────────────────────────────── */
-.brand-mark {
-  isolation: isolate;
-}
-.brand-mark__logo {
-  border: 1px solid color-mix(in srgb, var(--signal) 38%, transparent);
-  background:
-    radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--signal) 28%, transparent), transparent 55%),
-    linear-gradient(145deg, color-mix(in srgb, var(--signal) 16%, transparent), color-mix(in srgb, var(--background) 88%, transparent));
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 10%, transparent),
-    0 0 18px -6px color-mix(in srgb, var(--signal) 55%, transparent);
-  transition: box-shadow 0.35s ease, border-color 0.35s ease;
-}
-.group\/brand:hover .brand-mark__logo {
-  border-color: color-mix(in srgb, var(--signal) 55%, transparent);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 12%, transparent),
-    0 0 24px -4px color-mix(in srgb, var(--signal) 65%, transparent);
-}
-.brand-mark__logo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
-  background-size: 6px 6px;
-  opacity: 0.55;
-  mask-image: radial-gradient(circle at 50% 50%, #000 35%, transparent 100%);
-}
-.brand-mark__rail {
-  box-shadow: 1px 0 12px color-mix(in srgb, var(--signal) 35%, transparent);
-}
-@media (prefers-reduced-motion: reduce) {
-  .brand-mark__dot.pulse-dot {
-    animation: none;
-  }
-}
-
-/* Ambient tile motifs */
 @keyframes bento-radar { to { transform: rotate(360deg); } }
 @keyframes bento-node-pulse {
   0%, 100% { opacity: 0.3; }
@@ -615,14 +493,6 @@ section.hero-section > .shell {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(-14px); }
 }
-@keyframes bento-aurora-a {
-  0%, 100% { transform: translate3d(-4%, 0, 0) scale(1); opacity: 0.75; }
-  50% { transform: translate3d(12%, -9%, 0) scale(1.28); opacity: 1; }
-}
-@keyframes bento-aurora-b {
-  0%, 100% { transform: translate3d(6%, 5%, 0) scale(1.12); opacity: 0.7; }
-  50% { transform: translate3d(-10%, -7%, 0) scale(0.88); opacity: 1; }
-}
 .bento-motif line,
 .bento-motif circle,
 .bento-motif path,
@@ -636,11 +506,6 @@ section.hero-section > .shell {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .bento-grid:hover .bento-tile {
-    opacity: 1 !important;
-    filter: none !important;
-  }
-  /* Scroll-reveal headings render fully visible, no blur. */
   .reveal-word {
     opacity: 1 !important;
     filter: none !important;

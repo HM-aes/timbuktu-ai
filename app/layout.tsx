@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/lenis-provider";
 import Header from "@/components/header";
+import Footer from "@/components/layout/footer";
 import { cn } from "@/lib/utils";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -47,21 +48,11 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="bg-background bg-grid-dots text-foreground font-sans">
+      <body className="bg-background text-foreground font-sans">
         <LenisProvider>
           <Header />
           <main id="top">{children}</main>
-          <footer className="border-t border-white/[.08] py-10">
-            <div className="shell flex flex-col gap-3 text-[12.5px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-              <p>
-                Timbuktu AI Solutions · KVK-registered, Netherlands · operating
-                from Porto
-              </p>
-              <p className="text-foreground/50">
-                Your data stays yours. © {new Date().getFullYear()}
-              </p>
-            </div>
-          </footer>
+          <Footer />
         </LenisProvider>
       </body>
     </html>

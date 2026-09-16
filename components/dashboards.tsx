@@ -150,7 +150,7 @@ function Pane({
       )}
     >
       <header className="flex items-center justify-between gap-3 border-b border-foreground/[0.06] px-4 py-2.5">
-        <h4 className="text-[12.5px] font-medium">{title}</h4>
+        <p className="text-[12.5px] font-medium">{title}</p>
         {action}
       </header>
       <div className="min-w-0 flex-1 p-3.5">{children}</div>

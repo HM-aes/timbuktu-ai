@@ -1,116 +1,88 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import BrandMark from "@/components/brand-mark";
-import { BOOKING_URL } from "@/lib/site";
-
-const SECTIONS = [
-  { label: "Approach", href: "#philosophy" },
-  { label: "Security", href: "#security" },
-  { label: "Stack", href: "#stack" },
-  { label: "Solutions", href: "#solutions" },
-  { label: "Contact", href: "#contact" },
-];
+import { BOOKING_URL, SECTIONS } from "@/lib/site";
+import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const LOGO_AT   = 0.5;
-const NAV_START = 0.85;
-const NAV_STEP  = 0.18;
-const CTA_AT    = NAV_START + SECTIONS.length * NAV_STEP + 0.2;
-
-const item = (delay: number) => ({
-  initial: { opacity: 0, y: -6 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 1.0, delay, ease },
-});
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const reduced = useReducedMotionSafe();
 
   return (
     <>
-      {/* ── Main navbar bar ── */}
-      <div className="shell flex h-16 items-center justify-between">
+      <div className="frame border-0">
+        <div className="gutter flex h-20 items-center justify-between gap-6">
+          <BrandMark href="#top" className="shrink-0" />
 
-        {/* ── Brand identity badge ── */}
-        <BrandMark href="#top" {...item(LOGO_AT)} className="shrink-0" />
+          {/* Desktop nav — plain links, centred between brand and CTA */}
+          <nav aria-label="Sections" className="hidden items-center gap-6 md:flex lg:gap-8">
+            {SECTIONS.map((s) => (
+              <a key={s.label} href={s.href} className="nav-link">
+                {s.label}
+              </a>
+            ))}
+          </nav>
 
-        {/* ── Desktop nav links — floating rounded pill ── */}
-        <nav
-          aria-label="Sections"
-          className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1 backdrop-blur-md md:flex"
-        >
-          {SECTIONS.map((section, i) => (
-            <motion.a
-              key={section.label}
-              href={section.href}
-              {...item(NAV_START + i * NAV_STEP)}
-              className="rounded-full px-4 py-1.5 text-sm font-light text-white/80 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white"
+          <div className="flex items-center gap-3">
+            {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
+            <a href={BOOKING_URL} className="btn btn-primary btn-sm hidden sm:inline-flex">
+              Book a call
+            </a>
+            <button
+              type="button"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen((v) => !v)}
+              className="grid size-10 place-items-center rounded-[var(--radius-control)] border border-[var(--line)] text-foreground transition-colors hover:bg-foreground/5 md:hidden"
             >
-              {section.label}
-            </motion.a>
-          ))}
-        </nav>
-
-        {/* ── Right side: CTA + mobile hamburger ── */}
-        <motion.div {...item(CTA_AT)} className="flex items-center gap-3 sm:gap-4">
-          {/* CTA — hidden on very small screens, shown from sm upward */}
-          {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-          <a
-            href={BOOKING_URL}
-            className="hidden sm:inline-flex btn-glow-primary rounded-lg px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider transition-all hover:scale-105"
-          >
-            Book a call
-          </a>
-          {/* Hamburger — md and below */}
-          <button
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen(v => !v)}
-            className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg text-zinc-300 transition-colors hover:text-white"
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </motion.div>
+              {open ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* ── Mobile slide-down menu ── */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
+            id="mobile-nav"
             key="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease }}
-            className="md:hidden overflow-hidden border-t border-white/[0.06]"
-            style={{ background: "rgba(24,24,27,0.97)" }}
+            transition={reduced ? INSTANT : { duration: 0.3, ease }}
+            className="overflow-hidden border-t border-[var(--line)] bg-background md:hidden"
           >
-            <nav className="flex flex-col gap-1.5 px-4 py-4">
-              {SECTIONS.map((section, i) => (
-                <motion.a
-                  key={section.label}
-                  href={section.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.3, ease }}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center rounded-full px-4 py-3 text-sm font-light text-white/80 transition-colors duration-150 hover:bg-white/[0.08] hover:text-white"
-                >
-                  {section.label}
-                </motion.a>
-              ))}
-              {/* CTA in mobile menu */}
-              {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-              <a
-                href={BOOKING_URL}
-                onClick={() => setOpen(false)}
-                className="mt-2 btn-glow-primary flex items-center justify-center rounded-xl px-4 py-3 text-sm font-medium uppercase tracking-wider"
-              >
-                Book a call
-              </a>
+            <nav aria-label="Sections" className="frame border-0">
+              <ul className="gutter flex flex-col py-3">
+                {SECTIONS.map((s) => (
+                  <li key={s.label} className="border-b border-[var(--line)] last:border-b-0">
+                    <a
+                      href={s.href}
+                      onClick={() => setOpen(false)}
+                      className="flex h-12 items-center text-[15px] text-foreground"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+                <li className="pt-4 pb-2">
+                  {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
+                  <a
+                    href={BOOKING_URL}
+                    onClick={() => setOpen(false)}
+                    className="btn btn-primary w-full"
+                  >
+                    Book a call
+                  </a>
+                </li>
+              </ul>
             </nav>
           </motion.div>
         )}

@@ -1,14 +1,9 @@
-"use client";
-
-import SectionRule from "@/components/section-rule";
-import ScrollReveal from "@/components/scroll-reveal";
-import Panel from "@/components/panel";
-import FadeIn from "@/components/fade-in";
+import Section, { SectionHead } from "@/components/layout/section";
 
 /* Small line glyphs — currentColor for structure, --signal for the one
    thing each tool is chosen for. */
 function Glyph({ kind }: { kind: string }) {
-  const c = "h-14 w-14 text-foreground/45 transition-colors duration-500 group-hover/card:text-foreground/70";
+  const c = "h-12 w-12 text-foreground/50 transition-colors duration-300 group-hover/card:text-foreground/80";
   const s = { stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" };
   switch (kind) {
     case "django":
@@ -111,50 +106,31 @@ const STACK = [
 
 export default function Stack() {
   return (
-    <section id="stack" className="relative overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute left-[6%] bottom-[8%] h-[26rem] w-[26rem] rounded-full bg-amber-500/[.06] blur-[140px]"
-          style={{ animation: "bento-aurora-a 28s ease-in-out infinite" }}
-        />
+    <Section id="stack">
+      <SectionHead
+        title={
+          <>
+            A Python stack chosen for <span className="accent">security</span>, not convenience.
+          </>
+        }
+      >
+        <p>
+          Each component is there because it closes a specific risk from the
+          threat model. Mature, audited, and understood by the security team you
+          already have.
+        </p>
+      </SectionHead>
+
+      <div className="cells cells-3">
+        {STACK.map((s) => (
+          <div key={s.key} className="cell group/card flex flex-col">
+            <Glyph kind={s.key} />
+            <h3 className="cell-title mt-[var(--space-stack-lg)] text-foreground">{s.name}</h3>
+            <p className="label mt-1.5 text-signal">{s.role}</p>
+            <p className="cell-body mt-[var(--space-stack)]">{s.why}</p>
+          </div>
+        ))}
       </div>
-
-      <SectionRule index="03" label="Stack" />
-
-      <div className="shell section-body">
-        <div className="max-w-3xl">
-          <ScrollReveal
-            text="A Python stack chosen for security, not convenience."
-            className="font-display text-[1.9rem] font-medium leading-[1.15] tracking-[-0.015em] text-foreground sm:text-4xl lg:text-[2.6rem]"
-          />
-          <FadeIn className="measure-wide mt-6 text-base leading-[1.75] text-muted-foreground">
-            <p>
-              Each component is there because it closes a specific risk from the
-              threat model. Mature, audited, and understood by the security team
-              you already have.
-            </p>
-          </FadeIn>
-        </div>
-
-        <div className="block-stack grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {STACK.map((s, i) => (
-            <Panel key={s.key} delay={(i % 3) * 0.08} y={20} bodyClassName="flex h-full flex-col p-6 sm:p-7">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="eyebrow text-amber-400/90">{s.role}</p>
-                  <h3 className="mt-2 font-display text-[17px] font-medium text-foreground">
-                    {s.name}
-                  </h3>
-                </div>
-                <Glyph kind={s.key} />
-              </div>
-              <p className="mt-4 text-[14.5px] leading-relaxed text-muted-foreground">
-                {s.why}
-              </p>
-            </Panel>
-          ))}
-        </div>
-      </div>
-    </section>
+    </Section>
   );
 }

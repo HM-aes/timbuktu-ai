@@ -2,227 +2,375 @@
 name: Timbuktu AI Solutions
 description: Secure AI systems, architected and built by one specialist — production-grade, online or air-gapped.
 colors:
-  background: "oklch(0.985 0.001 286)"
-  background-dark: "oklch(0.145 0.010 262)"
-  foreground: "oklch(0.14 0.006 286)"
-  foreground-dark: "#fafafa"
-  surface: "#ffffff"
-  surface-dark: "oklch(0.20 0.010 262)"
-  surface-secondary: "oklch(0.965 0.003 286)"
-  surface-secondary-dark: "oklch(0.24 0.010 262)"
-  muted-foreground: "oklch(0.48 0.012 286)"
-  muted-foreground-dark: "oklch(0.80 0.012 262)"
-  border: "oklch(0.898 0.006 286)"
-  border-dark: "oklch(0.29 0.010 262)"
-  signal: "oklch(0.70 0.185 59)"
-  signal-dark: "oklch(0.7065 0.185 59.5)"
-  signal-soft: "oklch(0.78 0.165 72)"
-  signal-dim: "oklch(0.64 0.17 55)"
-  verify: "oklch(0.66 0.17 59)"
-  verify-dark: "oklch(0.72 0.11 195)"
+  background: "oklch(0.145 0.010 262)"
+  foreground: "#fafafa"
+  surface: "oklch(0.20 0.010 262)"
+  surface-secondary: "oklch(0.24 0.010 262)"
+  surface-tertiary: "oklch(0.27 0.010 262)"
+  muted-foreground: "oklch(0.80 0.012 262)"
+  border: "oklch(0.29 0.010 262)"
+  line: "color-mix(in srgb, #fafafa 10%, transparent)"
+  line-strong: "color-mix(in srgb, #fafafa 18%, transparent)"
+  eclipse: "#18181b"
+  snow: "#fafafa"
+  signal: "oklch(0.7065 0.185 59.5)"
+  signal-soft: "oklch(0.7819 0.1585 72.33)"
+  signal-dim: "oklch(0.6604 0.173 59.0)"
+  ring: "oklch(0.7819 0.1585 72.33)"
+  verify: "oklch(0.72 0.11 195)"
   sev-critical: "oklch(0.6532 0.2328 25.74)"
-  sev-high: "oklch(0.72 0.20 55.0)"
-  sev-medium: "oklch(0.72 0.18 67.0)"
+  sev-high: "oklch(0.72 0.2 55.0)"
+  sev-medium: "oklch(0.7819 0.1585 72.33)"
   sev-low: "oklch(0.55 0.05 260.0)"
-  sev-ok: "oklch(0.66 0.17 59.0)"
+  sev-ok: "oklch(0.7329 0.1935 150.81)"
 typography:
   display:
     fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
-    fontSize: "clamp(1.9rem, 5vw, 3.9rem)"
+    fontSize: "clamp(2.5rem, 1.6rem + 3.4vw, 3.75rem)"
+    fontWeight: 500
+    lineHeight: 1.05
+    letterSpacing: "-0.025em"
+  title:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "clamp(1.875rem, 1.35rem + 1.9vw, 3rem)"
     fontWeight: 500
     lineHeight: 1.1
     letterSpacing: "-0.02em"
+  statement:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem)"
+    fontWeight: 500
+    lineHeight: 1.15
+    letterSpacing: "-0.02em"
+  lede:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1.6
+    letterSpacing: "normal"
+  cell-title:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 500
+    lineHeight: 1.3
+    letterSpacing: "-0.01em"
   body:
     fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
     fontSize: "1rem"
-    fontWeight: 300
-    lineHeight: 1.7
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "normal"
+  cell-body:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.65
     letterSpacing: "normal"
   label:
     fontFamily: "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
     fontSize: "11px"
     fontWeight: 400
     lineHeight: 1.4
-    letterSpacing: "0.18em"
+    letterSpacing: "0.14em"
 rounded:
   sm: "6px"
   md: "8px"
-  lg: "10px"
-  xl: "calc(0.75rem * 1.4)"
-  panel: "1.5rem"
+  control: "8px"
+  panel: "12px"
+  full: "9999px"
 spacing:
+  frame-max: "80rem"
   gutter: "1.5rem"
   gutter-md: "2.5rem"
   gutter-lg: "4rem"
-  section-y: "7rem"
-  section-y-md: "8rem"
-  block-gap: "4rem"
-  row-gap-lg: "8rem"
+  section-y: "3.5rem"
+  section-y-md: "5rem"
+  section-y-lg: "6rem"
+  hero-pt: "4rem"
+  hero-pt-lg: "7rem"
+  hero-gap: "3.5rem"
+  hero-gap-lg: "5rem"
+  head-gap: "1.25rem"
+  head-gap-lg: "1.5rem"
+  cell: "1.5rem"
+  cell-md: "2rem"
+  cell-lg: "2.5rem"
+  cell-y: "2rem"
+  cell-y-lg: "3rem"
+  column-gap: "2.5rem"
+  column-gap-lg: "4rem"
+  stack: "1rem"
+  stack-lg: "1.5rem"
+  control-h: "2.75rem"
+  control-h-sm: "2.5rem"
+  control-px: "1.5rem"
 components:
   button-primary:
-    backgroundColor: "{colors.foreground}"
-    textColor: "#fafafa"
-    rounded: "{rounded.xl}"
+    backgroundColor: "{colors.eclipse}"
+    textColor: "{colors.snow}"
+    rounded: "{rounded.control}"
     padding: "0 1.5rem"
-    height: "44px"
-  button-primary-hover:
-    backgroundColor: "{colors.surface-secondary}"
+    height: "2.75rem"
   button-secondary:
+    backgroundColor: "color-mix(in srgb, var(--foreground) 7%, transparent)"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.control}"
+    padding: "0 1.5rem"
+    height: "2.75rem"
+  button-secondary-hover:
+    backgroundColor: "color-mix(in srgb, var(--foreground) 12%, transparent)"
+  button-ghost:
+    backgroundColor: "transparent"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.control}"
+    padding: "0 1.5rem"
+    height: "2.75rem"
+  button-ghost-hover:
     backgroundColor: "color-mix(in srgb, var(--foreground) 6%, transparent)"
-    textColor: "{colors.muted-foreground}"
-    rounded: "{rounded.xl}"
-  panel-surface:
-    backgroundColor: "color-mix(in srgb, var(--surface) 72%, transparent)"
+  button-sm:
+    padding: "0 1.125rem"
+    height: "2.5rem"
+  pill:
+    backgroundColor: "color-mix(in srgb, var(--foreground) 4%, transparent)"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.full}"
+    padding: "0 0.75rem"
+    height: "1.75rem"
+  panel:
+    backgroundColor: "{colors.surface}"
     rounded: "{rounded.panel}"
+  nav-link:
+    textColor: "{colors.muted-foreground}"
+    typography: "{typography.body}"
+  nav-link-hover:
+    textColor: "{colors.foreground}"
+  showcase-tab:
+    textColor: "{colors.muted-foreground}"
+    padding: "0 1.25rem"
+    height: "5rem"
+  showcase-tab-selected:
+    backgroundColor: "color-mix(in srgb, var(--foreground) 5%, transparent)"
+    textColor: "{colors.foreground}"
 ---
 
 # Design System: Timbuktu AI Solutions
 
 ## Overview
 
-**Creative North Star: "The Instrument Panel"**
+**Creative North Star: "The Framed Rail"**
 
-The site reads as a monitored system, not a brochure. Near-black graphite (light
-mode: near-white paper) hosts glass panels with hairline borders, mono-set
-eyebrow labels, and a single amber "signal" that appears only where something is
-active — a status dot, a primary action, a hover state. The page behaves like
-equipment you'd trust to watch a production system: quiet at rest, precise on
-interaction, never decorative for its own sake. Layout is generous and
-left-anchored (a wide text/diagram split, an eyebrow + hairline rule opening
-every section) so the eye always knows which numbered chapter it's in.
+The whole page is one drawn column. A 1280px frame with hairline side rails
+runs from the header to the footer watermark; every section is stacked inside
+it and separated from the next by the same hairline; every grid of content is
+a set of bordered cells that share those lines rather than a row of floating
+cards. The graphite ground is dark-only (the light theme file exists but the
+root layout forces `.dark`), amber is the single accent, and the type is one
+humanist sans at two weights, so the eye reads structure from lines and
+whitespace instead of from fills, shadows or colour changes.
 
-This is not a generic AI-SaaS page — no gradient blobs, no purple-on-white, no
-emoji feature grids. Confidence is carried by restraint: one amber accent, one
-card language (`.panel`), one motion grammar, applied with total consistency
-rather than varied for novelty.
+The register follows the Atomist SaaS template's discipline (framed column,
+hairline cells, large plain h2 with one accented phrase, a muted lede, a live
+product stage under the hero) while keeping Timbuktu's own palette, fonts and
+content. Nothing decorates for its own sake: the dot field appears only behind
+the two centred statement/CTA blocks, ambient light appears only on the hero
+showcase stage, and page-level motion is limited to three moments (hero settle,
+showcase tab swap, Philosophy statement reveal).
 
 **Key Characteristics:**
-- Vault-graphite dark surface / near-white paper light surface, never pure black or pure white.
-- One amber "signal" accent, used rarely and only with meaning (status, primary CTA, active state).
-- Mono, uppercase, letter-spaced labels ("eyebrows") mark every section and panel caption like instrument telemetry.
-- Glass panels (blur + hairline border) are the single card language across the whole site.
-- Flat at rest; glow and lift are always a response to hover/focus/status, never ambient decoration.
+- One 1280px framed column with 1px side rails from 640px up; sections stacked and separated by hairline rules.
+- Bordered grid cells (`.cells` / `.cell`) share hairlines; no floating cards, no card shadows, no glass.
+- Every h2 carries exactly one amber-accented phrase; the rest of the heading is plain foreground.
+- Vault-graphite dark ground, near-white foreground, lifted grey secondary text; amber reserved for accent phrase, status dot, primary-button edge light, selected tab underline and focus ring.
+- Body copy at weight 400; display, title, statement and cell titles at weight 500 with tight negative tracking.
+- Mono (JetBrains Mono) only on 11px uppercase labels, panel captions, step numerals and dashboard data.
 
 ## Colors
 
-Two neutral grounds (near-black graphite in dark mode, near-white paper in
-light mode) carry almost the entire page; amber is the one accent, and it is
-scarce by design.
+One graphite ground, one near-white ink, one amber signal; every other colour
+lives inside product diagrams and dashboards where it carries meaning.
 
 ### Primary
-- **Signal Amber** (dark: `oklch(0.7065 0.185 59.5)`, light: `oklch(0.70 0.185 59)`): the one active accent — primary CTA background glow, status dots, section-rule numerals, focus rings, hover borders. Never used as a body-text or large-fill color.
+- **Signal Amber** (`{colors.signal}`): the one accent outside diagrams. Used for the accented phrase inside each heading (`.accent`), the pill and panel-caption status dot, the primary button's bottom edge light and glow, the selected showcase-tab underline, step numerals in the Process grid, the Stack role label, the brand glyph, and text selection. Never a fill behind text, never a body-text colour.
+- **Signal Soft / Focus Ring** (`{colors.signal-soft}` / `{colors.ring}`): the 2px focus outline on every focusable control and the diagram "high" tone. **Signal Dim** (`{colors.signal-dim}`) is the darker step used inside dashboards only.
 
 ### Secondary
-- **Verify Teal** (dark: `oklch(0.72 0.11 195)`, light: `oklch(0.66 0.17 59)`): reserved for "passed the check" / AI-reasoning moments inside diagrams only — not a general UI color.
+- **Verify Teal** (`{colors.verify}`): "passed the check" tone. Appears only as the status dot on production pills, the panel-caption dot for the threat ledger, and the check-mark rings in the contact trust line. Not a general UI colour.
 
 ### Neutral
-- **Graphite Background** (dark `oklch(0.145 0.010 262)` / light `oklch(0.985 0.001 286)`): page ground. Never pure black or pure white.
-- **Foreground** (dark `#fafafa` / light `oklch(0.14 0.006 286)`): primary text.
-- **Surface / Surface Secondary / Surface Tertiary**: stepped card grounds (dark `oklch(0.20–0.27 0.010 262)`, light `#ffffff` → `oklch(0.945 0.003 286)`) used for panel backgrounds and raised elements.
-- **Muted Foreground** (dark `oklch(0.80 0.012 262)` / light `oklch(0.48 0.012 286)`): secondary/caption text; kept ≥4.5:1 against its ground for AA body-text contrast.
-- **Border** (dark `oklch(0.29 0.010 262)` / light `oklch(0.898 0.006 286)`): hairline dividers and panel edges.
+- **Vault Graphite** (`{colors.background}`): page ground and the header's 85% translucent bar. Faintly cool so amber reads warm. Never pure black.
+- **Snow** (`{colors.foreground}` / `{colors.snow}`): all headings and primary text; also the primary button's label. Never pure white.
+- **Eclipse** (`{colors.eclipse}`): the primary button's plate. A fixed near-black that reads darker than the page.
+- **Lifted Grey** (`{colors.muted-foreground}`): ledes, cell body copy, nav links at rest, labels and captions. Chosen so body copy meets AA against graphite.
+- **Surface** (`{colors.surface}`, secondary and tertiary steps): panel and dashboard backgrounds inside media cells; the stepped tones only appear inside the dashboards.
+- **Line** (`{colors.line}`, foreground at 10%): every rail, section rule, cell border, panel border, tab border and footer divider. **Line Strong** (foreground at 18%) is the ghost button's resting border and the secondary button's hover border. The older `border` token remains as the Tailwind default but the page draws its structure with `line`.
 
-### Severity (diagrams / compliance UI only)
-- **Critical** `oklch(0.6532 0.2328 25.74)`, **High** `oklch(0.72 0.20 55.0)`, **Medium** `oklch(0.72 0.18 67.0)`, **Low** `oklch(0.55 0.05 260.0)`, **OK** `oklch(0.66 0.17 59.0)`. Used only inside product diagrams/status pills where severity is the actual content, never as decorative color.
+### Severity (dashboards and diagrams only)
+- Critical, High, Medium, Low, OK (`{colors.sev-critical}` … `{colors.sev-ok}`): only inside the NIS2 dashboard and threat ledger where severity is the content.
 
 ### Named Rules
-**The One Signal Rule.** Amber is the only accent color allowed outside diagrams and severity pills. If a second decorative accent color appears, it's wrong — reach for weight, spacing, or the mono label instead.
+**The One Signal Rule.** Amber is the only accent colour allowed outside diagrams, dashboards and severity chips. A second decorative hue is wrong; use weight, a hairline or whitespace instead.
+
+**The Hairline-Not-Border Rule.** Structure is drawn with `line` (foreground at 10%). Cells, rails, section rules, panels and tabs all use this one value; nothing on the page draws a heavier stroke than 1px at 18%.
 
 ## Typography
 
 **Display Font:** Plus Jakarta Sans (with system-ui, sans-serif fallback)
-**Body Font:** Plus Jakarta Sans (same family, lighter weight — one typeface, weight does the differentiating)
+**Body Font:** Plus Jakarta Sans (same family; weight 400 body, weight 500 headings)
 **Label/Mono Font:** JetBrains Mono (with ui-monospace, SFMono-Regular, Menlo fallback)
 
-**Character:** One humanist sans carries both display and body at different weights (light body, medium display), so the page never feels like it's mixing voices; JetBrains Mono is reserved strictly for data — eyebrows, panel captions, status pills, diagram labels — so its appearance always signals "this is telemetry, read it as a label."
+**Character:** One humanist sans does everything except data. Headings sit at medium weight with tight negative tracking and balanced wrapping; body copy is regular weight and never light. Mono appears only where a value, an id or a status is being read, so its presence always means "telemetry".
 
 ### Hierarchy
-- **Display** (500 weight, `clamp(1.9rem, 5vw, 3.9rem)`, line-height 1.06–1.15, tracking −0.02em): section and hero headlines only.
-- **Title** (500 weight, 17–28px): panel/card headings, product names.
-- **Body** (300 weight, 16–18px, line-height 1.7): paragraph copy; kept under ~68 characters via `.measure` (34rem) / `.measure-wide` (40rem).
-- **Label / Eyebrow** (mono, 11px, 400 weight, letter-spacing 0.18em, uppercase): section-rule numerals, panel captions, status text — always mono, always uppercase, always spaced.
+- **Display** (500, 40→60px fluid, line-height 1.05, tracking −0.025em): the hero h1 only, centred, capped at 16ch.
+- **Title** (500, 30→48px fluid, line-height 1.1, tracking −0.02em): every section h2 and the contact h2; capped at 20ch inside the heading block; one phrase wrapped in `.accent`.
+- **Statement** (500, 24→40px fluid, line-height 1.15): the single centred Philosophy pull-quote that reveals word by word on scroll.
+- **Lede** (400, 17px → 18px at ≥640px, line-height 1.6, muted): the paragraph under an h2 or the hero h1; 36rem max in heading blocks, 38rem under the hero.
+- **Cell Title** (500, 18px, line-height 1.3, tracking −0.01em): h3 inside grid cells (Stack tools, Process steps, Philosophy points). Product names in Solutions step up to 28→32px at the same weight.
+- **Body** (400, 16px base; cell body 15px, line-height 1.65, muted): all running copy. Long-form paragraphs in Philosophy and Security use 15.5px inline.
+- **Stat Number** (500, 36px → 44px at ≥1024px, line-height 1, tracking −0.02em): the three showcase stats.
+- **Label** (mono, 11px, tracking 0.14em, uppercase, muted): step timing, definition-list keys ("The risk / The design / The proof"), Stack role labels (amber), the "soon" tag, the email line (normal-case variant). Panel captions use the same voice at 10.5px.
 
 ### Named Rules
-**The Mono-Is-Data Rule.** JetBrains Mono appears only on labels, captions, numerals, and status text — never on headlines or body copy. If mono shows up on a sentence of prose, it's wrong.
+**The One Accent Phrase Rule.** Each h2 (and the hero h1) contains exactly one `.accent` span, and it is the phrase that carries the claim. Never two, never zero, never a whole heading.
+
+**The Mono-Is-Data Rule.** JetBrains Mono appears only on labels, captions, numerals, ids and dashboard values. A sentence of prose in mono is wrong.
 
 ## Layout
 
-A single centered `.shell` container (max-width 78rem) with responsive gutters
-(24px mobile → 40px @640px → 64px @1024px) anchors every section, so text and
-the header wordmark share one left edge throughout the page. Content sections
-use a `.split` grid: stacked text-over-diagram on mobile/tablet (gap 64px),
-becoming a 1.05fr/1fr text-left / diagram-right row at ≥1024px (gap 128px,
-32px inset per column). Vertical rhythm is generous and consistent: ~112–128px
-of section padding, a numbered `SectionRule` chapter marker (mono numeral +
-label + hairline that draws in on scroll) opens every section after the hero,
-and in-section blocks step by 64–96px. The hero alone skips the chapter marker
-and uses its own top/bottom padding (64–144px responsive).
+One framed column (`.frame`, max-width 80rem / 1280px, centred) carries the
+header bar, every section, and the footer; from 640px up it draws 1px `line`
+rails on both sides, so the page reads as a single drawn sheet. Content that is
+not a grid cell sits inside `.gutter` (24px mobile, 40px from 640px, 64px from
+1024px). Sections (`.section`) are stacked and separated by a 1px top rule; no
+section carries its own background, and the header (80px tall, sticky, 85%
+graphite with a medium backdrop blur) closes with the same hairline.
+
+Every section after the hero opens with a heading block (`.section-head`): a
+48px-max h2 with one accented phrase, an optional 18px muted lede, 20px (24px at
+≥640px) between them, capped at 42rem, left-aligned on the gutter, padded 56px
+mobile / 80px at ≥640px / 96px at ≥1024px top and bottom. The same padding
+scale (`.section-block`) governs the two centred blocks: the Philosophy
+statement and the Contact CTA.
+
+Below each heading block the content is a bordered grid (`.cells`): the grid
+draws its top rule, each cell draws its right and bottom rule, and the last
+column and row drop theirs so no line doubles. Cells pad 32px × 24px on
+mobile, 32px × 32px at ≥640px, 48px × 40px at ≥1024px; inside a cell the icon
+→ title gap is 24px and title → body is 16px. Column variants: `cells-2`,
+`cells-3` (collapses to two columns 640–1023px), `cells-4` (same collapse),
+`cells-md cells-3` (short stats and the trust line stay three across from 640px),
+and `cells-split` (text 0.9fr / media 1.1fr from 1024px; `cells-split-even`
+for 1fr / 1fr). A media cell (`.cell-media`) has zero padding so its diagram or
+dashboard fills edge to edge and shares the cell's hairlines.
+
+The hero is the one section without a top rule or heading block: a centred pill,
+h1, lede and two buttons padded 64px (112px at ≥1024px) above, then a 56px
+(80px at ≥1024px) gap to the showcase, which spans the frame edge to edge as a
+tab strip, a padded stage and a three-cell stat row. The footer repeats the
+frame with a four-column link grid, a hairline-topped legal line, and a
+translucent watermark wordmark clipped at the bottom.
+
+Breakpoints in use: 640px (rails appear, gutter and cell padding step, tabs go
+to a row, two-column grids), 768px (desktop nav shows), 1024px (three- and
+four-column grids, split rows, largest padding, sticky text column in Security).
 
 ## Elevation & Depth
 
-Flat by default; depth is a response, not a decoration. Surfaces sit flush at
-rest with only a 1px hairline border; box-shadow and amber glow appear
-exclusively on hover, focus, or active status (button glow, panel hover
-border, bento-tile pointer-tracked highlight). The one constant elevation
-element is the `.panel` glass treatment itself — `backdrop-filter: blur(14px)`
-plus a translucent surface fill — which reads as "this is an instrument,"
-not as a lifted card.
+Flat. Depth is conveyed by hairlines and by the contrast between graphite and
+the slightly lighter panel surface; cells, panels and pills carry no shadow, no
+blur and no gradient at rest. Three deliberate exceptions exist and are the
+whole shadow vocabulary:
 
 ### Shadow Vocabulary
-- **Panel ambient** (`inset 0 1px 0 rgba(fg,5%), 0 24px 60px -30px rgba(0,0,0,.7)`): the resting shadow on every `.panel`; very soft, mostly invisible except as depth cue.
-- **Primary CTA glow** (`0 0 20px -2px signal/25%, inset 0 1px 0 white/15%`), intensifying on hover (`0 0 28px 2px signal/40%`): the only shadow allowed to carry the brand color.
-- **Glass-card hover** (`0 8px 30px fg/8%, 0 0 20px signal/10%`): hover-only lift for `.glass-card-hover` elements.
+- **Primary edge light** (`inset 0 -1px 0 signal/70%, 0 6px 20px -8px signal/45%`): the resting treatment on `.btn-primary` — a 1px amber line along the bottom edge and a short amber under-glow. On hover the edge goes to full signal, the glow to `0 10px 28px -8px signal/55%`, and the button lifts 1px. This is the only element that glows at rest.
+- **Stage light** (`.stage-glow`): two warm radial gradients from the top corners (signal at 34% and 22%), a 22px dot grid at foreground 9%, over a ground of background mixed 30% toward black. Used only behind the hero showcase stage to frame the live product.
+- **Stage drop** (`0 30px 80px -30px rgba(0,0,0,0.8)`): the dashboard panel inside the stage sits on this deep, soft shadow so it reads as lifted above the lit stage. Not used anywhere else.
+
+The sticky header uses a medium backdrop blur over 85% graphite so content
+scrolls under it; this is a translucency for legibility, not a glass card style.
 
 ### Named Rules
-**The Flat-By-Default Rule.** Every surface is flat and quiet at rest. Shadow, glow, or lift is earned by hover, focus, or an active status — never applied ambiently.
+**The Edge-Light Rule.** Ambient glow belongs to two things: the primary button and the hero stage. No cell, panel, pill or heading carries a shadow or glow at rest or on hover.
 
 ## Shapes
 
-Corners are gently rounded and consistent, never sharp and never pill-shaped
-except for true tags/dots/status indicators. Buttons and panels use `1.5rem`
-(panel) down to `0.75–1rem` (buttons, inputs) radii; chips and status dots use
-`9999px` (fully round) to read as discrete tokens against the panel's soft
-rectangles. Borders are always hairline (1px) and low-contrast
-(`color-mix` at 6–11% of foreground), never a heavy stroke.
+Corners are small and consistent: controls (buttons, tab focus rings, the
+mobile menu button, inputs) use 8px (`rounded.control`); product panels and
+dashboards use 12px (`rounded.panel`); pills, status dots, step numerals and
+check rings are fully round (9999px). Cells have no radius at all — they are
+regions of the frame, cut by hairlines, and their corners are the frame's
+corners. Borders everywhere are 1px `line`; the ghost button alone rests on
+`line-strong`. Diagram interiors may draw a faint 32px engineering grid
+(`.panel-grid`, foreground at 4%) and the statement/CTA blocks a 22px dot field
+(`.bg-dots`, foreground at 12%); both are background texture, never a border.
 
 ## Components
 
-Buttons, panels, and inputs feel precise and instrumented: tight radii,
-hairline borders, mono micro-labels where a status needs naming — calibrated
-equipment, not soft consumer chrome.
+Controls are quiet plates on a dark ground: hairline borders, 8px corners,
+medium-weight 15px labels, and state carried by a fill step or a border step
+rather than a colour change.
 
 ### Buttons
-- **Shape:** `rounded-xl` (~0.75rem).
-- **Primary (`.btn-glow-primary`):** always dark-on-amber-glow in both themes — background `var(--eclipse)` (#18181b), text `var(--snow)` (#fafafa), 1px border at 40% signal, resting glow `0 0 20px -2px signal/25%`.
-- **Hover/Focus:** border brightens to 65% signal, glow intensifies to `0 0 28px 2px signal/40%`, lifts `translateY(-1px) scale(1.02)`, `cubic-bezier(0.16,1,0.3,1)` easing over 0.25s.
-- **Secondary (`.btn-corporate-light`):** near-invisible fill (`fg 6%`), border `var(--border)`, muted text; on hover fill deepens to `fg 10%` and text goes full foreground. No glow — glow is reserved for primary.
+- **Shape:** 8px corners, 44px tall, 24px horizontal padding, 15px / weight 500 label, 8px gap to an icon. `.btn-sm` is 40px tall, 18px padding, 14px label (header CTA, product CTAs).
+- **Primary:** Eclipse plate, Snow label, foreground-14% border, amber edge light (see Elevation). Hover: border to signal/45%, brighter edge and glow, 1px lift. Used for "Book a call" in header, hero, CTA and mobile menu.
+- **Secondary:** foreground-7% fill, foreground text, `line` border; hover fill 12% and `line-strong` border. Used for "See the work" and "Email us directly".
+- **Ghost:** transparent, foreground text, `line-strong` border; hover fill 6% and border signal/55%. Used for per-product CTAs in Solutions.
+- **Icon motion:** a trailing arrow (`data-arrow`) slides 3px right on hover.
+- **Focus:** 2px `ring` outline offset 2px on every button and link.
 
-### Cards / Panels (`.panel`)
-- **Corner Style:** `1.5rem` radius.
-- **Background:** `color-mix(surface 72%, transparent)` with `blur(14px)` backdrop-filter — the one glass card language for the whole site.
-- **Border:** 1px hairline at `fg 9%`.
-- **Caption bar (`.panel-caption`):** mono, 10.5px, letter-spacing 0.16em, uppercase, muted-foreground, with a small round status dot in signal/verify/muted color — reads as telemetry, not a card title.
-- **Internal grid (`.panel-grid`, optional):** faint 32px engineering grid at `fg 4%` inside diagram panels only.
+### Pills
+- **Style:** fully round, 28px tall, 12px padding, 13px foreground text, `line` border, foreground-4% fill, 6px status dot (signal by default, `verify` for "Available now" / production, muted for "Coming soon"). Status is never dot-only; the label always names it.
+- **Used for:** hero kicker line, product status, Security tag list.
 
-### Tags / Chips (`.tag-dark`)
-- **Style:** fully round, mono, 0.7rem, uppercase, letter-spaced 0.06em; dark zinc fill + light text in dark mode, softened zinc-100/200 fill + dark text in light mode — always high-contrast against its own chip background, independent of page theme.
+### Cells (`.cells` / `.cell`)
+- **Corner style:** none. **Background:** none (page graphite). **Shadow:** none.
+- **Border:** shared 1px `line` per the grid rules in Layout.
+- **Internal padding:** 32 × 24px → 32 × 32px → 48 × 40px.
+- **Content rhythm:** optional glyph or numeral, cell title, optional amber mono role label, 15px muted body.
+
+### Panels (`.panel`)
+- **Corner style:** 12px. **Background:** Surface. **Border:** 1px `line`. Static; no hover state.
+- **Caption bar (`.panel-caption`):** mono 10.5px uppercase 0.14em muted, 6px status dot (signal / verify / muted), status text at foreground 70% on the right, hairline below.
+- **Flush variant:** when a panel fills a media cell it drops its own border and radius and inherits the cell's hairlines.
+- **Grid interior (`.panel-grid`):** faint 32px grid for diagrams and motifs.
+
+### Definition List (Solutions)
+- Three rows ("The risk / The design / The proof") divided by hairlines top, bottom and between; mono label in a 6.5rem column from 640px, 15px muted body beside it.
 
 ### Navigation
-Wordmark-anchored `brand-mark` lockup (amber-tinted radial badge, faint grid texture, pulsing signal dot) left-aligned to the shared `.shell` edge; nav items use the same restrained, no-shout type voice as body copy.
+- **Header:** 80px bar, brand mark left (amber line glyph + 20px semibold "Timbuktu" with a regular-weight muted "AI"), centred plain links from 768px (15px, weight 400, muted → foreground on hover or `aria-current`), primary `.btn-sm` on the right, 40px hairline-bordered menu button below 768px.
+- **Mobile menu:** slides open (height + opacity, 0.3s) under the header hairline; links are 48px rows separated by hairlines, full-width primary button at the bottom.
+- **Footer:** same frame; 15px medium column headings, 14px `nav-link` items, hairline-topped 13px legal line.
 
-### Signature Component: Bento Grid
-The Solutions/product grid uses pointer-tracked tiles: siblings dim to 48% opacity + desaturate on hover of any tile (cinematic focus), while the hovered tile gets a radial amber border-highlight and inner glow that follow the cursor position via `--bx`/`--by` custom properties. This is the site's one "clever" interaction and should not be duplicated elsewhere as decoration.
+### Signature Component: Product Showcase
+The hero ends in a live product stage that spans the frame. A tab strip (four
+cells, 56px tall mobile / 80px desktop, 14–15px medium labels with a 17px line
+icon; selected tab gets a foreground-5% fill, amber icon and a 2px amber
+underline that slides between tabs) sits over a `stage-glow` stage padded 12 →
+24 → 40px, holding one 12px-cornered dashboard panel on the stage drop shadow;
+a three-cell stat row closes it. Tabs are keyboard-operable (arrows, Home, End).
+
+### Motion
+Page-level motion is three moments, all on the ease `cubic-bezier(0.22, 1, 0.36, 1)`:
+1. **Hero settle:** pill, h1, lede, buttons and showcase fade up (10–24px) over 0.8–0.9s, staggered 0.12s from a 0.1s base.
+2. **Showcase tab swap:** underline slides in 0.4s; the outgoing dashboard fades down 6px and the incoming fades up 10px, 0.3s each.
+3. **Philosophy statement:** words go from 22% opacity and 4px blur to full as the block scrolls between 90% and 45% of the viewport.
+Control transitions are 0.2s (buttons, nav links, tabs; button lift uses `cubic-bezier(0.16, 1, 0.3, 1)`). Inside diagrams and product motifs, slow looping SVG telemetry (dashed flow lines, node pulses, a radar sweep, a scan line) runs continuously but stays inside its panel. Smooth scrolling is provided by Lenis. Under `prefers-reduced-motion`, every animation and transition is collapsed to 0.01ms, reveal words are forced visible, and the motion components render their final state.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep amber to status, primary CTA, and hover/focus states — see The One Signal Rule.
-- **Do** use `.panel` as the only card treatment; don't invent a second glass/shadow language.
-- **Do** open every section (except hero) with a numbered `SectionRule` eyebrow + hairline.
-- **Do** keep shadows and glow hover/focus-triggered — see The Flat-By-Default Rule.
-- **Do** reserve JetBrains Mono for labels/captions/numerals only — see The Mono-Is-Data Rule.
+- **Do** put every section inside `.frame` and separate it with the `.section` hairline; never add a section background or margin between sections.
+- **Do** lay out repeated content as `.cells` that share hairlines, with the column variant that matches the count (`cells-3`, `cells-4`, `cells-split`).
+- **Do** open each section with `SectionHead`: an h2 with exactly one `.accent` phrase and, when needed, a muted lede.
+- **Do** keep amber to the accent phrase, status dots, primary edge light, selected tab and focus ring — see The One Signal Rule.
+- **Do** keep body copy at weight 400 and headings at weight 500; use whitespace and hairlines, not weight jumps, for hierarchy.
+- **Do** reserve `.bg-dots` for the centred statement and CTA blocks, and `.stage-glow` for the hero stage.
+- **Do** use the spacing tokens (`--space-*`, `--control-*`) rather than ad-hoc values when adding a block.
 
 ### Don't:
-- **Don't** use a gradient-blob hero, purple-on-white palette, identical three-up emoji feature grid, skill bars, stock handshake photography, or neon glitch effects (PRODUCT.md anti-references).
-- **Don't** introduce a second accent color outside diagrams/severity pills.
-- **Don't** apply ambient shadow or glow to a surface at rest — depth is always a response to interaction.
+- **Don't** float cards: no box-shadow, blur, gradient border or raised surface on cells, panels or pills.
+- **Don't** add a second accent hue outside dashboards and severity chips, and don't use amber as a fill behind text.
+- **Don't** add page-level motion beyond the hero settle, the showcase tab swap and the statement reveal.
+- **Don't** set prose in JetBrains Mono, or introduce eyebrow/kicker lines above headings; the heading block is h2 + lede only.
+- **Don't** use a gradient-blob hero, purple-on-white palette, three-up emoji feature grid, skill bars, stock photography or neon glitch effects (PRODUCT.md anti-references).

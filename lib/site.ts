@@ -26,3 +26,12 @@ export const NOTIFY_URL = "#notify"; // "Get notified" (TankSlim)
 
 export const mailto = (subject: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
+
+/** Section navigation — shared by the header and footer. */
+export const SECTIONS = [
+  { label: "Approach", href: "#philosophy" },
+  { label: "Security", href: "#security" },
+  { label: "Stack", href: "#stack" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Contact", href: "#contact" },
+] as const;
