@@ -77,7 +77,7 @@ export default function Showcase({ delay = 0 }: { delay?: number }) {
               onClick={() => setActive(p.id)}
               onKeyDown={(e) => onKeyDown(e, i)}
               className={cn(
-                "relative flex h-14 items-center justify-center gap-2.5 border-[var(--line)] px-4 text-[14px] font-medium transition-colors odd:border-r [&:nth-child(-n+2)]:border-b focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/60 sm:h-20 sm:min-w-[10.5rem] sm:flex-1 sm:border-r sm:border-b-0 sm:px-5 sm:text-[15px] sm:last:border-r-0",
+                "relative flex h-14 items-center justify-center gap-2.5 border-[var(--line)] px-4 text-[14px] font-medium transition-colors odd:border-r [&:nth-child(-n+2)]:border-b focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/60 sm:h-[4.5rem] sm:min-w-[10.5rem] sm:flex-1 sm:border-r sm:border-b-0 sm:px-5 sm:text-[15px] sm:last:border-r-0",
                 selected
                   ? "bg-foreground/[0.05] text-foreground"
                   : "text-muted-foreground hover:bg-foreground/[0.025] hover:text-foreground",
