@@ -128,9 +128,9 @@ body {
 
   /* Hero */
   --space-hero-pt:          3.5rem;   /* 56px  mobile */
-  --space-hero-pt-lg:       2.5rem;   /* 40px  ≥1024px */
+  --space-hero-pt-lg:       4rem;     /* 64px  ≥1024px */
   --space-hero-gap:         2rem;     /* 32px  copy → showcase, mobile */
-  --space-hero-gap-lg:      2rem;     /* 32px  ≥1024px — product tabs sit at the fold, stage below it */
+  --space-hero-gap-lg:      4.5rem;   /* 72px  ≥1024px — product tabs sit at the fold, stage below it */
 
   /* Heading block internals */
   --space-head-gap:         1.25rem;  /* 20px  h2 → paragraph */
