@@ -127,10 +127,10 @@ body {
   --space-section-y-lg:     6rem;     /* 96px  ≥1024px */
 
   /* Hero */
-  --space-hero-pt:          4rem;     /* 64px  mobile */
-  --space-hero-pt-lg:       7rem;     /* 112px ≥1024px */
-  --space-hero-gap:         3.5rem;   /* 56px  copy → showcase, mobile */
-  --space-hero-gap-lg:      5rem;     /* 80px  ≥1024px */
+  --space-hero-pt:          3.5rem;   /* 56px  mobile */
+  --space-hero-pt-lg:       4.5rem;   /* 72px  ≥1024px */
+  --space-hero-gap:         2.5rem;   /* 40px  copy → showcase, mobile */
+  --space-hero-gap-lg:      3rem;     /* 48px  ≥1024px — keeps the product tabs above the fold */
 
   /* Heading block internals */
   --space-head-gap:         1.25rem;  /* 20px  h2 → paragraph */

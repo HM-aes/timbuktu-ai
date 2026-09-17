@@ -28,18 +28,18 @@ export default function Hero() {
             Secure AI systems · RAG, agents, access control
           </motion.p>
 
-          <motion.h1 {...settle(1, 22)} className="display mt-7 max-w-[16ch] text-foreground">
+          <motion.h1 {...settle(1, 22)} className="display mt-6 max-w-[16ch] text-foreground">
             Secure AI systems, <span className="accent">architected</span> from the first commit.
           </motion.h1>
 
-          <motion.p {...settle(2, 16)} className="lede mt-6 max-w-[38rem]">
+          <motion.p {...settle(2, 16)} className="lede mt-5 max-w-[38rem]">
             Timbuktu AI Solutions designs and builds RAG, agents and access control
             that run in production — hosted inside hard boundaries, or fully
             air-gapped on your own infrastructure. Every system is reviewed against
             the OWASP Top 10 for LLM applications before it is built.
           </motion.p>
 
-          <motion.div {...settle(3, 12)} className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <motion.div {...settle(3, 12)} className="mt-7 flex flex-wrap items-center justify-center gap-3">
             {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
             <a href={BOOKING_URL} className="btn btn-primary">
               Book a call
