@@ -16,6 +16,8 @@ export type ProductDefinition = {
   risk: string;
   design: string;
   proof: string;
+  /** Who the product is for — from existing site copy only. */
+  audience: string;
   faq: { question: string; answer: string }[];
   stack: {
     headline: string;
@@ -25,13 +27,11 @@ export type ProductDefinition = {
   primaryCta: { text: string; href: string };
   dashboard: DashboardKind;
   motif: MotifKind;
-  /** Homepage solutions row CTA (unchanged labels on the landing page). */
-  homeCta: { text: string; href: string };
   teaser?: string;
   developmentNote?: string;
 };
 
-const DEMO_CTA = { text: "Book a demo", href: BOOKING_URL };
+const BOOK_CTA = { text: "Book a call", href: BOOKING_URL };
 
 export const PRODUCTS: ProductDefinition[] = [
   {
@@ -50,6 +50,8 @@ export const PRODUCTS: ProductDefinition[] = [
       "Upload the documents you already have. The analyzer reads them, maps each one against the full directive, and lists every gap on a single dashboard. Runs hosted, or fully air-gapped on your own infrastructure.",
     proof:
       "A compliance picture you can act on in minutes: each gap in plain language, with what is missing and why it matters. Export it for your board or your auditor.",
+    audience:
+      "Teams responsible for proving the organisation meets the EU NIS2 directive — compliance, security leadership, and general counsel signing off on findings.",
     faq: [
       {
         question: "Do our documents leave our infrastructure?",
@@ -86,10 +88,9 @@ export const PRODUCTS: ProductDefinition[] = [
         },
       ],
     },
-    primaryCta: DEMO_CTA,
+    primaryCta: BOOK_CTA,
     dashboard: "nis2",
     motif: "audit",
-    homeCta: { text: "Try NIS2 Analyzer", href: PRODUCT_ROUTES["nis2-analyzer"] },
   },
   {
     slug: "lex-legal",
@@ -107,6 +108,7 @@ export const PRODUCTS: ProductDefinition[] = [
       "Lex Legal sets access at the level of the individual document. Grant it, restrict it, and revoke it per file and per person — not per matter.",
     proof:
       "Tighter confidentiality, a smaller exposure surface, and a standing record of exactly who can open what, at any moment.",
+    audience: "Law firms and legal teams that need per-file confidentiality beyond matter-level access.",
     faq: [
       {
         question: "How is this different from our DMS permissions?",
@@ -139,10 +141,9 @@ export const PRODUCTS: ProductDefinition[] = [
         },
       ],
     },
-    primaryCta: DEMO_CTA,
+    primaryCta: BOOK_CTA,
     dashboard: "placeholder",
     motif: "tree",
-    homeCta: { text: "Book a demo", href: PRODUCT_ROUTES["lex-legal"] },
   },
   {
     slug: "docsense",
@@ -160,6 +161,8 @@ export const PRODUCTS: ProductDefinition[] = [
       "DocSense reads the documents you upload and answers questions in plain language, each answer carrying the exact passage it came from. Hosted, or air-gapped on your own hardware.",
     proof:
       "The knowledge held in your files, available on request — every answer traceable to its source and ready to act on.",
+    audience:
+      "Teams that rely on PDFs, contracts and reports — legal, operations and compliance — who need answers they can stand behind.",
     faq: [
       {
         question: "Can we trust the answer?",
@@ -192,10 +195,9 @@ export const PRODUCTS: ProductDefinition[] = [
         },
       ],
     },
-    primaryCta: DEMO_CTA,
+    primaryCta: BOOK_CTA,
     dashboard: "placeholder",
     motif: "query",
-    homeCta: { text: "Try it free", href: PRODUCT_ROUTES.docsense },
   },
   {
     slug: "tankslim",
@@ -210,12 +212,13 @@ export const PRODUCTS: ProductDefinition[] = [
     risk: "",
     design: "",
     proof: "",
+    audience:
+      "Operations teams absorbing a recurring cost without a clear view of the better move.",
     faq: [],
     stack: { headline: "", body: "", points: [] },
     primaryCta: { text: "Get notified", href: "#notify" },
     dashboard: "none",
     motif: "chart",
-    homeCta: { text: "Get notified", href: PRODUCT_ROUTES.tankslim },
     teaser:
       "TankSlim targets a recurring cost most operations absorb without questioning, and makes the better move obvious.",
     developmentNote: "In development. Full details at launch.",
@@ -228,21 +231,6 @@ export function getProduct(slug: ProductSlug): ProductDefinition {
   return product;
 }
 
-/** Homepage solutions section — same products, tile links to dedicated pages. */
-export const SOLUTIONS_PRODUCTS = PRODUCTS.map((p) => ({
-  name: p.name,
-  label: p.status,
-  tagline: p.promise,
-  motif: p.motif,
-  cta: p.homeCta,
-  blocks:
-    p.risk && p.design && p.proof
-      ? [
-          { label: "The risk", body: p.risk },
-          { label: "The design", body: p.design },
-          { label: "The proof", body: p.proof },
-        ]
-      : undefined,
-  teaser: p.teaser,
-  status: p.developmentNote,
-}));
+export function productHref(slug: ProductSlug): string {
+  return PRODUCT_ROUTES[slug];
+}

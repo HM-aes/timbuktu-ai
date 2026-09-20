@@ -2,8 +2,8 @@ import BrandMark from "@/components/brand-mark";
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
+  FOOTER_NAV,
   PRODUCT_ROUTES,
-  SECTIONS,
   mailto,
 } from "@/lib/site";
 
@@ -19,8 +19,6 @@ const CONTACT = [
   { label: "Email us directly", href: mailto("Timbuktu AI Solutions — enquiry") },
   { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
 ];
-
-const SECTION_LINKS = [...SECTIONS];
 
 function Column({ heading, links }: { heading: string; links: readonly { label: string; href: string }[] }) {
   return (
@@ -52,7 +50,7 @@ export default function Footer() {
                 and built by one specialist. Online, or fully air-gapped.
               </p>
             </div>
-            <Column heading="Sections" links={SECTION_LINKS} />
+            <Column heading="Site" links={FOOTER_NAV} />
             <Column heading="Products" links={PRODUCTS} />
             <Column heading="Contact" links={CONTACT} />
           </div>

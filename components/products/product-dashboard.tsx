@@ -19,14 +19,16 @@ function MockupPlaceholder({ productName }: { productName: string }) {
 export default function ProductDashboard({
   kind,
   productName,
+  embedded = false,
 }: {
   kind: DashboardKind;
   productName: string;
+  embedded?: boolean;
 }) {
   if (kind === "none") return null;
 
   return (
-    <div className="gutter pb-[var(--space-section-y)] lg:pb-[var(--space-section-y-lg)]">
+    <div className={embedded ? undefined : "gutter pb-[var(--space-section-y)] lg:pb-[var(--space-section-y-lg)]"}>
       <div className="stage-glow relative p-3 sm:p-6 lg:p-8">
         <div className="panel overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
           {kind === "nis2" ? <Nis2Dashboard /> : <MockupPlaceholder productName={productName} />}

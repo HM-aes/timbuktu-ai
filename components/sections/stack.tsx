@@ -1,108 +1,40 @@
 import Section, { SectionHead } from "@/components/layout/section";
+import SecurityControlCard, {
+  SecurityControlCardGrid,
+} from "@/components/sections/security-control-card";
 
-/* Small line glyphs — currentColor for structure, --signal for the one
-   thing each tool is chosen for. */
-function Glyph({ kind }: { kind: string }) {
-  const c = "h-12 w-12 text-foreground/50 transition-colors duration-300 group-hover/card:text-foreground/80";
-  const s = { stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" };
-  switch (kind) {
-    case "django":
-      return (
-        <svg viewBox="0 0 56 56" className={c} aria-hidden>
-          <rect x="10" y="14" width="36" height="30" rx="5" {...s} />
-          <path d="M10 24h36" {...s} />
-          <circle cx="28" cy="35" r="4" stroke="var(--signal)" strokeWidth="1.8" fill="none" />
-          <path d="M28 39v3" stroke="var(--signal)" strokeWidth="1.8" strokeLinecap="round" />
-        </svg>
-      );
-    case "pydantic":
-      return (
-        <svg viewBox="0 0 56 56" className={c} aria-hidden>
-          <path d="M14 14h20l8 8v20H14z" {...s} />
-          <path d="M34 14v8h8" {...s} />
-          <path d="M20 31h10M20 37h14" {...s} />
-          <path d="M39 33l3 3 6-7" stroke="var(--signal)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      );
-    case "qdrant":
-      return (
-        <svg viewBox="0 0 56 56" className={c} aria-hidden>
-          {[
-            [16, 18], [24, 30], [36, 16], [40, 36], [22, 42],
-          ].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r="2.2" fill="currentColor" />
-          ))}
-          <circle cx="30" cy="27" r="3" fill="var(--signal)" />
-          <circle cx="30" cy="27" r="11" stroke="var(--signal)" strokeWidth="1.4" strokeDasharray="3 4" fill="none" />
-        </svg>
-      );
-    case "sklearn":
-      return (
-        <svg viewBox="0 0 56 56" className={c} aria-hidden>
-          <path d="M12 42V14M12 42h32" {...s} />
-          <path d="M16 38c8-2 12-14 22-18" stroke="var(--signal)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-          <circle cx="20" cy="30" r="1.8" fill="currentColor" />
-          <circle cx="27" cy="34" r="1.8" fill="currentColor" />
-          <circle cx="33" cy="22" r="1.8" fill="currentColor" />
-          <circle cx="40" cy="18" r="1.8" fill="currentColor" />
-        </svg>
-      );
-    case "ssh":
-      return (
-        <svg viewBox="0 0 56 56" className={c} aria-hidden>
-          <rect x="12" y="12" width="32" height="32" rx="6" {...s} />
-          <path d="M20 24l6 4-6 4" stroke="var(--signal)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M28 34h8" {...s} />
-        </svg>
-      );
-    default:
-      return (
-        <svg viewBox="0 0 56 56" className={c} aria-hidden>
-          <path d="M28 12l14 6v10c0 9-6 15-14 18-8-3-14-9-14-18V18z" {...s} />
-          <path d="M22 28l4 4 8-9" stroke="var(--signal)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      );
-  }
-}
-
-const STACK = [
+const CONTROLS = [
   {
-    key: "django",
-    name: "Django + Django Auth",
-    role: "Identity & permissions",
-    why: "Sessions, permissions and password hashing that have been attacked in public for fifteen years. We do not write our own.",
+    icon: "shield" as const,
+    title: "Prompt injection",
+    label: "Trust boundary",
+    body: "Retrieved documents, tool results and web pages are treated as data, never instructions. The model can read untrusted text — it can't be commanded by anything hidden inside it. OWASP's number-one LLM risk, closed at the boundary.",
   },
   {
-    key: "pydantic",
-    name: "Pydantic",
-    role: "Input & output contracts",
-    why: "Every request and every model response is a typed schema. Anything that does not fit is rejected before it reaches the model, or after it leaves.",
+    icon: "key" as const,
+    title: "MCP tools",
+    label: "Least privilege",
+    body: "Agents get narrow, audited tools instead of open-ended keys. Tool definitions are pinned and reviewed, so a server can't quietly redefine itself or hide instructions in the description the model reads.",
   },
   {
-    key: "qdrant",
-    name: "Qdrant",
-    role: "Permission-aware retrieval",
-    why: "Vector search with payload filters, so retrieval respects the same per-document permissions as the file system it came from.",
+    icon: "person" as const,
+    title: "Agent actions",
+    label: "Human in the loop",
+    body: "Sending, deleting, publishing, spending — anything with real-world side effects waits for explicit approval. The agent proposes and drafts; a person confirms, one action at a time.",
   },
   {
-    key: "sklearn",
-    name: "scikit-learn",
-    role: "Injection & anomaly detection",
-    why: "A small classifier in front of the model flags injection and exfiltration attempts. Trained on your traffic, explainable to your team.",
-  },
-  {
-    key: "ssh",
-    name: "Hardened hosts, SSH-only",
-    role: "Operations",
-    why: "Key-based access, no public admin surface, encrypted at rest. Fully air-gapped when the data requires it.",
-  },
-  {
-    key: "guard",
-    name: "Tool & output guardrails",
-    role: "Agency under control",
-    why: "Allow-listed tools, scoped credentials, an approval step on write actions, and every answer carrying its source.",
+    icon: "alert" as const,
+    title: "The lethal trifecta",
+    label: "No exfiltration path",
+    body: "Private data, untrusted input and an outbound channel are only dangerous together. No single agent is ever handed all three at once, so there's no route to leak what it can see.",
   },
 ];
+
+const STANDARDS = [
+  "OWASP LLM Top 10",
+  "OWASP Agentic Top 10",
+  "MCP human-in-the-loop spec",
+] as const;
 
 export default function Stack() {
   return (
@@ -110,26 +42,36 @@ export default function Stack() {
       <SectionHead
         title={
           <>
-            A Python stack chosen for <span className="accent">security</span>, not convenience.
+            The AI layer, under the same <span className="accent">threat model</span>.
           </>
         }
       >
-        <p>
-          Each component is there because it closes a specific risk from the
-          threat model. Mature, audited, and understood by the security team you
-          already have.
+        <p className="max-w-[60ch]">
+          Agents, LLMs and MCP tools widen the attack surface. Prompt injection, tool
+          poisoning, data exfiltration — each one gets a control, not a caveat.
         </p>
       </SectionHead>
 
-      <div className="cells cells-3">
-        {STACK.map((s) => (
-          <div key={s.key} className="cell group/card flex flex-col">
-            <Glyph kind={s.key} />
-            <h3 className="cell-title mt-[var(--space-stack-lg)] text-foreground">{s.name}</h3>
-            <p className="label mt-1.5 text-signal">{s.role}</p>
-            <p className="cell-body mt-[var(--space-stack)]">{s.why}</p>
-          </div>
-        ))}
+      <div className="gutter pb-[var(--space-section-y)] md:pb-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)]">
+        <SecurityControlCardGrid>
+          {CONTROLS.map((c) => (
+            <SecurityControlCard key={c.title} {...c} />
+          ))}
+        </SecurityControlCardGrid>
+
+        <div className="mx-auto mt-10 flex max-w-[70rem] flex-col gap-4 border-t border-[var(--line)] pt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3">
+          <p className="label shrink-0 text-muted-foreground">Aligned to</p>
+          <ul className="flex flex-wrap gap-2">
+            {STANDARDS.map((name) => (
+              <li
+                key={name}
+                className="rounded-[var(--radius-control)] border border-[var(--line)] bg-foreground/[0.03] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-foreground/85"
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </Section>
   );

@@ -46,7 +46,7 @@ export default function Hero() {
               Book a call
               <ArrowRight size={16} data-arrow />
             </CtaButton>
-            <CtaButton href="#solutions">See the work</CtaButton>
+            <CtaButton href="/products">See the work</CtaButton>
           </motion.div>
         </div>
 

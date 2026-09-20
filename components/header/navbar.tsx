@@ -1,36 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import BrandMark from "@/components/brand-mark";
+import { ProductsNavDesktop, ProductsNavMobile } from "@/components/header/products-nav";
 import { CtaButton } from "@/components/shadcn-space/button/button-16";
-import { BOOKING_URL, SECTIONS } from "@/lib/site";
+import { BOOKING_URL, HOME_URL, MAIN_NAV } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const reduced = useReducedMotionSafe();
+
+  useEffect(() => {
+    if (!open) setProductsOpen(false);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const closeMobile = () => setOpen(false);
 
   return (
     <>
       <div className="frame border-0">
         <div className="gutter flex h-20 items-center justify-between gap-6">
-          <BrandMark href="/" className="shrink-0" />
+          <BrandMark href={HOME_URL} className="shrink-0" />
 
-          {/* Desktop nav — plain links, centred between brand and CTA */}
-          <nav aria-label="Sections" className="hidden items-center gap-6 md:flex lg:gap-8">
-            {SECTIONS.map((s) => (
-              <a key={s.label} href={s.href} className="nav-link">
-                {s.label}
-              </a>
+          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex lg:gap-8">
+            <Link href={HOME_URL} className="nav-link">
+              Home
+            </Link>
+            <ProductsNavDesktop />
+            {MAIN_NAV.filter((item) => item.label !== "Home").map((item) => (
+              <Link key={item.href} href={item.href} className="nav-link">
+                {item.label}
+              </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
             <CtaButton href={BOOKING_URL} size="sm" className="hidden sm:inline-flex">
               Book a call
             </CtaButton>
@@ -48,7 +68,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -60,26 +79,35 @@ export default function Navbar() {
             transition={reduced ? INSTANT : { duration: 0.3, ease }}
             className="overflow-hidden border-t border-[var(--line)] bg-background md:hidden"
           >
-            <nav aria-label="Sections" className="frame border-0">
+            <nav aria-label="Primary" className="frame border-0">
               <ul className="gutter flex flex-col py-3">
-                {SECTIONS.map((s) => (
-                  <li key={s.label} className="border-b border-[var(--line)] last:border-b-0">
-                    <a
-                      href={s.href}
-                      onClick={() => setOpen(false)}
+                <li className="border-b border-[var(--line)]">
+                  <Link
+                    href={HOME_URL}
+                    onClick={closeMobile}
+                    className="flex h-12 items-center text-[15px] text-foreground"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <ProductsNavMobile
+                  open={productsOpen}
+                  onToggle={() => setProductsOpen((v) => !v)}
+                  onNavigate={closeMobile}
+                />
+                {MAIN_NAV.filter((item) => item.label !== "Home").map((item) => (
+                  <li key={item.href} className="border-b border-[var(--line)] last:border-b-0">
+                    <Link
+                      href={item.href}
+                      onClick={closeMobile}
                       className="flex h-12 items-center text-[15px] text-foreground"
                     >
-                      {s.label}
-                    </a>
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
                 <li className="pt-4 pb-2">
-                  {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-                  <CtaButton
-                    href={BOOKING_URL}
-                    onClick={() => setOpen(false)}
-                    className="w-full"
-                  >
+                  <CtaButton href={BOOKING_URL} onClick={closeMobile} className="w-full">
                     Book a call
                   </CtaButton>
                 </li>

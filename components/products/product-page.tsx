@@ -2,12 +2,22 @@ import Section from "@/components/layout/section";
 import type { ProductDefinition } from "@/lib/products";
 import ProductHero from "@/components/products/product-hero";
 import ProductDashboard from "@/components/products/product-dashboard";
-import RiskDesignProof from "@/components/products/risk-design-proof";
-import ProductStackFit from "@/components/products/product-stack-fit";
-import FaqBlock from "@/components/products/faq-block";
+import { ProductDetailSection } from "@/components/products/product-detail-section";
 import ProductCta from "@/components/products/cta";
 
+function hasProductBody(product: ProductDefinition): boolean {
+  return Boolean(product.risk && product.design);
+}
+
 export default function ProductPage({ product }: { product: ProductDefinition }) {
+  if (!hasProductBody(product)) {
+    return null;
+  }
+
+  const securityCopy = product.proof?.trim()
+    ? product.proof
+    : "TODO: Add product-specific security evidence.";
+
   return (
     <>
       <Section className="tone-base border-t-0">
@@ -19,27 +29,42 @@ export default function ProductPage({ product }: { product: ProductDefinition })
         />
       </Section>
 
-      {product.dashboard !== "none" && (
-        <Section className="tone-panel">
-          <ProductDashboard kind={product.dashboard} productName={product.name} />
-        </Section>
-      )}
+      <ProductDetailSection title="The problem">
+        <p className="cell-body text-[15px] leading-relaxed sm:text-base">{product.risk}</p>
+        <div>
+          <p className="label text-signal">Who it is for</p>
+          <p className="cell-body mt-2 text-[15px] leading-relaxed sm:text-base">
+            {product.audience || "TODO: Add source-backed problem/audience copy."}
+          </p>
+        </div>
+      </ProductDetailSection>
 
-      <Section className="tone-base">
-        <RiskDesignProof risk={product.risk} design={product.design} proof={product.proof} />
-      </Section>
+      <ProductDetailSection title="How it works" tone="panel">
+        <p className="cell-body text-[15px] leading-relaxed sm:text-base">{product.design}</p>
+        {product.dashboard !== "none" && (
+          <div className="mt-8 max-w-none">
+            <ProductDashboard
+              kind={product.dashboard}
+              productName={product.name}
+              embedded
+            />
+          </div>
+        )}
+      </ProductDetailSection>
 
-      <Section className="tone-panel">
-        <ProductStackFit
-          headline={product.stack.headline}
-          body={product.stack.body}
-          points={product.stack.points}
-        />
-      </Section>
-
-      <Section className="tone-base">
-        <FaqBlock items={product.faq} />
-      </Section>
+      <ProductDetailSection title="Security">
+        <p className="cell-body text-[15px] leading-relaxed sm:text-base">{securityCopy}</p>
+        {product.stack.points.length > 0 && (
+          <ul className="mt-4 space-y-3 border-t border-[var(--line)] pt-4">
+            {product.stack.points.map((point) => (
+              <li key={point.label}>
+                <p className="label text-signal">{point.label}</p>
+                <p className="cell-body mt-1.5 text-[15px]">{point.detail}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </ProductDetailSection>
 
       <Section className="tone-panel border-b border-[var(--line)]">
         <ProductCta productName={product.name} />
