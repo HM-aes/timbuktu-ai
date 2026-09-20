@@ -1,4 +1,5 @@
-import Section, { SectionHead } from "@/components/layout/section";
+import Section from "@/components/layout/section";
+import StackHero from "@/components/sections/stack-hero";
 import SecurityControlCard, {
   SecurityControlCardGrid,
 } from "@/components/sections/security-control-card";
@@ -39,20 +40,9 @@ const STANDARDS = [
 export default function Stack() {
   return (
     <Section id="stack">
-      <SectionHead
-        title={
-          <>
-            The AI layer, under the same <span className="accent">threat model</span>.
-          </>
-        }
-      >
-        <p className="max-w-[60ch]">
-          Agents, LLMs and MCP tools widen the attack surface. Prompt injection, tool
-          poisoning, data exfiltration — each one gets a control, not a caveat.
-        </p>
-      </SectionHead>
+      <StackHero />
 
-      <div className="gutter pb-[var(--space-section-y)] md:pb-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)]">
+      <div className="gutter border-t border-[var(--line)] pb-[var(--space-section-y)] pt-[var(--space-head-gap-lg)] md:pb-[var(--space-section-y-md)] md:pt-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)] lg:pt-[var(--space-section-y-lg)]">
         <SecurityControlCardGrid>
           {CONTROLS.map((c) => (
             <SecurityControlCard key={c.title} {...c} />

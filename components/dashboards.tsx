@@ -36,15 +36,22 @@ function Shell({
   title,
   deployment,
   children,
+  shellClassName,
 }: {
   product: string;
   nav: NavItem[];
   title: string;
   deployment: string;
   children: ReactNode;
+  shellClassName?: string;
 }) {
   return (
-    <div className="grid h-full min-h-[30rem] grid-cols-1 text-[13px] text-foreground md:grid-cols-[13.5rem_1fr]">
+    <div
+      className={cn(
+        "grid h-full grid-cols-1 text-[13px] text-foreground md:grid-cols-[13.5rem_1fr]",
+        shellClassName ?? "min-h-[30rem]",
+      )}
+    >
       {/* Sidebar */}
       <aside className="hidden flex-col border-r border-foreground/[0.07] bg-background/40 p-4 md:flex">
         <div className="flex items-center gap-2.5 px-2 pb-5 pt-1">
@@ -264,15 +271,24 @@ function CoverageRing({ value }: { value: number }) {
   );
 }
 
-export function Nis2Dashboard() {
+export function Nis2Dashboard({
+  presentation = "default",
+}: {
+  /** Wide layout for product-page cinematic showcase — same UI, proportional height. */
+  presentation?: "default" | "wide";
+}) {
   const [open, setOpen] = useState<string>("Art. 21(2)(d)");
   const reduced = useReducedMotionSafe();
+  const isWide = presentation === "wide";
 
   return (
     <Shell
       product="NIS2 Analyzer"
       title="Compliance overview"
       deployment="hosted · EU region"
+      shellClassName={
+        isWide ? "min-h-0 md:min-h-[22rem] lg:min-h-[24rem]" : "min-h-[30rem]"
+      }
       nav={[
         { icon: LayoutDashboard, label: "Overview" },
         { icon: Files, label: "Documents" },

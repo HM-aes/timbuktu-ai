@@ -41,8 +41,8 @@ export function ProductsNavDesktop({ onNavigate }: { onNavigate?: () => void }) 
   };
 
   return (
-    <div ref={rootRef} className="relative" onKeyDown={onKeyDown}>
-      <div className="flex items-center gap-0.5">
+    <div ref={rootRef} className="relative inline-flex shrink-0 items-center" onKeyDown={onKeyDown}>
+      <div className="flex shrink-0 items-center gap-0.5">
         <Link href={PRODUCTS_INDEX} className="nav-link" onClick={onNavigate}>
           Products
         </Link>

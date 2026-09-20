@@ -2,6 +2,7 @@ import Section from "@/components/layout/section";
 import type { ProductDefinition } from "@/lib/products";
 import ProductHero from "@/components/products/product-hero";
 import ProductDashboard from "@/components/products/product-dashboard";
+import Nis2DashboardShowcase from "@/components/products/nis2-dashboard-showcase";
 import { ProductDetailSection } from "@/components/products/product-detail-section";
 import ProductCta from "@/components/products/cta";
 
@@ -39,9 +40,15 @@ export default function ProductPage({ product }: { product: ProductDefinition })
         </div>
       </ProductDetailSection>
 
-      <ProductDetailSection title="How it works" tone="panel">
+      <ProductDetailSection
+        title="How it works"
+        tone="panel"
+        wideBelow={
+          product.slug === "nis2-analyzer" ? <Nis2DashboardShowcase /> : undefined
+        }
+      >
         <p className="cell-body text-[15px] leading-relaxed sm:text-base">{product.design}</p>
-        {product.dashboard !== "none" && (
+        {product.dashboard !== "none" && product.slug !== "nis2-analyzer" && (
           <div className="mt-8 max-w-none">
             <ProductDashboard
               kind={product.dashboard}

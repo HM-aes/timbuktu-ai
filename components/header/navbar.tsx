@@ -34,23 +34,33 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="frame border-0">
-        <div className="gutter flex h-20 items-center justify-between gap-6">
-          <BrandMark href={HOME_URL} className="shrink-0" />
+      <motion.div
+        className="frame"
+        initial={reduced ? false : { opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduced ? INSTANT : { duration: 0.55, ease }}
+      >
+        <div className="gutter header-bar">
+          <div className="header-zone-start">
+            <BrandMark href={HOME_URL} className="shrink-0" />
+          </div>
 
-          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex lg:gap-8">
-            <Link href={HOME_URL} className="nav-link">
+          <nav
+            aria-label="Primary"
+            className="header-zone-center max-md:hidden"
+          >
+            <Link href={HOME_URL} className="nav-link whitespace-nowrap">
               Home
             </Link>
             <ProductsNavDesktop />
             {MAIN_NAV.filter((item) => item.label !== "Home").map((item) => (
-              <Link key={item.href} href={item.href} className="nav-link">
+              <Link key={item.href} href={item.href} className="nav-link whitespace-nowrap">
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="header-zone-end">
             <CtaButton href={BOOKING_URL} size="sm" className="hidden sm:inline-flex">
               Book a call
             </CtaButton>
@@ -66,7 +76,7 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {open && (
