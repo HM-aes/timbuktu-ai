@@ -32,8 +32,8 @@ export default function StackHero() {
   };
 
   return (
-    <div className="gutter pb-[var(--space-head-gap-lg)] pt-[var(--space-section-y)] md:pb-[var(--space-section-y-md)] md:pt-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)] lg:pt-[var(--space-section-y-lg)]">
-      <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-x-8 lg:gap-x-10 xl:gap-x-12">
+    <div className="gutter pb-8 pt-[var(--space-head-gap-lg)] md:pb-10 md:pt-8 lg:pb-12 lg:pt-10">
+      <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-x-8 lg:gap-x-10 xl:gap-x-12">
         <div className="flex min-w-0 flex-col gap-5 md:col-span-7 lg:col-span-7 lg:gap-6">
           <motion.p {...settle(0, 10)} className="label text-signal">
             AI security layer

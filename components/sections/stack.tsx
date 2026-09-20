@@ -42,7 +42,7 @@ export default function Stack() {
     <Section id="stack">
       <StackHero />
 
-      <div className="gutter border-t border-[var(--line)] pb-[var(--space-section-y)] pt-[var(--space-head-gap-lg)] md:pb-[var(--space-section-y-md)] md:pt-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)] lg:pt-[var(--space-section-y-lg)]">
+      <div className="gutter border-t border-[var(--line)] pb-[var(--space-section-y)] pt-[var(--space-head-gap-lg)] md:pb-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)]">
         <SecurityControlCardGrid>
           {CONTROLS.map((c) => (
             <SecurityControlCard key={c.title} {...c} />
