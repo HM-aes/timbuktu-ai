@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "lenis/dist/lenis.css";
 
 /* ── Theme files (edit independently) ── */
 @import "./theme-light.css";
@@ -91,7 +92,8 @@
 
 /* ── Base ────────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
+  /* Lenis owns smooth scrolling — native smooth fights inertia on wheel. */
+  scroll-behavior: auto;
   color-scheme: light dark;
 }
 html.dark {

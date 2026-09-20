@@ -21,7 +21,10 @@ export default function Nis2DashboardShowcase() {
         <div className="mx-auto w-full min-w-0 max-w-[var(--frame-max)]">
           <div className="stage-glow relative p-2 sm:p-4 lg:p-5 xl:p-6">
             <div className="panel overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
-              <div className="overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] lg:overflow-visible">
+              <div
+                className="overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] lg:overflow-visible"
+                data-lenis-prevent
+              >
                 <div className="min-w-[min(100%,42rem)] lg:min-w-0">
                   <Nis2Dashboard presentation="wide" />
                 </div>

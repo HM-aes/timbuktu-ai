@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import Panel from "@/components/panel";
 import BoundaryDiagram from "@/components/diagrams/boundary";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
@@ -12,12 +11,6 @@ const STEP = 0.1;
 
 export default function StackHero() {
   const reduced = useReducedMotionSafe();
-  const visualRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: visualRef,
-    offset: ["start end", "end start"],
-  });
-  const visualY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [14, -10]);
 
   const settle = (i: number, distance = 16) => ({
     initial: { opacity: 0, y: distance },
@@ -56,8 +49,6 @@ export default function StackHero() {
         </div>
 
         <motion.div
-          ref={visualRef}
-          style={{ y: visualY }}
           {...visualSettle}
           className="min-w-0 md:col-span-5 lg:col-span-5"
         >
