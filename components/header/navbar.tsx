@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import BrandMark from "@/components/brand-mark";
+import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import { BOOKING_URL, SECTIONS } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
@@ -17,7 +18,7 @@ export default function Navbar() {
     <>
       <div className="frame border-0">
         <div className="gutter flex h-20 items-center justify-between gap-6">
-          <BrandMark href="#top" className="shrink-0" />
+          <BrandMark href="/" className="shrink-0" />
 
           {/* Desktop nav — plain links, centred between brand and CTA */}
           <nav aria-label="Sections" className="hidden items-center gap-6 md:flex lg:gap-8">
@@ -30,9 +31,9 @@ export default function Navbar() {
 
           <div className="flex items-center gap-3">
             {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-            <a href={BOOKING_URL} className="btn btn-primary btn-sm hidden sm:inline-flex">
+            <CtaButton href={BOOKING_URL} size="sm" className="hidden sm:inline-flex">
               Book a call
-            </a>
+            </CtaButton>
             <button
               type="button"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -74,13 +75,13 @@ export default function Navbar() {
                 ))}
                 <li className="pt-4 pb-2">
                   {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-                  <a
+                  <CtaButton
                     href={BOOKING_URL}
                     onClick={() => setOpen(false)}
-                    className="btn btn-primary w-full"
+                    className="w-full"
                   >
                     Book a call
-                  </a>
+                  </CtaButton>
                 </li>
               </ul>
             </nav>

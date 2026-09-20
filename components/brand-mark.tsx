@@ -33,7 +33,7 @@ function BrandLogo({ className }: { className?: string }) {
  * Logo glyph + "Timbuktu" with the "AI Solutions" descriptor in one line.
  */
 export default function BrandMark({
-  href = "#top",
+  href = "/",
   className,
 }: {
   href?: string;
@@ -42,7 +42,7 @@ export default function BrandMark({
   return (
     <a
       href={href}
-      aria-label="Timbuktu AI Solutions — back to top"
+      aria-label="Timbuktu AI Solutions — home"
       className={cn(
         "inline-flex items-center gap-2.5 rounded-md text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className,

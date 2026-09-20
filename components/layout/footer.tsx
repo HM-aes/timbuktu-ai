@@ -2,19 +2,16 @@ import BrandMark from "@/components/brand-mark";
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
-  DOCSENSE_URL,
-  LEX_DEMO_URL,
-  NIS2_APP_URL,
-  NOTIFY_URL,
+  PRODUCT_ROUTES,
   SECTIONS,
   mailto,
 } from "@/lib/site";
 
 const PRODUCTS = [
-  { label: "NIS2 Analyzer", href: NIS2_APP_URL },
-  { label: "Lex Legal", href: LEX_DEMO_URL },
-  { label: "DocSense", href: DOCSENSE_URL },
-  { label: "TankSlim", href: NOTIFY_URL },
+  { label: "NIS2 Analyzer", href: PRODUCT_ROUTES["nis2-analyzer"] },
+  { label: "Lex Legal", href: PRODUCT_ROUTES["lex-legal"] },
+  { label: "DocSense", href: PRODUCT_ROUTES.docsense },
+  { label: "TankSlim", href: PRODUCT_ROUTES.tankslim },
 ];
 
 const CONTACT = [
@@ -22,6 +19,8 @@ const CONTACT = [
   { label: "Email us directly", href: mailto("Timbuktu AI Solutions — enquiry") },
   { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
 ];
+
+const SECTION_LINKS = [...SECTIONS];
 
 function Column({ heading, links }: { heading: string; links: readonly { label: string; href: string }[] }) {
   return (
@@ -47,13 +46,13 @@ export default function Footer() {
         <div className="gutter section-block pb-0">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8">
             <div className="max-w-xs">
-              <BrandMark />
+              <BrandMark href="/" />
               <p className="cell-body mt-5">
                 Secure AI systems — RAG, agents and access control — architected
                 and built by one specialist. Online, or fully air-gapped.
               </p>
             </div>
-            <Column heading="Sections" links={SECTIONS} />
+            <Column heading="Sections" links={SECTION_LINKS} />
             <Column heading="Products" links={PRODUCTS} />
             <Column heading="Contact" links={CONTACT} />
           </div>
@@ -64,7 +63,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Watermark wordmark */}
         <div aria-hidden className="gutter select-none overflow-hidden pt-4">
           <p className="translate-y-[18%] text-center font-display text-[clamp(5rem,20vw,17rem)] font-semibold leading-none tracking-[-0.05em] text-foreground/[0.045]">
             Timbuktu

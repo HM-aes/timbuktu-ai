@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import { BOOKING_URL } from "@/lib/site";
 import Showcase from "@/components/showcase";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
@@ -41,13 +42,11 @@ export default function Hero() {
 
           <motion.div {...settle(3, 12)} className="mt-6 flex flex-wrap items-center justify-center gap-3">
             {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-            <a href={BOOKING_URL} className="btn btn-primary">
+            <CtaButton href={BOOKING_URL}>
               Book a call
               <ArrowRight size={16} data-arrow />
-            </a>
-            <a href="#solutions" className="btn btn-secondary">
-              See the work
-            </a>
+            </CtaButton>
+            <CtaButton href="#solutions">See the work</CtaButton>
           </motion.div>
         </div>
 

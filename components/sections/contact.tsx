@@ -1,5 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 import Section from "@/components/layout/section";
+import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import { BOOKING_URL, CONTACT_EMAIL, mailto } from "@/lib/site";
 
 const TRUST = [
@@ -25,14 +26,13 @@ export default function Contact() {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
-            <a href={BOOKING_URL} className="btn btn-primary">
+            <CtaButton href={BOOKING_URL}>
               Book a call
               <ArrowRight size={16} data-arrow />
-            </a>
-            {/* TODO(placeholder): CONTACT_EMAIL — set real address in lib/site.ts */}
-            <a href={mailto("Timbuktu AI Solutions — enquiry")} className="btn btn-secondary">
+            </CtaButton>
+            <CtaButton href={mailto("Timbuktu AI Solutions — enquiry")}>
               Email us directly
-            </a>
+            </CtaButton>
           </div>
           <p className="mt-5 text-sm text-muted-foreground">
             Talk to the person who builds it. About 30 minutes — enough to tell

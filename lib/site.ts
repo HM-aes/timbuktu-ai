@@ -17,21 +17,34 @@ export const KVK_NUMBER = "00000000"; // TODO: replace with real KVK number
 /** Primary domain. */
 export const SITE_DOMAIN = "timbuktu-ai.nl";
 
-// ── Per-product CTAs ────────────────────────────────────────────────────────
-// TODO: point these at the real app / signup / demo-request destinations.
-export const NIS2_APP_URL = "#nis2"; // "Try NIS2 Analyzer"
-export const LEX_DEMO_URL = "#lex-demo"; // "Book a demo"
-export const DOCSENSE_URL = "#docsense"; // "Try it free"
-export const NOTIFY_URL = "#notify"; // "Get notified" (TankSlim)
+/** Dedicated product pages (home tiles + footer). */
+export const PRODUCT_ROUTES = {
+  "nis2-analyzer": "/products/nis2-analyzer",
+  "lex-legal": "/products/lex-legal",
+  docsense: "/products/docsense",
+  tankslim: "/products/tankslim",
+} as const;
+
+export const WRITING_URL = "/writing";
+
+/** First product page — nav "Solutions" entry point. */
+export const SOLUTIONS_ENTRY = PRODUCT_ROUTES["nis2-analyzer"];
+
+// Legacy aliases (prefer PRODUCT_ROUTES for new links)
+export const NIS2_APP_URL = PRODUCT_ROUTES["nis2-analyzer"];
+export const LEX_DEMO_URL = PRODUCT_ROUTES["lex-legal"];
+export const DOCSENSE_URL = PRODUCT_ROUTES.docsense;
+export const NOTIFY_URL = PRODUCT_ROUTES.tankslim;
 
 export const mailto = (subject: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 
 /** Section navigation — shared by the header and footer. */
 export const SECTIONS = [
-  { label: "Approach", href: "#philosophy" },
-  { label: "Security", href: "#security" },
-  { label: "Stack", href: "#stack" },
-  { label: "Solutions", href: "#solutions" },
-  { label: "Contact", href: "#contact" },
+  { label: "Approach", href: "/#philosophy" },
+  { label: "Security", href: "/#security" },
+  { label: "Stack", href: "/#stack" },
+  { label: "Solutions", href: SOLUTIONS_ENTRY },
+  { label: "Writing", href: WRITING_URL },
+  { label: "Contact", href: "/#contact" },
 ] as const;

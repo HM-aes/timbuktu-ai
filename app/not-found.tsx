@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
+import { CtaButton } from "@/components/shadcn-space/button/button-16";
 
 export default function NotFound() {
   return (
@@ -14,12 +14,7 @@ export default function NotFound() {
         The page you are looking for could not be found.
       </p>
       <div className="mt-8">
-        <Link
-          href="/"
-          className="btn-glow-primary rounded-lg px-6 py-2.5 text-sm font-medium tracking-wide"
-        >
-          Return Home
-        </Link>
+        <CtaButton href="/">Return home</CtaButton>
       </div>
     </div>
   );

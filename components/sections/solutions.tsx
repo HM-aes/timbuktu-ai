@@ -1,102 +1,17 @@
 import { ArrowRight } from "lucide-react";
 import Section, { SectionHead } from "@/components/layout/section";
 import Panel from "@/components/panel";
-import { Motif, type MotifKind } from "@/components/motifs";
-import { NIS2_APP_URL, LEX_DEMO_URL, DOCSENSE_URL, NOTIFY_URL } from "@/lib/site";
+import { Motif } from "@/components/motifs";
+import { CtaButton } from "@/components/shadcn-space/button/button-16";
+import { SOLUTIONS_PRODUCTS } from "@/lib/products";
 
-type Product = {
-  name: string;
-  label: "Available now" | "Coming soon";
-  tagline: string;
-  motif: MotifKind;
-  cta: { text: string; href: string };
-  blocks?: { label: string; body: string }[];
-  teaser?: string;
-  status?: string;
-};
+type SolutionProduct = (typeof SOLUTIONS_PRODUCTS)[number];
 
-const PRODUCTS: Product[] = [
-  {
-    name: "NIS2 Analyzer",
-    label: "Available now",
-    tagline: "Know exactly where you stand on NIS2.",
-    motif: "audit",
-    cta: { text: "Try NIS2 Analyzer", href: NIS2_APP_URL },
-    blocks: [
-      {
-        label: "The risk",
-        body: "Proving your organisation meets the EU NIS2 directive means reconciling dozens of policies against hundreds of pages of legal text. A gap you miss becomes a finding, and NIS2 attaches real penalties to findings.",
-      },
-      {
-        label: "The design",
-        body: "Upload the documents you already have. The analyzer reads them, maps each one against the full directive, and lists every gap on a single dashboard. Runs hosted, or fully air-gapped on your own infrastructure.",
-      },
-      {
-        label: "The proof",
-        body: "A compliance picture you can act on in minutes — each gap in plain language, with what is missing and why it matters. Export it for your board or your auditor.",
-      },
-    ],
-  },
-  {
-    name: "Lex Legal",
-    label: "Available now",
-    tagline: "The right people see the right files. Nothing more.",
-    motif: "tree",
-    cta: { text: "Book a demo", href: LEX_DEMO_URL },
-    blocks: [
-      {
-        label: "The risk",
-        body: "Matter-level access hands everyone on a case the entire file. A junior brought in for one document can open the rest, and nothing on record draws the line.",
-      },
-      {
-        label: "The design",
-        body: "Lex Legal sets access at the level of the individual document. Grant it, restrict it, and revoke it per file and per person — not per matter.",
-      },
-      {
-        label: "The proof",
-        body: "Tighter confidentiality, a smaller exposure surface, and a standing record of exactly who can open what, at any moment.",
-      },
-    ],
-  },
-  {
-    name: "DocSense",
-    label: "Available now",
-    tagline: "Ask your documents a question. Get a sourced answer.",
-    motif: "query",
-    cta: { text: "Try it free", href: DOCSENSE_URL },
-    blocks: [
-      {
-        label: "The risk",
-        body: "The answer sits somewhere in a stack of PDFs, contracts, and reports. Reading by hand is slow, and an answer with no source behind it is one nobody can rely on.",
-      },
-      {
-        label: "The design",
-        body: "DocSense reads the documents you upload and answers questions in plain language, each answer carrying the exact passage it came from. Hosted, or air-gapped on your own hardware.",
-      },
-      {
-        label: "The proof",
-        body: "The knowledge held in your files, available on request — every answer traceable to its source and ready to act on.",
-      },
-    ],
-  },
-  {
-    name: "TankSlim",
-    label: "Coming soon",
-    tagline: "A costly routine expense, about to get an obvious answer.",
-    motif: "chart",
-    cta: { text: "Get notified", href: NOTIFY_URL },
-    teaser:
-      "TankSlim targets a recurring cost most operations absorb without questioning, and makes the better move obvious.",
-    status: "In development. Full details at launch.",
-  },
-];
-
-function ProductRow({ product }: { product: Product }) {
+function ProductRow({ product }: { product: SolutionProduct }) {
   const isSoon = product.label === "Coming soon";
 
   return (
     <article className="cells cells-split">
-      {/* Text */}
       <div className="cell">
         <div>
           <span className="pill">
@@ -104,7 +19,12 @@ function ProductRow({ product }: { product: Product }) {
             {product.label}
           </span>
           <h3 className="mt-6 font-display text-[1.75rem] font-medium tracking-[-0.02em] text-foreground sm:text-[2rem]">
-            {product.name}
+            <a
+              href={product.cta.href}
+              className="rounded-sm transition-colors hover:text-signal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+            >
+              {product.name}
+            </a>
           </h3>
           <p className="mt-2 max-w-[30rem] text-lg leading-snug text-foreground/85 sm:text-xl">
             {product.tagline}
@@ -128,15 +48,13 @@ function ProductRow({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* TODO(placeholder): product CTA URLs — set real destinations in lib/site.ts */}
-          <a href={product.cta.href} className="btn btn-ghost btn-sm mt-8">
+          <CtaButton href={product.cta.href} size="sm" className="mt-8">
             {product.cta.text}
             <ArrowRight size={15} data-arrow />
-          </a>
+          </CtaButton>
         </div>
       </div>
 
-      {/* Motif */}
       <div className="cell cell-media">
         <Panel
           caption={product.name}
@@ -162,13 +80,14 @@ export default function Solutions() {
       <SectionHead
         title={
           <>
-            Three systems in production, a fourth on the way. Each one closes a specific <span className="accent">security or compliance gap.</span>
+            Three systems in production, a fourth on the way. Each one closes a specific{" "}
+            <span className="accent">security or compliance gap.</span>
           </>
         }
       />
 
       <div>
-        {PRODUCTS.map((product) => (
+        {SOLUTIONS_PRODUCTS.map((product) => (
           <ProductRow key={product.name} product={product} />
         ))}
       </div>
