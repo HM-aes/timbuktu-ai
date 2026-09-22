@@ -330,6 +330,15 @@ body {
     font-size: clamp(2.5rem, 1.6rem + 3.4vw, 3.75rem);   /* 40 → 60px */
     text-wrap: balance;
   }
+  /* Editorial headline — the one oversized h2 that follows the hero. */
+  .headline-xl {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+    font-size: clamp(2.75rem, 1.4rem + 5.6vw, 6.75rem);  /* 44 → 108px */
+    text-wrap: balance;
+  }
   .title {
     font-family: var(--font-display);
     font-weight: 500;
@@ -396,6 +405,14 @@ body {
       radial-gradient(70% 60% at 6% 0%, color-mix(in srgb, var(--signal) 34%, transparent), transparent 70%),
       radial-gradient(60% 55% at 96% 0%, color-mix(in srgb, var(--signal) 22%, transparent), transparent 70%),
       radial-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
+      color-mix(in srgb, var(--background) 70%, black);
+  }
+  /* Object stages (Secure AI core, product panels) — the same recessed
+     ground as the showcase, lit from under the object instead of the corners. */
+  .stage-object {
+    background:
+      radial-gradient(42% 48% at var(--glow-x, 50%) var(--glow-y, 58%), color-mix(in srgb, var(--signal) var(--glow, 16%), transparent), transparent 72%),
+      radial-gradient(color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
       color-mix(in srgb, var(--background) 70%, black);
   }
 
@@ -501,6 +518,76 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
 .bento-motif path,
 .bento-motif rect { vector-effect: non-scaling-stroke; }
 
+/* ── Iso scenes (Secure AI + product panels) ─────────────────────────────
+   Flat hairline plates arranged in real CSS 3D. All geometry is in `em`,
+   so a scene scales with the font-size of its `.iso-root`: product stages
+   size it from container width, the Secure AI stage per breakpoint.
+   `--spread` (scroll, GSAP) and `--lift` (hover, CSS) push layers apart. */
+@property --spread { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --lift   { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --glow   { syntax: "<percentage>"; inherits: true; initial-value: 16%; }
+
+.iso-stage { container-type: inline-size; position: relative; overflow: hidden; }
+.iso-root  { position: absolute; inset: 0; font-size: var(--iso-unit, 1cqw); }
+.iso-scene {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transform: translate(-50%, -50%) perspective(260em) rotateX(var(--rx, 56deg)) rotateZ(var(--rz, -42deg));
+  transition: --lift 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.iso-plate,
+.iso-box {
+  position: absolute;
+  transform-style: preserve-3d;
+  left: calc(50% + (var(--x, 0) - var(--w) / 2) * 1em);
+  top: calc(50% + (var(--y, 0) - var(--d) / 2) * 1em);
+  width: calc(var(--w) * 1em);
+  height: calc(var(--d) * 1em);
+  transform: translateZ(calc(var(--z, 0) * 1em * var(--spread) * var(--lift)));
+}
+.iso-box > .f {
+  position: absolute;
+  display: block;
+  border: 1px solid var(--line);
+  background: var(--side, var(--surface));
+}
+.iso-box > .f-top { inset: 0; background: var(--top, var(--surface-secondary)); transform: translateZ(calc(var(--h) * 1em)); }
+.iso-box > .f-n,
+.iso-box > .f-s { left: 0; width: 100%; height: calc(var(--h) * 1em); transform-origin: top; transform: rotateX(90deg); }
+.iso-box > .f-n { top: 0; }
+.iso-box > .f-s { top: 100%; background: var(--front, var(--surface-secondary)); }
+.iso-box > .f-w,
+.iso-box > .f-e { top: 0; height: 100%; width: calc(var(--h) * 1em); transform-origin: left; transform: rotateY(-90deg); }
+.iso-box > .f-w { left: 0; }
+.iso-box > .f-e { left: 100%; }
+/* Grounding shadow — soft, flat, under a raised object. */
+.iso-shadow {
+  background: radial-gradient(closest-side, color-mix(in srgb, black 55%, transparent), transparent);
+  filter: blur(0.8em);
+}
+@media (hover: hover) {
+  .iso-hover:hover .iso-scene { --lift: 1.22; }
+}
+/* Ambient loops run only while their stage is on screen (useStageActivity). */
+.iso-stage:not([data-active]) * { animation-play-state: paused !important; }
+
+@keyframes iso-float {
+  0%, 100% { transform: translateZ(0); }
+  50%      { transform: translateZ(1.4em); }
+}
+.iso-float { position: absolute; inset: 0; transform-style: preserve-3d; animation: iso-float 7s ease-in-out infinite; }
+@keyframes iso-spin { to { transform: rotate(360deg); } }
+.iso-spin { animation: iso-spin 60s linear infinite; }
+@keyframes iso-travel {
+  0%   { transform: translate3d(var(--from), 0, var(--tz)); opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translate3d(var(--to), 0, var(--tz)); opacity: 0; }
+}
+.iso-travel { animation: iso-travel 4.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+
 /* ── Reduced motion ──────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -513,6 +600,7 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
     opacity: 1 !important;
     filter: none !important;
   }
+  .iso-hover:hover .iso-scene { --lift: 1; }
 }
 
 /* ── Tailwind base layer ─────────────────────────────────────────────── */

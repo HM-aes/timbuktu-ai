@@ -222,6 +222,7 @@ lives inside product diagrams and dashboards where it carries meaning.
 
 ### Hierarchy
 - **Display** (500, 40→60px fluid, line-height 1.05, tracking −0.025em): the hero h1 only, centred, capped at 16ch.
+- **Headline XL** (500, 44→108px fluid, line-height 0.98, tracking −0.04em, `.headline-xl`): the single editorial h2 that follows the hero ("Build secure AI."). One per page.
 - **Title** (500, 30→48px fluid, line-height 1.1, tracking −0.02em): every section h2 and the contact h2; capped at 20ch inside the heading block; one phrase wrapped in `.accent`.
 - **Statement** (500, 24→40px fluid, line-height 1.15): the single centred Philosophy pull-quote that reveals word by word on scroll.
 - **Lede** (400, 17px → 18px at ≥640px, line-height 1.6, muted): the paragraph under an h2 or the hero h1; 36rem max in heading blocks, 38rem under the hero.

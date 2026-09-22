@@ -58,7 +58,7 @@ export default function StackHero() {
         {/* ── Copy ── */}
         <div className="flex min-w-0 flex-col lg:col-span-5">
           <motion.div {...settle(0, 10)} className="flex items-center gap-4">
-            <p className="label shrink-0 text-signal">02 — Security</p>
+            <p className="label shrink-0 text-signal">03 — Security</p>
             <span aria-hidden className="h-px min-w-0 flex-1 bg-signal/30" />
           </motion.div>
 
