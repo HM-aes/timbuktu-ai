@@ -169,7 +169,7 @@ function Pane({
    NIS2 Analyzer — coverage against the directive, gap by gap.
 ──────────────────────────────────────────────────────────────────── */
 
-type Severity = "critical" | "high" | "medium" | "ok";
+export type Severity = "critical" | "high" | "medium" | "ok";
 
 const NIS2_ROWS: {
   article: string;
@@ -219,7 +219,7 @@ const SEVERITY_LABEL: Record<Severity, string> = {
   ok: "Covered",
 };
 
-function SeverityPill({ s }: { s: Severity }) {
+export function SeverityPill({ s }: { s: Severity }) {
   return (
     <span
       className={cn(

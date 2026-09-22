@@ -567,9 +567,6 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
   background: radial-gradient(closest-side, color-mix(in srgb, black 55%, transparent), transparent);
   filter: blur(0.8em);
 }
-@media (hover: hover) {
-  .iso-hover:hover .iso-scene { --lift: 1.22; }
-}
 /* Ambient loops run only while their stage is on screen (useStageActivity). */
 .iso-stage:not([data-active]) * { animation-play-state: paused !important; }
 
@@ -600,7 +597,6 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
     opacity: 1 !important;
     filter: none !important;
   }
-  .iso-hover:hover .iso-scene { --lift: 1; }
 }
 
 /* ── Tailwind base layer ─────────────────────────────────────────────── */
