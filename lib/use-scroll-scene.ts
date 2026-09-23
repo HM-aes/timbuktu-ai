@@ -8,7 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * useScrollScene
  * --------------
  * Runs GSAP ScrollTrigger choreography scoped to one section. `setup` only
- * runs when the visitor has not asked for reduced motion, runs after mount
+ * runs when the visitor has not asked for reduced motion (and `media`, if
+ * given, matches), runs after mount
  * (never during SSR), and everything it creates is reverted on unmount.
  *
  * Lenis already owns scrolling (one instance, on `window.__lenis`); this
@@ -18,6 +19,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 export function useScrollScene(
   scope: RefObject<HTMLElement | null>,
   setup: (root: HTMLElement) => void,
+  /** Extra media conditions, e.g. "(min-width: 1024px)", ANDed with no-preference. */
+  media?: string,
 ) {
   useEffect(() => {
     const root = scope.current;
@@ -25,7 +28,7 @@ export function useScrollScene(
     gsap.registerPlugin(ScrollTrigger);
 
     const mm = gsap.matchMedia(root);
-    mm.add("(prefers-reduced-motion: no-preference)", () => setup(root));
+    mm.add(["(prefers-reduced-motion: no-preference)", media].filter(Boolean).join(" and "), () => setup(root));
 
     const lenis = window.__lenis;
     const unsubscribe = lenis?.on("scroll", ScrollTrigger.update);

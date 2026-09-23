@@ -13,6 +13,7 @@ export type ShowcaseProduct = {
   name: string;
   status: ProductStatus;
   tagline: string;
+  problem?: string;
   description: string;
   capabilities: string[];
   note?: string;
@@ -84,14 +85,14 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
       {/* The product's own interface */}
       <div
         className={cn(
-          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:border-y-0 lg:px-12 lg:py-16",
+          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:flex lg:items-center lg:border-y-0 lg:px-12 lg:py-16",
           p.reversed ? "lg:border-r" : "lg:border-l",
         )}
       >
         <motion.div
           {...enter(0.1, 28)}
           whileHover={reduced ? undefined : { y: -4, transition: { duration: 0.5, ease } }}
-          className="mx-auto max-w-[46rem]"
+          className="mx-auto w-full max-w-[46rem]"
         >
           {p.preview}
         </motion.div>
@@ -102,6 +103,13 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
         {...enter(0.18, 12)}
         className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-16 lg:pt-0"
       >
+        {p.problem && (
+          <div className="mb-6">
+            <p className="label text-signal">The problem</p>
+            <p className="mt-2 max-w-[40ch] text-[15px] leading-relaxed text-foreground/85">{p.problem}</p>
+          </div>
+        )}
+        {p.problem && <p className="label mb-2">What it does</p>}
         <p className="cell-body max-w-[38ch] text-[1rem]">{p.description}</p>
 
         {p.capabilities.length > 0 && (

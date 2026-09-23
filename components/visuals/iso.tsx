@@ -72,10 +72,11 @@ export function Plate({
   className,
   style,
   children,
+  "data-layer": layer,
   ...p
-}: Placement & { className?: string; style?: Vars; children?: ReactNode }) {
+}: Placement & { className?: string; style?: Vars; children?: ReactNode; "data-layer"?: string }) {
   return (
-    <div className={cn("iso-plate", className)} style={{ ...place(p), ...style }}>
+    <div data-layer={layer} className={cn("iso-plate", className)} style={{ ...place(p), ...style }}>
       {children}
     </div>
   );

@@ -17,6 +17,8 @@ export type CtaButtonProps = {
   className?: string;
   children: React.ReactNode;
   size?: "default" | "sm";
+  /** "signal" — the amber primary action. Overrides the outline variant in both themes. */
+  tone?: "default" | "signal";
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> &
   Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "children">;
 
@@ -25,6 +27,7 @@ export function CtaButton({
   className,
   children,
   size = "default",
+  tone = "default",
   onMouseEnter,
   ...rest
 }: CtaButtonProps) {
@@ -48,6 +51,8 @@ export function CtaButton({
   const shellClass = cn(
     ctaShellClass,
     size === "sm" && "px-4 py-2 text-sm",
+    tone === "signal" &&
+      "border-signal bg-signal text-primary-foreground hover:bg-signal dark:border-signal dark:bg-signal dark:hover:bg-signal",
     className
   );
 

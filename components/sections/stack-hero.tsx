@@ -96,7 +96,7 @@ export default function StackHero() {
           <motion.div {...settle(4, 12)} className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3">
             <CtaButton
               href={APPROACH_URL}
-              className="border-signal bg-signal text-primary-foreground hover:bg-signal"
+              tone="signal"
             >
               Explore security
               <ArrowRight size={16} data-arrow />

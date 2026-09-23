@@ -1,17 +1,19 @@
 import Hero from "@/components/sections/hero";
-import SecureAi from "@/components/sections/secure-ai";
+import SecurityArchitecture from "@/components/sections/security-architecture";
 import ProductShowcase from "@/components/products/product-showcase";
-import Stack from "@/components/sections/stack";
-import Contact from "@/components/sections/contact";
+import FinalCta from "@/components/sections/final-cta";
 
+/**
+ * The homepage is one story: build AI → it needs protection → security at
+ * every layer → four products → one mission.
+ */
 export default function Page() {
   return (
     <>
       <Hero />
-      <SecureAi />
+      <SecurityArchitecture />
       <ProductShowcase />
-      <Stack />
-      <Contact />
+      <FinalCta />
     </>
   );
 }

@@ -17,6 +17,8 @@ import { PRODUCTS_INDEX } from "@/lib/site";
  */
 const SHOWCASE: {
   slug: ProductSlug;
+  /** The security problem it addresses — condensed from the product's own "risk" copy. */
+  problem?: string;
   description: string;
   capabilities: string[];
   note?: string;
@@ -24,6 +26,7 @@ const SHOWCASE: {
 }[] = [
   {
     slug: "nis2-analyzer",
+    problem: "Proving NIS2 compliance means reconciling your policies against hundreds of pages of legal text — and a missed gap becomes a finding.",
     description:
       "Upload the documents you already have. The analyzer maps them against the directive and shows every gap in one place.",
     capabilities: ["Compliance mapping", "Evidence behind every finding", "Hosted or air-gapped"],
@@ -31,6 +34,7 @@ const SHOWCASE: {
   },
   {
     slug: "lex-legal",
+    problem: "Matter-level access hands everyone on a case the entire file, and nothing on record draws the line.",
     description:
       "Control access at the level of the individual document — per file and per person, not per matter — with a complete audit trail.",
     capabilities: ["Per-file access", "Grant, restrict and revoke", "Complete audit trail"],
@@ -38,6 +42,7 @@ const SHOWCASE: {
   },
   {
     slug: "docsense",
+    problem: "The answer is buried in a stack of documents — and an answer with no source behind it is one nobody can rely on.",
     description:
       "Ask questions across your PDFs, contracts and reports. Every answer links straight to the passage it came from.",
     capabilities: ["Sourced answers", "Your documents stay private", "Hosted or air-gapped"],
@@ -53,7 +58,7 @@ const SHOWCASE: {
   },
 ];
 
-const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, description, capabilities, note, preview }, i) => {
+const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, problem, description, capabilities, note, preview }, i) => {
   const p = getProduct(slug);
   const soon = p.status === "Coming soon";
   return {
@@ -61,6 +66,7 @@ const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, description, capabilities
     name: p.name,
     status: p.status,
     tagline: p.promise,
+    problem,
     description,
     capabilities,
     note,
@@ -88,8 +94,8 @@ export default function ProductShowcase() {
           </Reveal>
           <Reveal delay={0.2} distance={14} className="lg:col-span-5 lg:pb-2">
             <p className="lede max-w-[36rem]">
-              Each one closes a specific security, compliance or operational gap — shown here through its own
-              interface.
+              Four parts of one security architecture. Each closes a specific security, compliance or operational
+              gap — shown here through its own interface.
             </p>
           </Reveal>
         </div>
