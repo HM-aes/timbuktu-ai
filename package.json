@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev"
+    "dev": "next dev",
+    "dev:clean": "rm -rf .next && next dev"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

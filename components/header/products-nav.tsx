@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { PRODUCTS, productHref } from "@/lib/products";
@@ -19,6 +20,9 @@ type ProductsNavProps = {
 export function ProductsNavDesktop({ onNavigate }: { onNavigate?: () => void }) {
   const menuId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const productsActive =
+    pathname === PRODUCTS_INDEX || pathname.startsWith(`${PRODUCTS_INDEX}/`);
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotionSafe();
 
@@ -43,7 +47,12 @@ export function ProductsNavDesktop({ onNavigate }: { onNavigate?: () => void }) 
   return (
     <div ref={rootRef} className="relative inline-flex shrink-0 items-center" onKeyDown={onKeyDown}>
       <div className="flex shrink-0 items-center gap-0.5">
-        <Link href={PRODUCTS_INDEX} className="nav-link" onClick={onNavigate}>
+        <Link
+          href={PRODUCTS_INDEX}
+          aria-current={productsActive ? "page" : undefined}
+          className={cn("nav-link whitespace-nowrap", productsActive && "is-active")}
+          onClick={onNavigate}
+        >
           Products
         </Link>
         <button
@@ -73,14 +82,14 @@ export function ProductsNavDesktop({ onNavigate }: { onNavigate?: () => void }) 
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 4 }}
             transition={reduced ? INSTANT : { duration: 0.22, ease }}
-            className="absolute left-0 top-[calc(100%+0.35rem)] z-50 w-[min(100vw-2rem,22rem)] rounded-[var(--radius-panel)] border border-[var(--line)] bg-background p-1.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.65)]"
+            className="absolute left-1/2 top-[calc(100%+0.5rem)] z-50 w-[min(100vw-2rem,24rem)] -translate-x-1/2 rounded-[var(--radius-panel)] border border-[var(--line)] bg-surface p-2 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.75)]"
           >
             {PRODUCTS.map((p) => (
               <Link
                 key={p.slug}
                 href={productHref(p.slug)}
                 role="menuitem"
-                className="block rounded-[var(--radius-control)] px-3 py-2.5 transition-colors hover:bg-foreground/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                className="block rounded-[var(--radius-control)] px-3.5 py-3 transition-colors hover:bg-foreground/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                 onClick={() => {
                   close();
                   onNavigate?.();

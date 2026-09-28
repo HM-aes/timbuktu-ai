@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import BrandMark from "@/components/brand-mark";
+import { HeaderNavLink } from "@/components/header/nav-link";
 import { ProductsNavDesktop, ProductsNavMobile } from "@/components/header/products-nav";
 import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import { BOOKING_URL, HOME_URL, MAIN_NAV } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const NAV_AFTER_HOME = MAIN_NAV.filter((item) => item.label !== "Home");
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -27,7 +29,11 @@ export default function Navbar() {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   const closeMobile = () => setOpen(false);
@@ -36,32 +42,27 @@ export default function Navbar() {
     <>
       <motion.div
         className="frame"
-        initial={reduced ? false : { opacity: 0, y: -10 }}
+        initial={reduced ? false : { opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={reduced ? INSTANT : { duration: 0.55, ease }}
+        transition={reduced ? INSTANT : { duration: 0.5, ease }}
       >
         <div className="gutter header-bar">
           <div className="header-zone-start">
-            <BrandMark href={HOME_URL} className="shrink-0" />
+            <BrandMark href={HOME_URL} variant="header" className="shrink-0" />
           </div>
 
-          <nav
-            aria-label="Primary"
-            className="header-zone-center max-md:hidden"
-          >
-            <Link href={HOME_URL} className="nav-link whitespace-nowrap">
-              Home
-            </Link>
+          <nav aria-label="Primary" className="header-zone-center max-md:hidden">
+            <HeaderNavLink href={HOME_URL}>Home</HeaderNavLink>
             <ProductsNavDesktop />
-            {MAIN_NAV.filter((item) => item.label !== "Home").map((item) => (
-              <Link key={item.href} href={item.href} className="nav-link whitespace-nowrap">
+            {NAV_AFTER_HOME.map((item) => (
+              <HeaderNavLink key={item.href} href={item.href}>
                 {item.label}
-              </Link>
+              </HeaderNavLink>
             ))}
           </nav>
 
           <div className="header-zone-end">
-            <CtaButton href={BOOKING_URL} size="sm" className="hidden sm:inline-flex">
+            <CtaButton href={BOOKING_URL} size="sm" className="hidden md:inline-flex">
               Book a call
             </CtaButton>
             <button
@@ -86,37 +87,37 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={reduced ? INSTANT : { duration: 0.3, ease }}
+            transition={reduced ? INSTANT : { duration: 0.32, ease }}
             className="overflow-hidden border-t border-[var(--line)] bg-background md:hidden"
           >
             <nav aria-label="Primary" className="frame border-0">
-              <ul className="gutter flex flex-col py-3">
+              <ul className="gutter flex flex-col py-4">
                 <li className="border-b border-[var(--line)]">
-                  <Link
+                  <HeaderNavLink
                     href={HOME_URL}
                     onClick={closeMobile}
-                    className="flex h-12 items-center text-[15px] text-foreground"
+                    className="flex min-h-14 items-center text-[1rem]"
                   >
                     Home
-                  </Link>
+                  </HeaderNavLink>
                 </li>
                 <ProductsNavMobile
                   open={productsOpen}
                   onToggle={() => setProductsOpen((v) => !v)}
                   onNavigate={closeMobile}
                 />
-                {MAIN_NAV.filter((item) => item.label !== "Home").map((item) => (
+                {NAV_AFTER_HOME.map((item) => (
                   <li key={item.href} className="border-b border-[var(--line)] last:border-b-0">
-                    <Link
+                    <HeaderNavLink
                       href={item.href}
                       onClick={closeMobile}
-                      className="flex h-12 items-center text-[15px] text-foreground"
+                      className="flex min-h-14 items-center text-[1rem]"
                     >
                       {item.label}
-                    </Link>
+                    </HeaderNavLink>
                   </li>
                 ))}
-                <li className="pt-4 pb-2">
+                <li className="pt-6 pb-2">
                   <CtaButton href={BOOKING_URL} onClick={closeMobile} className="w-full">
                     Book a call
                   </CtaButton>

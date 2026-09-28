@@ -44,7 +44,7 @@ export default function Footer() {
         <div className="gutter section-block pb-0">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8">
             <div className="max-w-xs">
-              <BrandMark href="/" />
+              <BrandMark href="/" variant="footer" />
               <p className="cell-body mt-5">
                 Secure AI systems — RAG, agents and access control — architected
                 and built by one specialist. Online, or fully air-gapped.
