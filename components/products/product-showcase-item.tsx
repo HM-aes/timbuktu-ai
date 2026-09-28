@@ -25,6 +25,21 @@ export type ShowcaseProduct = {
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
+/** Shared top inset so copy and preview share one baseline on desktop. */
+const ROW_TOP =
+  "pt-[var(--space-head-gap-lg)] md:pt-8 lg:pt-12 lg:pb-0";
+
+const enter = (
+  reduced: boolean,
+  delay: number,
+  distance: number,
+  duration = 1.05,
+) => ({
+  initial: { opacity: 0, y: distance },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "0px 0px -8% 0px" },
+  transition: reduced ? INSTANT : { duration, delay, ease },
+});
 
 /**
  * One product row: copy column (~35%) beside its interface (~65%).
@@ -37,29 +52,24 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
   const reduced = useReducedMotionSafe();
   const soon = p.status === "Coming soon";
 
-  const enter = (delay: number, distance: number) => ({
-    initial: { opacity: 0, y: distance },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "0px 0px -12% 0px" },
-    transition: reduced ? INSTANT : { duration: 0.8, delay, ease },
-  });
-
   return (
     <article
       aria-labelledby={`product-${p.number}`}
       className={cn(
         "group/product grid border-t border-[var(--line)] [grid-template-areas:'head'_'preview'_'body']",
-        "lg:grid-cols-[minmax(0,0.36fr)_minmax(0,0.64fr)] lg:grid-rows-[1fr_1fr] lg:[grid-template-areas:'head_preview'_'body_preview']",
+        "lg:grid-cols-[minmax(0,0.36fr)_minmax(0,0.64fr)] lg:grid-rows-[auto_auto] lg:[grid-template-areas:'head_preview'_'body_preview']",
         p.reversed &&
           "lg:grid-cols-[minmax(0,0.64fr)_minmax(0,0.36fr)] lg:[grid-template-areas:'preview_head'_'preview_body']",
       )}
     >
-      {/* Number, name, tagline */}
-      <motion.header
-        {...enter(0, 16)}
-        className="gutter pb-8 pt-[var(--space-section-y)] [grid-area:head] lg:self-end lg:px-[var(--space-cell-lg)] lg:pb-6 lg:pt-16"
+      {/* Number, name, tagline — top-aligned with preview (industry split layout) */}
+      <header
+        className={cn(
+          "gutter pb-8 [grid-area:head] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-10",
+          ROW_TOP,
+        )}
       >
-        <div className="flex items-center gap-3">
+        <motion.div {...enter(reduced, 0, 14)} className="flex items-center gap-3">
           <span className="label text-signal">{p.number}</span>
           <span aria-hidden className="h-px w-6 bg-[var(--line-strong)]" />
           <span className="pill">
@@ -70,29 +80,34 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
             )}
             {p.status}
           </span>
-        </div>
-        <h3
+        </motion.div>
+        <motion.h3
+          {...enter(reduced, 0.1, 22, 1.1)}
           id={`product-${p.number}`}
           className="mt-6 text-[1.75rem] font-medium leading-[1.1] tracking-[-0.02em] text-foreground lg:text-[2rem]"
         >
           {p.name}
-        </h3>
-        <p className="mt-3 max-w-[26ch] text-[1.25rem] leading-snug tracking-[-0.01em] text-foreground/90">
+        </motion.h3>
+        <motion.p
+          {...enter(reduced, 0.2, 16, 1.1)}
+          className="mt-3 max-w-[26ch] text-[1.25rem] leading-snug tracking-[-0.01em] text-foreground/90"
+        >
           {p.tagline}
-        </p>
-      </motion.header>
+        </motion.p>
+      </header>
 
       {/* The product's own interface */}
       <div
         className={cn(
-          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:flex lg:items-center lg:border-y-0 lg:px-12 lg:py-16",
+          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:flex lg:items-start lg:border-y-0 lg:px-12 lg:pb-16",
+          ROW_TOP,
           p.reversed ? "lg:border-r" : "lg:border-l",
         )}
       >
         <motion.div
-          {...enter(0.1, 28)}
+          {...enter(reduced, 0.14, 32, 1.15)}
           whileHover={reduced ? undefined : { y: -4, transition: { duration: 0.5, ease } }}
-          className="mx-auto w-full max-w-[46rem]"
+          className="mx-auto w-full max-w-[46rem] lg:mx-0 lg:max-w-none"
         >
           {p.preview}
         </motion.div>
@@ -100,8 +115,8 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
 
       {/* Description, capabilities, CTA */}
       <motion.div
-        {...enter(0.18, 12)}
-        className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-16 lg:pt-0"
+        {...enter(reduced, 0.24, 12, 1.05)}
+        className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-16 lg:pt-6"
       >
         {p.problem && (
           <div className="mb-6">
