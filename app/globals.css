@@ -244,39 +244,82 @@ body {
     .header-zone-end { justify-self: end; }
   }
 
-  /* TIMBUKTU AI wordmark */
+  /* TIMBUKTU AI lockup — wordmark + provenance inscription */
+  .brand-lockup {
+    gap: 0.3125rem; /* ~5px */
+  }
+  @media (min-width: 640px) {
+    .brand-lockup--header { gap: 0.375rem; /* ~6px */ }
+  }
+
   .brand-wordmark {
     font-family: var(--font-display);
     font-weight: 500;
-    line-height: 1;
+    line-height: 1.05;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.11em;
   }
   .brand-wordmark--header {
     font-size: 0.8125rem;
   }
   @media (min-width: 640px) {
-    .brand-wordmark--header { font-size: 0.875rem; }
+    .brand-wordmark--header { font-size: 0.875rem; letter-spacing: 0.12em; }
   }
   @media (min-width: 1024px) {
     .brand-wordmark--header {
       font-size: 0.9375rem;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.125em;
     }
   }
   .brand-wordmark--footer {
     font-size: 0.8125rem;
-    letter-spacing: 0.13em;
+    letter-spacing: 0.11em;
   }
   .brand-wordmark-primary {
     color: var(--foreground);
     font-weight: 500;
+    transition: color 0.25s ease;
   }
   .brand-wordmark-accent {
-    margin-inline-start: 0.45em;
+    margin-inline-start: 0.38em;
     color: var(--signal);
     font-weight: 500;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.13em;
+    transition: color 0.25s ease;
+  }
+
+  .brand-provenance {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--muted-foreground) 92%, transparent);
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+  @media (min-width: 640px) {
+    .brand-provenance { font-size: 0.625rem; letter-spacing: 0.15em; }
+  }
+  .brand-provenance-sep {
+    letter-spacing: 0;
+    opacity: 0.65;
+  }
+
+  .brand-lockup-link:hover .brand-wordmark-primary {
+    color: color-mix(in srgb, var(--foreground) 96%, var(--signal) 4%);
+  }
+  .brand-lockup-link:hover .brand-wordmark-accent {
+    color: color-mix(in srgb, var(--signal) 88%, var(--foreground) 12%);
+  }
+  .brand-lockup-link:hover .brand-provenance {
+    color: color-mix(in srgb, var(--foreground) 42%, var(--muted-foreground) 58%);
+  }
+
+  .site-header[data-scrolled="true"] .brand-provenance {
+    opacity: 0.82;
+    color: color-mix(in srgb, var(--muted-foreground) 88%, transparent);
   }
 
   /* Gutter — content inset from the rails (used on non-cell content). */
