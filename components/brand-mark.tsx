@@ -11,7 +11,6 @@ export default function BrandMark({
   href?: string;
   className?: string;
   variant?: "header" | "footer";
-  /** Defaults to on for header, off for footer. */
   showProvenance?: boolean;
 }) {
   const provenance = showProvenance ?? variant === "header";
@@ -19,10 +18,21 @@ export default function BrandMark({
   return (
     <Link
       href={href}
-      aria-label="Timbuktu AI — home"
-      className={cn("brand-lockup-link group/brand rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background", className)}
+      aria-label={
+        provenance
+          ? "Timbuktu AI — home. Regional reference Liptako–Gourma, 16 September 2023."
+          : "Timbuktu AI — home"
+      }
+      className={cn(
+        "brand-lockup-link group/brand shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        className,
+      )}
     >
-      <TimbuktuWordmark variant={variant} showProvenance={provenance} />
+      <TimbuktuWordmark
+        variant={variant}
+        showProvenance={provenance}
+        animate={variant === "header"}
+      />
     </Link>
   );
 }
