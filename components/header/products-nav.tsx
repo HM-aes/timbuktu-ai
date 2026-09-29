@@ -46,7 +46,12 @@ export function ProductsNavDesktop({ onNavigate }: { onNavigate?: () => void }) 
 
   return (
     <div ref={rootRef} className="relative inline-flex shrink-0 items-center" onKeyDown={onKeyDown}>
-      <div className="flex shrink-0 items-center gap-0.5">
+      <div
+        className={cn(
+          "nav-link-group shrink-0",
+          productsActive && "is-active",
+        )}
+      >
         <Link
           href={PRODUCTS_INDEX}
           aria-current={productsActive ? "page" : undefined}
@@ -57,7 +62,7 @@ export function ProductsNavDesktop({ onNavigate }: { onNavigate?: () => void }) 
         </Link>
         <button
           type="button"
-          className="grid size-8 place-items-center rounded-[var(--radius-control)] text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+          className="nav-link-chevron focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
           aria-expanded={open}
           aria-haspopup="menu"
           aria-controls={menuId}
