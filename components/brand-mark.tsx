@@ -18,9 +18,7 @@ export default function BrandMark({
   return (
     <Link
       href={href}
-      aria-label={
-        provenance ? "Timbuktu AI — home. Liptako–Gourma." : "Timbuktu AI — home"
-      }
+      aria-label="Timbuktu AI, Liptako–Gourma — home"
       className={cn(
         "brand-lockup-link group/brand shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className,

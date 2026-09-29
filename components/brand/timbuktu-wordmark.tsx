@@ -64,9 +64,7 @@ export default function TimbuktuWordmark({
       {showProvenance && (
         <MetaTag {...metaProps} className="brand-region-row">
           <span className="brand-region-mark" aria-hidden />
-          <span className="brand-region" aria-hidden>
-            Liptako–Gourma
-          </span>
+          <span className="brand-region">Liptako–Gourma</span>
         </MetaTag>
       )}
     </span>
