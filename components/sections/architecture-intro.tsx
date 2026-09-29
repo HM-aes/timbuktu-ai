@@ -20,29 +20,30 @@ export default function ArchitectureIntro() {
       scrollTrigger: {
         trigger: el,
         start: "top 92%",
-        end: "top 22%",
-        scrub: 2.65,
+        end: "top 16%",
+        scrub: 2.85,
       },
       defaults: { ease: "power1.out" },
     });
 
+    /* 1 — section label, 2 — headline (header), 3 — body copy after header settles */
     tl.fromTo(
       eyebrow,
-      { opacity: 0, y: 28 },
-      { opacity: 1, y: 0, duration: 1.35 },
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 1.1 },
       0,
     )
       .fromTo(
         headline,
-        { opacity: 0, y: 44 },
-        { opacity: 1, y: 0, duration: 1.5 },
-        0.22,
+        { opacity: 0, y: 42 },
+        { opacity: 1, y: 0, duration: 1.75 },
+        0.85,
       )
       .fromTo(
         lede,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1.4 },
-        0.48,
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 1.85 },
+        2.75,
       );
   });
 
