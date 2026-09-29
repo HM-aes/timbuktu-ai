@@ -1,5 +1,5 @@
 import Section from "@/components/layout/section";
-import { Reveal } from "@/components/reveal";
+import ArchitectureIntro from "@/components/sections/architecture-intro";
 import ArchitectureStage, { type SecurityLayer } from "@/components/sections/architecture-stage";
 
 /** Four layers of one system, top to bottom — the order a request meets them. */
@@ -36,24 +36,7 @@ export default function SecurityArchitecture() {
   return (
     <Section id="architecture">
       <div className="gutter pb-12 pt-[var(--space-section-y)] md:pb-14 md:pt-[var(--space-section-y-md)] lg:pb-16 lg:pt-[var(--space-section-y-lg)]">
-        <Reveal distance={10} className="flex items-center gap-4">
-          <p className="label shrink-0 text-signal">01 — Architecture</p>
-          <span aria-hidden className="h-px min-w-0 flex-1 bg-signal/30" />
-        </Reveal>
-
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-12 lg:items-end lg:gap-x-12">
-          <Reveal delay={0.08} distance={24} className="lg:col-span-7">
-            <h2 className="display max-w-[16ch] text-foreground">
-              Security is not a feature. <span className="accent">It is the architecture.</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.2} distance={14} className="lg:col-span-5 lg:pb-2">
-            <p className="lede max-w-[36rem]">
-              Built with security at every layer — from the data that enters a system to how it is watched after
-              deployment. Every system is reviewed against the OWASP Top 10 for LLM applications before it is built.
-            </p>
-          </Reveal>
-        </div>
+        <ArchitectureIntro />
       </div>
 
       <ArchitectureStage layers={LAYERS} />
