@@ -6,10 +6,7 @@ import { useReducedMotionSafe } from "@/lib/use-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/**
- * TIMBUKTU AI — typography-first lockup with provenance metadata.
- * Registration hairline + partial corner stroke (not a badge).
- */
+/** Navbar lockup: TIMBUKTU AI + LIPTAKO–GOURMA (date lives in hero only). */
 export default function TimbuktuWordmark({
   variant = "header",
   showProvenance = variant === "header",
@@ -30,24 +27,24 @@ export default function TimbuktuWordmark({
 
   const primaryProps = motionOn
     ? {
-        initial: { opacity: 0, y: 5 },
+        initial: { opacity: 0, y: 4 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.55, ease },
+        transition: { duration: 0.5, ease },
       }
     : {};
 
   const metaProps = motionOn
     ? {
-        initial: { opacity: 0, y: 4 },
+        initial: { opacity: 0, y: 3 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.55, delay: 0.07, ease },
+        transition: { duration: 0.5, delay: 0.06, ease },
       }
     : {};
 
   return (
     <span
       className={cn(
-        "brand-lockup inline-flex flex-col",
+        "brand-lockup inline-flex flex-col items-start",
         isHeader ? "brand-lockup--header" : "brand-lockup--footer",
         className,
       )}
@@ -65,15 +62,10 @@ export default function TimbuktuWordmark({
       </PrimaryTag>
 
       {showProvenance && (
-        <MetaTag {...metaProps} className="brand-provenance-row">
-          <span className="brand-provenance-mark" aria-hidden />
-          <span className="brand-provenance-text">
-            <span className="brand-provenance" aria-hidden>
-              Liptako–Gourma
-              <span className="brand-provenance-sep"> · </span>
-              <span className="max-[380px]:hidden">16 Sep 2023</span>
-              <span className="min-[381px]:hidden">16 Sep 23</span>
-            </span>
+        <MetaTag {...metaProps} className="brand-region-row">
+          <span className="brand-region-mark" aria-hidden />
+          <span className="brand-region" aria-hidden>
+            Liptako–Gourma
           </span>
         </MetaTag>
       )}

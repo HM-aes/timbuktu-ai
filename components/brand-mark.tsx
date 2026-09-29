@@ -19,9 +19,7 @@ export default function BrandMark({
     <Link
       href={href}
       aria-label={
-        provenance
-          ? "Timbuktu AI — home. Regional reference Liptako–Gourma, 16 September 2023."
-          : "Timbuktu AI — home"
+        provenance ? "Timbuktu AI — home. Liptako–Gourma." : "Timbuktu AI — home"
       }
       className={cn(
         "brand-lockup-link group/brand shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
