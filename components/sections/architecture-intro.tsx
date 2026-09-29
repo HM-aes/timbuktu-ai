@@ -19,30 +19,30 @@ export default function ArchitectureIntro() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
-        start: "top 86%",
-        end: "top 40%",
-        scrub: 1.45,
+        start: "top 92%",
+        end: "top 22%",
+        scrub: 2.65,
       },
-      defaults: { ease: "power2.out" },
+      defaults: { ease: "power1.out" },
     });
 
     tl.fromTo(
       eyebrow,
-      { opacity: 0, y: 22 },
-      { opacity: 1, y: 0, duration: 1 },
+      { opacity: 0, y: 28 },
+      { opacity: 1, y: 0, duration: 1.35 },
       0,
     )
       .fromTo(
         headline,
-        { opacity: 0, y: 38 },
-        { opacity: 1, y: 0, duration: 1.15 },
-        0.14,
+        { opacity: 0, y: 44 },
+        { opacity: 1, y: 0, duration: 1.5 },
+        0.22,
       )
       .fromTo(
         lede,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 1.05 },
-        0.32,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1.4 },
+        0.48,
       );
   });
 
