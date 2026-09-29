@@ -43,7 +43,7 @@ export default function Hero() {
           data-hero-copy
           className="gutter relative z-10 flex min-h-[calc(100svh-var(--header-min-h))] flex-col items-center justify-center pb-[clamp(6rem,13vw,13rem)] pt-12 text-center lg:min-h-[calc(100svh-var(--header-min-h-lg))]"
         >
-          <motion.p {...settle(0, 10)} className="pill">
+          <motion.p {...settle(0, 10)} className="pill pill--hero">
             <span className="dot" aria-hidden />
             Secure AI infrastructure
           </motion.p>

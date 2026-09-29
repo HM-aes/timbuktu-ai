@@ -3,6 +3,7 @@ import StackHero from "@/components/sections/stack-hero";
 import SecurityControlCard, {
   SecurityControlCardGrid,
 } from "@/components/sections/security-control-card";
+import { StandardsStrip } from "@/components/standards-tag-list";
 
 const CONTROLS = [
   {
@@ -31,12 +32,6 @@ const CONTROLS = [
   },
 ];
 
-const STANDARDS = [
-  "OWASP LLM Top 10",
-  "OWASP Agentic Top 10",
-  "MCP human-in-the-loop spec",
-] as const;
-
 export default function Stack() {
   return (
     <Section id="stack">
@@ -50,17 +45,7 @@ export default function Stack() {
         </SecurityControlCardGrid>
 
         <div className="mx-auto mt-10 flex max-w-[70rem] flex-col gap-4 border-t border-[var(--line)] pt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3">
-          <p className="label shrink-0 text-muted-foreground">Aligned to</p>
-          <ul className="flex flex-wrap gap-2">
-            {STANDARDS.map((name) => (
-              <li
-                key={name}
-                className="rounded-[var(--radius-control)] border border-[var(--line)] bg-foreground/[0.03] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-foreground/85"
-              >
-                {name}
-              </li>
-            ))}
-          </ul>
+          <StandardsStrip labelClassName="standards-label--muted" />
         </div>
       </div>
     </Section>

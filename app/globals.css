@@ -255,10 +255,109 @@ body {
     .header-zone-end { justify-self: end; }
   }
 
+  /* Brand home link — pill at rest; amber glow on hover */
+  .brand-lockup-link {
+    position: relative;
+    display: inline-flex;
+    isolation: isolate;
+    padding: 0.4375rem 0.875rem;
+    margin: -0.4375rem -0.875rem;
+    border-radius: 9999px;
+    overflow: visible;
+    border: 1px solid transparent;
+    background: transparent;
+    transition:
+      filter 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease,
+      background-color 0.35s ease;
+  }
+  .brand-lockup-link:has(.brand-lockup--header) {
+    border-color: color-mix(in srgb, var(--line) 48%, transparent);
+    background: color-mix(in srgb, var(--background) 72%, transparent);
+  }
+  .brand-lockup-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--signal) 14%, var(--background) 86%) 0%,
+      color-mix(in srgb, var(--foreground) 4%, var(--background) 96%) 42%,
+      color-mix(in srgb, var(--signal) 12%, var(--background) 88%) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--signal) 18%, var(--line));
+    opacity: 0;
+    transform: scale(0.94);
+    transition:
+      opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease,
+      box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -1;
+  }
+  .brand-lockup-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--signal-soft) 70%, transparent),
+      color-mix(in srgb, var(--signal) 25%, transparent) 40%,
+      color-mix(in srgb, var(--signal-soft) 55%, transparent) 70%,
+      color-mix(in srgb, var(--signal) 45%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .brand-lockup-link:hover,
+  .brand-lockup-link:focus-visible {
+    border-color: transparent;
+    background: transparent;
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--signal) 28%, transparent));
+  }
+  .brand-lockup-link:hover::before,
+  .brand-lockup-link:focus-visible::before {
+    opacity: 1;
+    transform: scale(1);
+    border-color: color-mix(in srgb, var(--signal) 42%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--signal-soft) 35%, transparent),
+      0 0 10px color-mix(in srgb, var(--signal) 50%, transparent),
+      0 0 22px color-mix(in srgb, var(--signal-soft) 38%, transparent),
+      0 0 36px color-mix(in srgb, var(--signal) 22%, transparent),
+      inset 0 0 18px color-mix(in srgb, var(--signal) 12%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--signal-soft) 35%, transparent);
+  }
+  .brand-lockup-link:hover::after,
+  .brand-lockup-link:focus-visible::after {
+    opacity: 0.85;
+  }
   /* TIMBUKTU AI lockup — company mark (~36–44px tall in header) */
   .brand-lockup {
+    position: relative;
+    z-index: 1;
     gap: 0.3125rem; /* 5px */
     width: fit-content;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .brand-lockup-link:hover .brand-lockup,
+    .brand-lockup-link:focus-visible .brand-lockup {
+      transform: translateY(-1px);
+    }
   }
   .brand-lockup--header {
     min-width: 8.75rem;
@@ -289,15 +388,28 @@ body {
     font-size: 0.8125rem;
     letter-spacing: -0.02em;
   }
+  .brand-wordmark-primary,
+  .brand-wordmark-accent,
+  .brand-region {
+    background-repeat: no-repeat;
+    background-size: 220% 100%;
+    background-position: 0% center;
+    transition:
+      color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      background-position 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      -webkit-text-fill-color 0.35s ease,
+      letter-spacing 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
   .brand-wordmark-primary {
-    transition: color 0.22s ease;
+    -webkit-text-fill-color: currentColor;
   }
   .brand-wordmark-accent {
     margin-inline-start: 0.32em;
     font-weight: 600;
     letter-spacing: -0.022em;
     color: color-mix(in srgb, var(--foreground) 78%, var(--signal) 22%);
-    transition: color 0.22s ease;
+    -webkit-text-fill-color: currentColor;
   }
 
   .brand-region-row {
@@ -305,14 +417,30 @@ body {
     align-items: stretch;
     gap: 0.4375rem;
     padding-inline-start: 0.0625rem;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .brand-lockup-link:hover .brand-region-row,
+    .brand-lockup-link:focus-visible .brand-region-row {
+      transform: translateX(3px);
+    }
   }
   .brand-region-mark {
     flex-shrink: 0;
     width: 1px;
     min-height: 0.75rem;
     margin-block: 0.0625rem;
-    background: color-mix(in srgb, var(--signal) 48%, transparent);
-    transition: background-color 0.22s ease;
+    border-radius: 1px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--signal) 20%, transparent),
+      color-mix(in srgb, var(--signal) 55%, transparent) 45%,
+      color-mix(in srgb, var(--signal) 20%, transparent)
+    );
+    transition:
+      width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.35s ease,
+      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .brand-region {
     display: block;
@@ -323,7 +451,6 @@ body {
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: color-mix(in srgb, var(--foreground) 62%, var(--muted-foreground) 38%);
-    transition: color 0.22s ease;
   }
   @media (min-width: 640px) {
     .brand-region {
@@ -338,17 +465,73 @@ body {
     }
   }
 
-  .brand-lockup-link:hover .brand-wordmark-primary {
-    color: var(--foreground);
+  .brand-lockup-link:hover .brand-wordmark-primary,
+  .brand-lockup-link:focus-visible .brand-wordmark-primary {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      105deg,
+      var(--foreground) 0%,
+      color-mix(in srgb, var(--foreground) 45%, var(--signal-soft) 55%) 38%,
+      var(--signal-soft) 68%,
+      var(--signal) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-position: 100% center;
   }
-  .brand-lockup-link:hover .brand-wordmark-accent {
-    color: color-mix(in srgb, var(--foreground) 68%, var(--signal) 32%);
+  .brand-lockup-link:hover .brand-wordmark-accent,
+  .brand-lockup-link:focus-visible .brand-wordmark-accent {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--foreground) 25%, var(--signal-soft) 75%) 0%,
+      var(--signal-soft) 42%,
+      var(--signal) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--signal) 35%, transparent));
+    background-position: 100% center;
   }
-  .brand-lockup-link:hover .brand-region-mark {
-    background: color-mix(in srgb, var(--signal) 62%, transparent);
+  .brand-lockup-link:hover .brand-region-mark,
+  .brand-lockup-link:focus-visible .brand-region-mark {
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--signal) 35%, transparent),
+      color-mix(in srgb, var(--signal) 85%, transparent) 50%,
+      color-mix(in srgb, var(--signal) 35%, transparent)
+    );
+    box-shadow: 0 0 12px color-mix(in srgb, var(--signal) 40%, transparent);
   }
-  .brand-lockup-link:hover .brand-region {
-    color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground) 22%);
+  .brand-lockup-link:hover .brand-region,
+  .brand-lockup-link:focus-visible .brand-region {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--foreground) 55%, var(--signal-soft) 45%) 0%,
+      color-mix(in srgb, var(--signal-soft) 75%, var(--signal) 25%) 50%,
+      var(--signal) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    letter-spacing: 0.17em;
+    background-position: 100% center;
+  }
+  @media (min-width: 640px) {
+    .brand-lockup-link:hover .brand-region,
+    .brand-lockup-link:focus-visible .brand-region {
+      letter-spacing: 0.18em;
+    }
+  }
+  @media (min-width: 1024px) {
+    .brand-lockup-link:hover .brand-region,
+    .brand-lockup-link:focus-visible .brand-region {
+      letter-spacing: 0.19em;
+    }
   }
 
   .site-header[data-scrolled="true"] .brand-region {
@@ -513,6 +696,46 @@ body {
     text-transform: uppercase;
     color: var(--muted-foreground);
   }
+
+  /* “Aligned to” — pairs with `.pill--tag` standards row */
+  .standards-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground) 22%);
+  }
+  .standards-label--muted {
+    color: color-mix(in srgb, var(--foreground) 58%, var(--muted-foreground) 42%);
+  }
+  .standards-label-mark {
+    flex-shrink: 0;
+    width: 2px;
+    height: 1.25rem;
+    border-radius: 1px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--signal) 15%, transparent),
+      color-mix(in srgb, var(--signal-soft) 85%, var(--signal) 15%) 45%,
+      color-mix(in srgb, var(--signal) 15%, transparent)
+    );
+    box-shadow: 0 0 10px color-mix(in srgb, var(--signal) 32%, transparent);
+  }
+  .standards-label--muted .standards-label-mark {
+    background: linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, var(--foreground) 35%, transparent) 50%,
+      transparent
+    );
+    box-shadow: none;
+  }
   /* The one phrase per heading that carries the accent. */
   .accent { color: var(--signal); }
 
@@ -583,21 +806,171 @@ body {
     background-size: 32px 32px;
   }
 
-  /* ── Status pill ─────────────────────────────────────────────────────── */
+  /* ── Status / eyebrow pill — metallic chip (hero, products, tags) ───── */
   .pill {
+    --pill-accent: var(--signal);
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    height: 1.75rem;
-    padding-inline: 0.75rem;
+    min-height: 1.875rem;
+    padding: 0.3125rem 0.875rem;
     border-radius: 9999px;
-    border: 1px solid var(--line);
-    background: color-mix(in srgb, var(--foreground) 4%, transparent);
-    font-size: 0.8125rem;
-    color: var(--foreground);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--pill-accent) 32%, var(--line));
+    background:
+      linear-gradient(
+        148deg,
+        color-mix(in srgb, var(--pill-accent) 16%, var(--surface-secondary) 84%) 0%,
+        color-mix(in srgb, var(--foreground) 7%, var(--background) 93%) 36%,
+        color-mix(in srgb, var(--pill-accent) 11%, var(--background) 89%) 68%,
+        color-mix(in srgb, var(--foreground) 9%, var(--surface-tertiary) 91%) 100%
+      );
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--foreground) 16%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
+      0 1px 2px color-mix(in srgb, var(--foreground) 8%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--foreground) 92%, var(--pill-accent) 8%);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--foreground) 14%, transparent) 0%,
+      transparent 48%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .pill::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--pill-accent) 55%, transparent),
+      color-mix(in srgb, var(--foreground) 12%, transparent) 45%,
+      color-mix(in srgb, var(--pill-accent) 40%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .pill > * {
+    position: relative;
+    z-index: 1;
+  }
+  .pill:has(.dot[data-tone="verify"]) {
+    --pill-accent: var(--verify);
+  }
+  .pill:has(.dot[data-tone="muted"]),
+  .pill:has(.text-muted-foreground) {
+    --pill-accent: var(--muted-foreground);
+    color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground) 22%);
+  }
+  ul.flex-wrap > .pill:nth-child(3n + 1) {
+    --pill-accent: var(--signal);
+  }
+  ul.flex-wrap > .pill:nth-child(3n + 2) {
+    --pill-accent: var(--verify);
+  }
+  ul.flex-wrap > .pill:nth-child(3n + 3) {
+    --pill-accent: var(--secondary);
+  }
+  .pill--accent-signal {
+    --pill-accent: var(--signal);
+  }
+  .pill--accent-verify {
+    --pill-accent: var(--verify);
+  }
+  .pill--accent-secondary {
+    --pill-accent: var(--secondary);
+  }
+  .pill--tag {
+    min-height: 1.625rem;
+    padding: 0.375rem 0.8125rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: default;
+  }
+  .pill--tag:hover {
+    border-color: color-mix(in srgb, var(--pill-accent) 55%, var(--line));
+    color: color-mix(in srgb, var(--foreground) 78%, var(--pill-accent) 22%);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--foreground) 18%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--pill-accent) 10%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--pill-accent) 24%, transparent),
+      0 0 20px color-mix(in srgb, var(--pill-accent) 32%, transparent),
+      0 8px 20px -12px color-mix(in srgb, var(--pill-accent) 38%, transparent);
+  }
+  .pill--tag:hover::after {
+    opacity: 0.92;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pill--tag:hover {
+      transform: translateY(-2px);
+    }
+  }
+  .pill--hero {
+    --pill-accent: var(--signal);
+    min-height: 2rem;
+    padding-inline: 1.0625rem;
+    font-size: 0.71875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-color: color-mix(in srgb, var(--signal) 42%, var(--line));
+    color: color-mix(in srgb, var(--foreground) 88%, var(--signal-soft) 12%);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--foreground) 20%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--signal) 8%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--signal-soft) 22%, transparent),
+      0 0 28px color-mix(in srgb, var(--signal) 22%, transparent),
+      0 8px 24px -14px color-mix(in srgb, var(--signal) 35%, transparent);
+  }
+  .pill--hero::after {
+    opacity: 0.75;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pill--hero::after {
+      animation: pill-hero-shimmer 4.5s ease-in-out infinite;
+    }
+  }
+  @keyframes pill-hero-shimmer {
+    0%, 100% { opacity: 0.55; filter: hue-rotate(0deg); }
+    50% { opacity: 0.9; filter: hue-rotate(-4deg); }
   }
   .pill .dot {
-    width: 6px; height: 6px; border-radius: 9999px; background: var(--signal);
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--pill-accent);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--pill-accent) 22%, transparent),
+      0 0 8px color-mix(in srgb, var(--pill-accent) 55%, transparent);
   }
   .pill .dot[data-tone="verify"] { background: var(--verify); }
   .pill .dot[data-tone="muted"] { background: var(--muted-foreground); }

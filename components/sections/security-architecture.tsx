@@ -1,6 +1,7 @@
 import Section from "@/components/layout/section";
 import ArchitectureIntro from "@/components/sections/architecture-intro";
 import ArchitectureStage, { type SecurityLayer } from "@/components/sections/architecture-stage";
+import { StandardsStrip } from "@/components/standards-tag-list";
 
 /** Four layers of one system, top to bottom — the order a request meets them. */
 const LAYERS: SecurityLayer[] = [
@@ -30,8 +31,6 @@ const LAYERS: SecurityLayer[] = [
   },
 ];
 
-const STANDARDS = ["OWASP LLM Top 10", "OWASP Agentic Top 10", "MCP human-in-the-loop spec"] as const;
-
 export default function SecurityArchitecture() {
   return (
     <Section id="architecture">
@@ -42,17 +41,7 @@ export default function SecurityArchitecture() {
       <ArchitectureStage layers={LAYERS} />
 
       <div className="gutter flex flex-col gap-4 border-t border-[var(--line)] py-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3">
-        <p className="label shrink-0">Aligned to</p>
-        <ul className="flex flex-wrap gap-2">
-          {STANDARDS.map((name) => (
-            <li
-              key={name}
-              className="rounded-[var(--radius-control)] border border-[var(--line)] bg-foreground/[0.03] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-foreground/85"
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
+        <StandardsStrip />
       </div>
     </Section>
   );
