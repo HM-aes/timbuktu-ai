@@ -1,7 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { motion, MotionConfig, type Variants } from "motion/react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { animate, motion, MotionConfig, useInView, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
@@ -109,6 +109,34 @@ export function Pane({
   );
 }
 
+/** Counts the numeric part of `value` up from zero the first time it scrolls into view. */
+function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const reduced = useReducedMotionSafe();
+  const inView = useInView(ref, { once: true, margin: "0px 0px -15% 0px" });
+  const match = /^(\D*)([\d,]+)(.*)$/.exec(value);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !match || !inView || reduced) return;
+    const [, prefix, digits, suffix] = match;
+    const target = Number(digits.replace(/,/g, ""));
+    const grouped = digits.includes(",");
+    const controls = animate(0, target, {
+      duration: 1.4,
+      delay: 0.35,
+      ease,
+      onUpdate: (v) => {
+        const n = Math.round(v);
+        el.textContent = `${prefix}${grouped ? n.toLocaleString("en-US") : n}${suffix}`;
+      },
+    });
+    return () => controls.stop();
+  }, [inView, reduced, value]);
+
+  return <span ref={ref}>{value}</span>;
+}
+
 /** A single figure with its label and context line. */
 export function Metric({
   label,
@@ -139,7 +167,7 @@ export function Metric({
           tone === "critical" && "text-critical",
         )}
       >
-        {value}
+        <CountUp value={value} />
       </p>
       <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground/80">{detail}</p>
       {children}

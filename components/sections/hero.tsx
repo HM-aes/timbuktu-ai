@@ -12,6 +12,8 @@ import { useScrollScene } from "@/lib/use-scroll-scene";
 const ease = [0.22, 1, 0.36, 1] as const;
 const BASE = 0.1;
 const STEP = 0.12;
+const WORDMARK_LEFT = [..."TIMBUKTU"];
+const WORDMARK_RIGHT = [..."AI"];
 
 /**
  * Hero — the opening line of the story, with the TIMBUKTU AI wordmark set
@@ -31,9 +33,37 @@ export default function Hero() {
   });
 
   useScrollScene(root, (el) => {
-    const trigger = { trigger: el, start: "top top", end: "bottom top", scrub: 0.8 };
-    gsap.to(el.querySelector("[data-wordmark]"), { yPercent: -22, xPercent: -3, ease: "none", scrollTrigger: trigger });
+    const trigger = { trigger: el, start: "top top", end: "bottom top", scrub: 1 };
     gsap.to(el.querySelector("[data-hero-copy]"), { y: -48, opacity: 0.35, ease: "none", scrollTrigger: trigger });
+
+    const chars = gsap.utils.toArray<HTMLElement>("[data-wm-char]", el);
+    const mid = (chars.length - 1) / 2;
+    gsap
+      .timeline({ defaults: { ease: "none" }, scrollTrigger: trigger })
+      .to(el.querySelector("[data-wordmark]"), { yPercent: -18 }, 0)
+      .to(el.querySelector("[data-wm-left]"), { xPercent: -24 }, 0)
+      .to(el.querySelector("[data-wm-right]"), { xPercent: 70, "--wm-ai": 1 }, 0)
+      .to(chars, { yPercent: -16, rotate: (i) => (i - mid) * 1.6, stagger: { each: 0.06, from: "edges" } }, 0);
+
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    const drift = el.querySelector<HTMLElement>("[data-wm-pointer]");
+    const toX = gsap.quickTo(drift, "x", { duration: 1.2, ease: "power3.out" });
+    const toY = gsap.quickTo(drift, "y", { duration: 1.2, ease: "power3.out" });
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      toX(((e.clientX - r.left) / r.width - 0.5) * -48);
+      toY(((e.clientY - r.top) / r.height - 0.5) * -16);
+    };
+    const onLeave = () => {
+      toX(0);
+      toY(0);
+    };
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
   });
 
   return (
@@ -85,11 +115,26 @@ export default function Hero() {
         transition={reduced ? INSTANT : { duration: 1.4, delay: BASE + 2 * STEP, ease }}
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0 select-none text-center"
       >
-        <span
-          data-wordmark
-          className="block translate-y-[34%] whitespace-nowrap font-display text-[clamp(4rem,17vw,19rem)] font-semibold leading-[0.8] tracking-[-0.05em] text-foreground/[0.08] [mask-image:linear-gradient(to_bottom,black_30%,transparent_85%)]"
-        >
-          TIMBUKTU AI
+        <span data-wm-pointer className="block">
+          <span
+            data-wordmark
+            className="block translate-y-[34%] whitespace-nowrap font-display text-[clamp(4rem,17vw,19rem)] font-semibold leading-[0.8] tracking-[-0.05em] text-foreground/[0.08] [mask-image:linear-gradient(to_bottom,black_30%,transparent_85%)]"
+          >
+            <span data-wm-left className="inline-block">
+              {WORDMARK_LEFT.map((c, i) => (
+                <span key={i} data-wm-char className="inline-block">
+                  {c}
+                </span>
+              ))}
+            </span>
+            <span data-wm-right className="wm-ai ml-[0.22em] inline-block">
+              {WORDMARK_RIGHT.map((c, i) => (
+                <span key={i} data-wm-char className="inline-block">
+                  {c}
+                </span>
+              ))}
+            </span>
+          </span>
         </span>
       </motion.p>
     </section>

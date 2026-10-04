@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/hero";
 import SecurityArchitecture from "@/components/sections/security-architecture";
 import ProductShowcase from "@/components/products/product-showcase";
+import SecureRagShowcase from "@/components/sections/secure-rag-showcase";
 import FinalCta from "@/components/sections/final-cta";
 
 /**
@@ -13,6 +14,7 @@ export default function Page() {
       <Hero />
       <SecurityArchitecture />
       <ProductShowcase />
+      <SecureRagShowcase />
       <FinalCta />
     </>
   );

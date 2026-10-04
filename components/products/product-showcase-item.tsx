@@ -8,6 +8,7 @@ import type { ProductStatus } from "@/lib/products";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import { ChapterLabel } from "@/components/layout/chapter";
+import PreviewStage from "@/components/products/preview-stage";
 
 export type ShowcaseProduct = {
   number: string;
@@ -99,13 +100,7 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
           p.reversed ? "lg:border-r" : "lg:border-l",
         )}
       >
-        <motion.div
-          {...enter(reduced, 0.14, 32, 1.15)}
-          whileHover={reduced ? undefined : { y: -4, transition: { duration: 0.5, ease } }}
-          className="mx-auto w-full max-w-[46rem] lg:mx-0 lg:max-w-none"
-        >
-          {p.preview}
-        </motion.div>
+        <PreviewStage className="mx-auto w-full max-w-[46rem] lg:mx-0 lg:max-w-none">{p.preview}</PreviewStage>
       </div>
 
       {/* Description, capabilities, CTA */}

@@ -928,6 +928,196 @@ body {
     }
   }
 
+  /* Hero wordmark "AI" — GSAP tweens --wm-ai 0 → 1 to warm it to amber on scroll */
+  .wm-ai {
+    --wm-ai: 0;
+    color: color-mix(
+      in srgb,
+      var(--signal) calc(var(--wm-ai) * 45%),
+      color-mix(in srgb, var(--foreground) 8%, transparent)
+    );
+  }
+
+  /* Product interface stage — GSAP scrubs the plate in, the tilt layer follows the pointer */
+  .preview-stage {
+    perspective: 1600px;
+  }
+  .preview-stage-plate {
+    transform-origin: 50% 100%;
+    will-change: transform, clip-path;
+  }
+  .preview-stage-tilt {
+    position: relative;
+    border-radius: var(--radius-panel);
+    transform-style: preserve-3d;
+  }
+  .preview-stage-scan {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 2;
+    height: 2px;
+    opacity: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--signal) 30%, var(--signal) 70%, transparent);
+    box-shadow:
+      0 0 14px 1px color-mix(in srgb, var(--signal) 45%, transparent),
+      0 -40px 50px -10px color-mix(in srgb, var(--signal) 10%, transparent);
+  }
+  .preview-stage-glare {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      32rem circle at var(--gx, 50%) var(--gy, 0%),
+      color-mix(in srgb, var(--signal) 9%, transparent),
+      transparent 60%
+    );
+    transition: opacity 0.5s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .preview-stage-tilt:hover .preview-stage-glare {
+      opacity: 1;
+    }
+  }
+
+  /* Secure RAG showcase — reading-order stack by default; `.is-stacked`
+     (added by its scroll scene on large screens) pins it and overlays the cards */
+  .rag-pin {
+    padding-top: 3.5rem;
+    padding-bottom: var(--space-section-y);
+  }
+  .rag-steps {
+    display: none;
+  }
+  .rag-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+  }
+  .rag-caption {
+    margin-bottom: 1.5rem;
+  }
+  .rag-card-dim {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-panel);
+    background: var(--background);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .rag.is-stacked .rag-pin {
+    height: 100svh;
+    padding-top: calc(var(--header-min-h-lg) + 2.5rem);
+    padding-bottom: 2.5rem;
+    overflow: clip;
+  }
+  .rag.is-stacked .rag-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+    gap: 3.5rem;
+    height: 100%;
+    align-items: center;
+  }
+  .rag.is-stacked .rag-steps {
+    position: relative;
+    display: block;
+    padding-left: 1.75rem;
+  }
+  .rag.is-stacked .rag-stack {
+    position: relative;
+    display: block;
+    height: min(40rem, 100%);
+  }
+  .rag.is-stacked .rag-card {
+    position: absolute;
+    inset: 0 0 auto;
+    transform-origin: 50% 0;
+    will-change: transform, clip-path;
+  }
+  .rag.is-stacked .rag-caption {
+    display: none;
+  }
+
+  .rag-progress {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 1px;
+    background: var(--line);
+  }
+  .rag-progress-bar {
+    position: absolute;
+    inset: 0;
+    background: var(--signal);
+    transform-origin: 50% 0;
+    box-shadow: 0 0 10px color-mix(in srgb, var(--signal) 40%, transparent);
+  }
+  .rag-step {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.15rem 0;
+    border-top: 1px solid var(--line);
+    opacity: 0.38;
+    transition: opacity 0.5s ease;
+  }
+  .rag-step:first-child {
+    border-top: 0;
+  }
+  .rag-step.is-active {
+    opacity: 1;
+  }
+  .rag-step-number {
+    padding-top: 0.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--muted-foreground);
+    transition: color 0.5s ease;
+  }
+  .rag-step.is-active .rag-step-number {
+    color: var(--signal);
+  }
+  .rag-step-title {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--foreground);
+  }
+  .rag-step-reveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .rag-step.is-active .rag-step-reveal {
+    grid-template-rows: 1fr;
+  }
+  .rag-step-body {
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+    max-width: 34ch;
+    padding-top: 0.45rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--muted-foreground);
+  }
+  @media (max-height: 820px) {
+    .rag.is-stacked .rag-pin {
+      padding-top: calc(var(--header-min-h-lg) + 1.25rem);
+      padding-bottom: 1.25rem;
+    }
+    .rag.is-stacked .rag-stack {
+      transform: scale(0.86);
+      transform-origin: 50% 0;
+    }
+  }
+
   /* faint engineering grid inside diagram panels */
   .panel-grid {
     background-image:
