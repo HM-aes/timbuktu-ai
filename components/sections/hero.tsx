@@ -38,6 +38,13 @@ export default function Hero() {
 
   return (
     <section ref={root} className="relative overflow-hidden">
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={reduced ? INSTANT : { duration: 1.6, ease }}
+        className="hero-grid pointer-events-none absolute inset-0 z-0"
+      />
       <div className="frame relative">
         <div
           data-hero-copy

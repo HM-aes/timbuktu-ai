@@ -910,6 +910,24 @@ body {
     border-radius: 9999px;
     background: var(--signal);
   }
+  /* Hero grid — architectural lines, strongest around the headline, gone at the edges */
+  .hero-grid {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(ellipse 70% 62% at 50% 42%, black 20%, transparent 78%);
+    mask-image: radial-gradient(ellipse 70% 62% at 50% 42%, black 20%, transparent 78%);
+  }
+  @media (max-width: 639px) {
+    .hero-grid {
+      background-size: 40px 40px;
+      -webkit-mask-image: radial-gradient(ellipse 95% 55% at 50% 40%, black 15%, transparent 80%);
+      mask-image: radial-gradient(ellipse 95% 55% at 50% 40%, black 15%, transparent 80%);
+    }
+  }
+
   /* faint engineering grid inside diagram panels */
   .panel-grid {
     background-image:
