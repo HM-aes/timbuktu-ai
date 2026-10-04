@@ -7,6 +7,7 @@ import { ArrowRight, Check, Clock3 } from "lucide-react";
 import type { ProductStatus } from "@/lib/products";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import { ChapterLabel } from "@/components/layout/chapter";
 
 export type ShowcaseProduct = {
   number: string;
@@ -27,7 +28,7 @@ export type ShowcaseProduct = {
 const ease = [0.22, 1, 0.36, 1] as const;
 /** Shared top inset so copy and preview share one baseline on desktop. */
 const ROW_TOP =
-  "pt-[var(--space-head-gap-lg)] md:pt-8 lg:pt-12 lg:pb-0";
+  "pt-10 md:pt-12 lg:pt-20 lg:pb-0";
 
 const enter = (
   reduced: boolean,
@@ -56,7 +57,7 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
     <article
       aria-labelledby={`product-${p.number}`}
       className={cn(
-        "group/product grid border-t border-[var(--line)] [grid-template-areas:'head'_'preview'_'body']",
+        "group/product grid [grid-template-areas:'head'_'preview'_'body']",
         "lg:grid-cols-[minmax(0,0.36fr)_minmax(0,0.64fr)] lg:grid-rows-[auto_auto] lg:[grid-template-areas:'head_preview'_'body_preview']",
         p.reversed &&
           "lg:grid-cols-[minmax(0,0.64fr)_minmax(0,0.36fr)] lg:[grid-template-areas:'preview_head'_'preview_body']",
@@ -69,9 +70,8 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
           ROW_TOP,
         )}
       >
-        <motion.div {...enter(reduced, 0, 14)} className="flex items-center gap-3">
-          <span className="label text-signal">{p.number}</span>
-          <span aria-hidden className="h-px w-6 bg-[var(--line-strong)]" />
+        <motion.div {...enter(reduced, 0, 14)} className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <ChapterLabel number={p.number} label={p.name} />
           <span className="pill">
             {soon ? (
               <Clock3 size={12} aria-hidden className="text-muted-foreground" />
@@ -82,24 +82,19 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
           </span>
         </motion.div>
         <motion.h3
-          {...enter(reduced, 0.1, 22, 1.1)}
+          {...enter(reduced, 0.1, 32, 1.1)}
           id={`product-${p.number}`}
-          className="mt-6 text-[1.75rem] font-medium leading-[1.1] tracking-[-0.02em] text-foreground lg:text-[2rem]"
+          className="mt-7 max-w-[18ch] text-[clamp(1.75rem,1.25rem+1.6vw,2.625rem)] font-medium leading-[1.06] tracking-[-0.025em] text-foreground text-balance lg:mt-9"
         >
-          {p.name}
-        </motion.h3>
-        <motion.p
-          {...enter(reduced, 0.2, 16, 1.1)}
-          className="mt-3 max-w-[26ch] text-[1.25rem] leading-snug tracking-[-0.01em] text-foreground/90"
-        >
+          <span className="sr-only">{p.name}: </span>
           {p.tagline}
-        </motion.p>
+        </motion.h3>
       </header>
 
       {/* The product's own interface */}
       <div
         className={cn(
-          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:flex lg:items-start lg:border-y-0 lg:px-12 lg:pb-16",
+          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:flex lg:items-start lg:border-y-0 lg:px-12 lg:pb-24",
           ROW_TOP,
           p.reversed ? "lg:border-r" : "lg:border-l",
         )}
@@ -116,7 +111,7 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
       {/* Description, capabilities, CTA */}
       <motion.div
         {...enter(reduced, 0.24, 12, 1.05)}
-        className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-16 lg:pt-6"
+        className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-24 lg:pt-8"
       >
         {p.problem && (
           <div className="mb-6">

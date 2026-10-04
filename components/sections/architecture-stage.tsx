@@ -64,7 +64,7 @@ export default function ArchitectureStage({ layers }: { layers: SecurityLayer[] 
   return (
     <div
       ref={root}
-      className="grid grid-cols-1 border-t border-[var(--line)] bg-background lg:min-h-[calc(100svh-var(--header-min-h-lg))] lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)]"
+      className="grid grid-cols-1 border-t border-[var(--line)] lg:min-h-[calc(100svh-var(--header-min-h-lg))] lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)]"
     >
       {/* The layers, in the order a request meets them */}
       <ol aria-label="Security layers" className="gutter order-2 flex flex-col justify-center py-10 lg:order-1 lg:py-8 lg:pr-12">

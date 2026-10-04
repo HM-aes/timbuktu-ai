@@ -855,6 +855,9 @@ body {
   .tone-panel {
     background-color: var(--surface);
   }
+  .tone-raised {
+    background-color: var(--background-raised);
+  }
 
   /* ── Backgrounds ─────────────────────────────────────────────────────── */
   /* Dot field — used only behind statement and CTA blocks. */

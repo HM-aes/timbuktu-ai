@@ -17,6 +17,7 @@
   --background:          oklch(0.145 0.010 262);       /* ~#0e1015 */
   --foreground:          var(--snow);
   /* ── Surface layers ── */
+  --background-raised:   oklch(0.178 0.010 262);       /* alternate chapter band */
   --surface:             oklch(0.20 0.010 262);        /* card base */
   --surface-secondary:   oklch(0.24 0.010 262);        /* raised card / input */
   --surface-tertiary:    oklch(0.27 0.010 262);        /* tertiary panel */

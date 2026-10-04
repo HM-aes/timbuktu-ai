@@ -48,19 +48,19 @@ export default function Hero() {
             Secure AI infrastructure
           </motion.p>
 
-          <motion.h1 {...settle(1, 22)} className="headline-xl mt-6 text-foreground [font-size:clamp(2.75rem,min(1.4rem+5.6vw,12.5svh),6.75rem)]">
+          <motion.h1 {...settle(1, 36)} className="headline-xl mt-8 text-foreground [font-size:clamp(2.875rem,min(1.1rem+7vw,15svh),8rem)] lg:mt-10">
             Build AI.
             <br />
             <span className="accent">Build it secure.</span>
           </motion.h1>
 
-          <motion.p {...settle(2, 16)} className="lede mt-6 max-w-[44rem]">
+          <motion.p {...settle(2, 16)} className="lede mt-8 max-w-[42rem] lg:mt-10">
             Timbuktu AI designs and builds RAG, agents and access control that run in production — hosted inside
             hard boundaries, or fully air-gapped on your own infrastructure. Every system is reviewed against the
             OWASP Top 10 for LLM applications before it is built.
           </motion.p>
 
-          <motion.div {...settle(3, 12)} className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <motion.div {...settle(3, 12)} className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:mt-12">
             <CtaButton href="#products" tone="signal">
               Explore products
               <ArrowRight size={16} data-arrow />

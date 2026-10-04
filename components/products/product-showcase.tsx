@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Section from "@/components/layout/section";
-import { ChapterLabel } from "@/components/layout/chapter";
+import { ChapterLabel, SectionDivider } from "@/components/layout/chapter";
 import { Reveal } from "@/components/reveal";
 import ProductShowcaseItem, { type ShowcaseProduct } from "@/components/products/product-showcase-item";
 import Nis2Preview from "@/components/products/dashboards/nis2-preview";
@@ -102,7 +102,10 @@ export default function ProductShowcase() {
       </div>
 
       {ITEMS.map((item) => (
-        <ProductShowcaseItem key={item.href} product={item} />
+        <Fragment key={item.href}>
+          <SectionDivider />
+          <ProductShowcaseItem product={item} />
+        </Fragment>
       ))}
 
       <div className="gutter flex flex-col gap-3 border-t border-[var(--line)] py-6 sm:flex-row sm:items-center sm:justify-between">

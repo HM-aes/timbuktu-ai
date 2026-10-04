@@ -17,6 +17,7 @@
   --foreground:          oklch(0.14 0.006 286);  /* very dark zinc — not jet black */
 
   /* ── Surface layers (HeroUI card hierarchy) ── */
+  --background-raised:   oklch(0.962 0.003 286); /* alternate chapter band */
   --surface:             var(--white);
   --surface-secondary:   oklch(0.965 0.003 286); /* ~#F3F3F4 — off-white */
   --surface-tertiary:    oklch(0.945 0.003 286); /* slightly deeper */
