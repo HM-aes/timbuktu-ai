@@ -28,6 +28,7 @@ export function PreviewWindow({
   meta,
   children,
   className,
+  fill = false,
 }: {
   product: string;
   /** What the preview shows, for screen readers — the UI itself is illustrative. */
@@ -35,6 +36,8 @@ export function PreviewWindow({
   meta?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Stretch the window to the product row so the interface meets the copy. */
+  fill?: boolean;
 }) {
   const reduced = useReducedMotionSafe();
 
@@ -53,6 +56,7 @@ export function PreviewWindow({
         className={cn(
           "overflow-hidden rounded-[var(--radius-panel)] border border-[var(--line-strong)] bg-surface text-foreground",
           "shadow-[0_40px_80px_-40px_rgba(0,0,0,0.7)]",
+          fill && "flex h-full min-h-0 flex-1 flex-col",
           className,
         )}
       >
@@ -70,7 +74,7 @@ export function PreviewWindow({
           </span>
         </div>
 
-        <div className="p-3 sm:p-4 lg:p-5">{children}</div>
+        <div className={cn("p-3 sm:p-4 lg:p-5", fill && "flex min-h-0 flex-1 flex-col")}>{children}</div>
       </motion.div>
     </MotionConfig>
   );

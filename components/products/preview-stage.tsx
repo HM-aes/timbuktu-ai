@@ -33,12 +33,6 @@ export default function PreviewStage({ children, className }: { children: ReactN
       },
     );
 
-    gsap.to(plate, {
-      yPercent: -4,
-      ease: "none",
-      scrollTrigger: { trigger: el, start: "center 58%", end: "bottom top", scrub: true },
-    });
-
     gsap.fromTo(
       scan,
       { top: "0%", opacity: 0 },
@@ -81,10 +75,10 @@ export default function PreviewStage({ children, className }: { children: ReactN
   });
 
   return (
-    <div ref={ref} className={cn("preview-stage", className)}>
-      <div data-stage-plate className="preview-stage-plate">
-        <div data-stage-tilt className="preview-stage-tilt">
-          <div key="stage-preview" className="preview-stage-content">
+    <div ref={ref} className={cn("preview-stage flex min-h-0 flex-1 flex-col", className)}>
+      <div data-stage-plate className="preview-stage-plate flex min-h-0 flex-1 flex-col">
+        <div data-stage-tilt className="preview-stage-tilt flex min-h-0 flex-1 flex-col">
+          <div key="stage-preview" className="preview-stage-content flex min-h-0 flex-1 flex-col">
             {children}
           </div>
           <span key="stage-scan" data-stage-scan aria-hidden className="preview-stage-scan" />

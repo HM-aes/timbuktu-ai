@@ -18,6 +18,7 @@ const COVERAGE = 72;
 export default function Nis2Preview() {
   return (
     <PreviewWindow
+      fill
       product="NIS2 Analyzer"
       meta={<Tag className="hidden sm:inline-flex">EU region</Tag>}
       label="NIS2 Analyzer interface preview: 72% coverage, 34 of 47 requirements met, 13 open gaps including one critical gap in supply chain security."
@@ -41,7 +42,7 @@ export default function Nis2Preview() {
         <Metric label="Documents read" value="38" detail="Mapped to the directive" />
       </div>
 
-      <Pane title="Requirements — Article 21" className="mt-2.5" aside={<Tag>5 of 10</Tag>}>
+      <Pane title="Requirements — Article 21" className="mt-2.5 min-h-0 flex-1" aside={<Tag>5 of 10</Tag>}>
         <ul>
           {REQUIREMENTS.map((r) => (
             <motion.li

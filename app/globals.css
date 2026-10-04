@@ -499,6 +499,7 @@ body {
   }
   .brand-wordmark-primary,
   .brand-wordmark-accent,
+  .brand-wordmark-ltd,
   .brand-region {
     background-repeat: no-repeat;
     background-size: 220% 100%;
@@ -518,6 +519,14 @@ body {
     font-weight: 600;
     letter-spacing: -0.022em;
     color: color-mix(in srgb, var(--foreground) 78%, var(--signal) 22%);
+    -webkit-text-fill-color: currentColor;
+  }
+  .brand-wordmark-ltd {
+    margin-inline-start: 0.38em;
+    font-size: 0.62em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--foreground) 62%, var(--muted-foreground) 38%);
     -webkit-text-fill-color: currentColor;
   }
 
@@ -592,34 +601,44 @@ body {
   }
 
   .brand-lockup-link:hover .brand-wordmark-primary,
-  .brand-lockup-link:focus-visible .brand-wordmark-primary {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(
-      105deg,
-      var(--foreground) 0%,
-      color-mix(in srgb, var(--foreground) 45%, var(--signal-soft) 55%) 38%,
-      var(--signal-soft) 68%,
-      var(--signal) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    background-position: 100% center;
-  }
+  .brand-lockup-link:focus-visible .brand-wordmark-primary,
   .brand-lockup-link:hover .brand-wordmark-accent,
-  .brand-lockup-link:focus-visible .brand-wordmark-accent {
+  .brand-lockup-link:focus-visible .brand-wordmark-accent,
+  .brand-lockup-link:hover .brand-wordmark-ltd,
+  .brand-lockup-link:focus-visible .brand-wordmark-ltd {
     color: transparent;
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(
-      105deg,
-      color-mix(in srgb, var(--foreground) 25%, var(--signal-soft) 75%) 0%,
-      var(--signal-soft) 42%,
-      var(--signal) 100%
+      180deg,
+      #2a2a2e 0%,
+      #121214 24%,
+      #6a6a70 44%,
+      #c8c8cc 50%,
+      #4a4a50 57%,
+      #161618 78%,
+      #3a3a40 100%
     );
+    background-size: 100% 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--signal) 35%, transparent));
-    background-position: 100% center;
+    filter: none;
+    background-position: center;
+  }
+  [data-theme="dark"] .brand-lockup-link:hover .brand-wordmark-primary,
+  [data-theme="dark"] .brand-lockup-link:focus-visible .brand-wordmark-primary,
+  [data-theme="dark"] .brand-lockup-link:hover .brand-wordmark-accent,
+  [data-theme="dark"] .brand-lockup-link:focus-visible .brand-wordmark-accent,
+  [data-theme="dark"] .brand-lockup-link:hover .brand-wordmark-ltd,
+  [data-theme="dark"] .brand-lockup-link:focus-visible .brand-wordmark-ltd {
+    background-image: linear-gradient(
+      180deg,
+      #f5f5f6 0%,
+      #8e8e94 24%,
+      #fafafa 44%,
+      #c6c6ca 51%,
+      #6a6a70 64%,
+      #ececee 100%
+    );
   }
   .brand-lockup-link:hover .brand-region-mark,
   .brand-lockup-link:focus-visible .brand-region-mark {

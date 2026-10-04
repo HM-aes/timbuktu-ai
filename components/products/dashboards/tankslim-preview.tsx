@@ -16,6 +16,7 @@ const BREAKDOWN = [
 export default function TankSlimPreview() {
   return (
     <PreviewWindow
+      fill
       product="TankSlim"
       meta={
         <Tag className="hidden sm:inline-flex">
@@ -36,9 +37,9 @@ export default function TankSlimPreview() {
       </div>
 
       {/* Not built yet: shown muted and out of focus, with the honest label on top */}
-      <div className="relative mt-2.5">
-        <div aria-hidden className="grid gap-2.5 opacity-60 blur-[2px] sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-          <Pane title="Monthly trend" bodyClassName="flex h-28 items-end gap-1.5 px-3.5 pb-3 pt-4">
+      <div className="relative mt-2.5 min-h-0 flex-1">
+        <div aria-hidden className="grid h-full gap-2.5 opacity-60 blur-[2px] sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+          <Pane title="Monthly trend" className="h-full" bodyClassName="flex h-full min-h-28 items-end gap-1.5 px-3.5 pb-3 pt-4">
             {TREND.map((h, i) => (
               <span key={i} className="flex-1 rounded-t-[3px] bg-foreground/15" style={{ height: `${h}%` }} />
             ))}

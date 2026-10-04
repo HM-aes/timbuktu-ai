@@ -97,18 +97,19 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
       {/* The product's own interface */}
       <div
         className={cn(
-          "stage-object relative border-y border-[var(--line)] px-4 py-8 [--glow:9%] [grid-area:preview] sm:px-8 sm:py-10 lg:flex lg:items-start lg:border-y-0 lg:px-12 lg:pb-24",
+          "stage-object relative border-y border-[var(--line)] px-4 py-6 [--glow:9%] [grid-area:preview] sm:px-6 sm:py-8 lg:flex lg:w-full lg:flex-col lg:self-stretch lg:border-y-0 lg:px-4",
           ROW_TOP,
+          "lg:pb-8",
           p.reversed ? "lg:border-r" : "lg:border-l",
         )}
       >
-        <PreviewStage className="mx-auto w-full max-w-[46rem] lg:mx-0 lg:max-w-none">{p.preview}</PreviewStage>
+        <PreviewStage className="flex min-h-0 w-full flex-1 flex-col">{p.preview}</PreviewStage>
       </div>
 
       {/* Description, capabilities, CTA */}
       <motion.div
         {...enter(reduced, 0.24, 12, 1.05)}
-        className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-24 lg:pt-8"
+        className="gutter pb-[var(--space-section-y)] pt-8 [grid-area:body] lg:self-start lg:px-[var(--space-cell-lg)] lg:pb-8 lg:pt-8"
       >
         {p.problem && (
           <div className="mb-6">

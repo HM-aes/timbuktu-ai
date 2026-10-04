@@ -73,6 +73,7 @@ function AccessLevel({ level }: { level: Level }) {
 export default function LexLegalPreview() {
   return (
     <PreviewWindow
+      fill
       product="Lex Legal"
       label="Lex Legal interface preview: access to Client Agreement.pdf is set per person — Sarah Chen owner, James Miller can edit, Junior Associate has no access — with every change in the audit log."
     >
@@ -95,7 +96,7 @@ export default function LexLegalPreview() {
         <Tag>Matter · Project Atlas</Tag>
       </motion.div>
 
-      <div className="grid gap-2.5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+      <div className="grid min-h-0 flex-1 gap-2.5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <Pane
           title="Documents"
           aside={<span className="text-[11px] text-muted-foreground">Access set per file</span>}
@@ -133,8 +134,8 @@ export default function LexLegalPreview() {
           </motion.p>
         </Pane>
 
-        <div className="flex min-w-0 flex-col gap-2.5">
-          <Pane title="Document access · Client Agreement.pdf">
+        <div className="flex min-h-0 min-w-0 flex-col gap-2.5">
+          <Pane title="Document access · Client Agreement.pdf" className="min-h-0 flex-1">
             <ul>
               {ACCESS.map((a) => (
                 <motion.li

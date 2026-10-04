@@ -38,6 +38,7 @@ function Marker({ n }: { n: number }) {
 export default function DocSensePreview() {
   return (
     <PreviewWindow
+      fill
       product="DocSense"
       label="DocSense interface preview: the question 'What are our supplier security obligations?' is answered with two numbered citations, each linked to the exact page in the source document."
     >
@@ -55,9 +56,9 @@ export default function DocSensePreview() {
         </span>
       </motion.div>
 
-      <div className="mt-2.5 grid gap-2.5 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)_minmax(0,1fr)]">
+      <div className="mt-2.5 grid min-h-0 flex-1 gap-2.5 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)_minmax(0,1fr)]">
         {/* Documents in scope */}
-        <Pane title="Documents" className="hidden md:flex">
+        <Pane title="Documents" className="hidden h-full md:flex">
           <ul className="py-1">
             {DOCUMENTS.map((d) => {
               const cited = SOURCES.some((s) => s.file === d);
@@ -74,20 +75,20 @@ export default function DocSensePreview() {
         </Pane>
 
         {/* The answer */}
-        <Pane title="Answer" aside={<Tag className="border-verify/40 text-verify">Source-backed</Tag>} bodyClassName="px-3.5 py-3">
+        <Pane title="Answer" className="h-full" aside={<Tag className="border-verify/40 text-verify">Source-backed</Tag>} bodyClassName="flex flex-col px-3.5 py-3">
           <motion.p variants={rise} className="text-[13px] leading-relaxed text-foreground/90">
             Supplier security requirements are defined in Article 21. Suppliers must be assessed for security
             risk before onboarding
             <Marker n={1} />, and the agreed controls are written into each supplier contract
             <Marker n={2} />.
           </motion.p>
-          <motion.p variants={rise} className="mt-3 border-t border-[var(--line)] pt-2.5 text-[11px] text-muted-foreground">
+          <motion.p variants={rise} className="mt-auto border-t border-[var(--line)] pt-2.5 text-[11px] text-muted-foreground">
             2 source passages · 4 documents searched
           </motion.p>
         </Pane>
 
         {/* Where it came from */}
-        <Pane title="Sources" bodyClassName="flex flex-col gap-2 p-2.5">
+        <Pane title="Sources" className="h-full" bodyClassName="flex flex-1 flex-col gap-2 p-2.5">
           {SOURCES.map((s, i) => (
             <motion.div
               key={s.n}

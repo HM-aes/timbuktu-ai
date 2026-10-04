@@ -58,6 +58,7 @@ export default function TimbuktuWordmark({
         >
           <span className="brand-wordmark-primary">Timbuktu</span>
           <span className="brand-wordmark-accent">AI</span>
+          <span className="brand-wordmark-ltd">Ltd</span>
         </span>
       </PrimaryTag>
 
