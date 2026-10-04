@@ -10,17 +10,17 @@ import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 import { useScrollScene } from "@/lib/use-scroll-scene";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const BASE = 0.1;
-const STEP = 0.12;
+const BASE = 0.16;
+const STEP = 0.2;
 const WORDMARK_LEFT = [..."TIMBUKTU"];
 const WORDMARK_RIGHT = [..."AI"];
 
 /**
  * Hero — the opening line of the story, with the TIMBUKTU AI wordmark set
  * as oversized background type inside the hero itself. The wordmark is
- * absolutely positioned and clipped by the section, so it adds no height;
- * as the hero scrolls away it drifts up and aside, handing over to the
- * security architecture below.
+ * absolutely positioned and clipped by the section, so it adds no height.
+ * The wordmark splits with the scroll itself. The section is not pinned,
+ * so the page keeps moving while the letters travel.
  */
 export default function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -29,21 +29,27 @@ export default function Hero() {
   const settle = (i: number, distance = 18) => ({
     initial: { opacity: 0, y: distance },
     animate: { opacity: 1, y: 0 },
-    transition: reduced ? INSTANT : { duration: 0.8, delay: BASE + i * STEP, ease },
+    transition: reduced ? INSTANT : { duration: 1.45, delay: BASE + i * STEP, ease: [0.16, 1, 0.3, 1] },
   });
 
   useScrollScene(root, (el) => {
-    const trigger = { trigger: el, start: "top top", end: "bottom top", scrub: 1 };
-    gsap.to(el.querySelector("[data-hero-copy]"), { y: -48, opacity: 0.35, ease: "none", scrollTrigger: trigger });
-
+    // Scrub is linear and the section is not pinned, so each pixel of scroll
+    // both moves the page and drives the wordmark apart.
+    const trigger = {
+      trigger: el,
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+      invalidateOnRefresh: true,
+    };
     const chars = gsap.utils.toArray<HTMLElement>("[data-wm-char]", el);
     const mid = (chars.length - 1) / 2;
     gsap
-      .timeline({ defaults: { ease: "none" }, scrollTrigger: trigger })
-      .to(el.querySelector("[data-wordmark]"), { yPercent: -18 }, 0)
-      .to(el.querySelector("[data-wm-left]"), { xPercent: -24 }, 0)
-      .to(el.querySelector("[data-wm-right]"), { xPercent: 70, "--wm-ai": 1 }, 0)
-      .to(chars, { yPercent: -16, rotate: (i) => (i - mid) * 1.6, stagger: { each: 0.06, from: "edges" } }, 0);
+      .timeline({ defaults: { ease: "none", duration: 1 }, scrollTrigger: trigger })
+      .to(el.querySelector("[data-wordmark]"), { yPercent: -36 }, 0)
+      .to(el.querySelector("[data-wm-left]"), { xPercent: -52 }, 0)
+      .to(el.querySelector("[data-wm-right]"), { xPercent: 120, "--wm-ai": 1 }, 0)
+      .to(chars, { yPercent: -18, rotate: (i) => (i - mid) * 3.5, stagger: { each: 0.012, from: "edges" } }, 0);
 
     if (!window.matchMedia("(pointer: fine)").matches) return;
     const drift = el.querySelector<HTMLElement>("[data-wm-pointer]");
@@ -88,12 +94,12 @@ export default function Hero() {
           <motion.h1 {...settle(1, 36)} className="headline-xl mt-8 text-foreground [font-size:clamp(2.875rem,min(1.1rem+7vw,15svh),8rem)] lg:mt-10">
             Build AI.
             <br />
-            <span className="accent">Build it secure.</span>
+            <span className="accent-metal">Build it secure.</span>
           </motion.h1>
 
           <motion.p {...settle(2, 16)} className="lede mt-8 max-w-[42rem] lg:mt-10">
-            Timbuktu AI designs and builds RAG, agents and access control that run in production — hosted inside
-            hard boundaries, or fully air-gapped on your own infrastructure. Every system is reviewed against the
+            Timbuktu AI designs and builds RAG dashboards that run in production — hosted inside hard
+            boundaries, or fully air-gapped on your own infrastructure. Every system is reviewed against the
             OWASP Top 10 for LLM applications before it is built.
           </motion.p>
 

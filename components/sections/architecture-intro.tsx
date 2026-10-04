@@ -22,7 +22,7 @@ export default function ArchitectureIntro() {
         trigger: el,
         start: "top 92%",
         end: "top 16%",
-        scrub: 2.85,
+        scrub: true,
       },
       defaults: { ease: "power1.out" },
     });

@@ -13,6 +13,7 @@ import PreviewStage from "@/components/products/preview-stage";
 export type ShowcaseProduct = {
   number: string;
   name: string;
+  kind: "Dashboard" | "Application";
   status: ProductStatus;
   tagline: string;
   problem?: string;
@@ -73,6 +74,7 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
       >
         <motion.div {...enter(reduced, 0, 14)} className="flex flex-wrap items-center gap-x-4 gap-y-3">
           <ChapterLabel number={p.number} label={p.name} />
+          <span className="pill">{p.kind}</span>
           <span className="pill">
             {soon ? (
               <Clock3 size={12} aria-hidden className="text-muted-foreground" />

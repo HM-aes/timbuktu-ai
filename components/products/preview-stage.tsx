@@ -29,14 +29,14 @@ export default function PreviewStage({ children, className }: { children: ReactN
         yPercent: 0,
         clipPath: "inset(-8% -8% -14% -8% round 14px)",
         ease: "none",
-        scrollTrigger: { trigger: el, start: "top bottom", end: "center 58%", scrub: 1 },
+        scrollTrigger: { trigger: el, start: "top bottom", end: "center 58%", scrub: true },
       },
     );
 
     gsap.to(plate, {
       yPercent: -4,
       ease: "none",
-      scrollTrigger: { trigger: el, start: "center 58%", end: "bottom top", scrub: 1 },
+      scrollTrigger: { trigger: el, start: "center 58%", end: "bottom top", scrub: true },
     });
 
     gsap.fromTo(
@@ -84,9 +84,11 @@ export default function PreviewStage({ children, className }: { children: ReactN
     <div ref={ref} className={cn("preview-stage", className)}>
       <div data-stage-plate className="preview-stage-plate">
         <div data-stage-tilt className="preview-stage-tilt">
-          {children}
-          <span data-stage-scan aria-hidden className="preview-stage-scan" />
-          <span aria-hidden className="preview-stage-glare" />
+          <div key="stage-preview" className="preview-stage-content">
+            {children}
+          </div>
+          <span key="stage-scan" data-stage-scan aria-hidden className="preview-stage-scan" />
+          <span key="stage-glare" aria-hidden className="preview-stage-glare" />
         </div>
       </div>
     </div>

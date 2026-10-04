@@ -12,9 +12,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * given, matches), runs after mount
  * (never during SSR), and everything it creates is reverted on unmount.
  *
- * Lenis already owns scrolling (one instance, on `window.__lenis`); this
- * hook only forwards its scroll ticks to ScrollTrigger so scrubbed tweens
- * stay locked to the smoothed position — it never creates a scroller.
+ * Lenis already owns scrolling. LenisProvider drives it from GSAP's ticker
+ * and forwards each tick to ScrollTrigger, so this hook never creates a
+ * scroller and never adds a second scroll listener.
  */
 export function useScrollScene(
   scope: RefObject<HTMLElement | null>,
@@ -30,11 +30,7 @@ export function useScrollScene(
     const mm = gsap.matchMedia(root);
     mm.add(["(prefers-reduced-motion: no-preference)", media].filter(Boolean).join(" and "), () => setup(root));
 
-    const lenis = window.__lenis;
-    const unsubscribe = lenis?.on("scroll", ScrollTrigger.update);
-
     return () => {
-      unsubscribe?.();
       mm.revert();
     };
     // `setup` is a static choreography description; run it once per mount.

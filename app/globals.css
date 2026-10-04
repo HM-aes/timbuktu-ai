@@ -224,7 +224,7 @@ body {
     justify-content: flex-start;
     flex: 1 1 auto;
     min-width: 0;
-    max-width: calc(100% - 3rem);
+    max-width: calc(100% - 7.5rem);
     padding-inline-end: 0.25rem;
   }
   @media (min-width: 640px) {
@@ -284,6 +284,63 @@ body {
   }
   @media (min-width: 768px) {
     .header-zone-end { justify-self: end; }
+  }
+
+  /* Theme switch — shadcn track and thumb, sun for light, moon for dark. */
+  .theme-switch {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: 3.5rem;
+    height: 1.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--foreground) 6%, var(--background));
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+  .theme-switch:hover {
+    border-color: var(--line-strong);
+  }
+  .theme-switch:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .theme-switch-icon {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    color: color-mix(in srgb, var(--foreground) 38%, transparent);
+    translate: -50% -50%;
+    transition: color 0.25s ease;
+  }
+  .theme-switch-sun { left: calc(2px + (1.75rem - 4px) / 2); }
+  .theme-switch-moon { left: calc(100% - 2px - (1.75rem - 4px) / 2); }
+  [data-theme="light"] .theme-switch-sun,
+  [data-theme="dark"] .theme-switch-moon {
+    color: var(--background);
+  }
+  .theme-switch-thumb {
+    position: absolute;
+    z-index: 0;
+    top: 2px;
+    left: 2px;
+    width: calc(1.75rem - 4px);
+    height: calc(1.75rem - 4px);
+    border-radius: 9999px;
+    background: var(--foreground);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.22);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-theme="dark"] .theme-switch-thumb {
+    transform: translateX(calc(1.75rem - 2px));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-switch,
+    .theme-switch-icon,
+    .theme-switch-thumb {
+      transition: none;
+    }
   }
 
   /* Brand home link — pill at rest; amber glow on hover */
@@ -847,6 +904,34 @@ body {
   }
   /* The one phrase per heading that carries the accent. */
   .accent { color: var(--signal); }
+  /* Hero claim — graphite chrome on the white field. Highlight stays silver, never paper-white. */
+  .accent-metal {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      180deg,
+      #2a2a2e 0%,
+      #121214 24%,
+      #6a6a70 44%,
+      #c8c8cc 50%,
+      #4a4a50 57%,
+      #161618 78%,
+      #3a3a40 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  [data-theme="dark"] .accent-metal {
+    background-image: linear-gradient(
+      180deg,
+      #f5f5f6 0%,
+      #8e8e94 24%,
+      #fafafa 44%,
+      #c6c6ca 51%,
+      #6a6a70 64%,
+      #ececee 100%
+    );
+  }
 
   /* Page tone — hero/statement vs content blocks (product + writing pages) */
   .tone-base {
@@ -944,7 +1029,6 @@ body {
   }
   .preview-stage-plate {
     transform-origin: 50% 100%;
-    will-change: transform, clip-path;
   }
   .preview-stage-tilt {
     position: relative;
@@ -1037,7 +1121,6 @@ body {
     position: absolute;
     inset: 0 0 auto;
     transform-origin: 50% 0;
-    will-change: transform, clip-path;
   }
   .rag.is-stacked .rag-caption {
     display: none;

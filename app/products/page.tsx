@@ -17,15 +17,14 @@ export default function ProductsIndexPage() {
         <SectionHead
           title={
             <>
-              Three systems in production, a fourth on the way. Each one closes a specific{" "}
-              <span className="accent">security or compliance gap.</span>
+              Three RAG dashboards in production. One{" "}
+              <span className="accent">application</span> on the way.
             </>
           }
         >
           <p>
-            Secure AI systems — RAG, agents and access control — architected and built for
-            production. Hosted inside hard boundaries, or fully air-gapped on your own
-            infrastructure.
+            NIS2 Analyzer, Lex Legal and DocSense are dashboards. TankSlim is the application.
+            Hosted inside hard boundaries, or fully air-gapped on your own infrastructure.
           </p>
         </SectionHead>
       </Section>
@@ -36,9 +35,9 @@ export default function ProductsIndexPage() {
             {PRODUCTS.map((p) => (
               <article
                 key={p.slug}
-                className="flex min-w-0 flex-col rounded-[var(--radius-panel)] border border-[var(--line)] bg-surface p-[var(--space-cell-md)] sm:p-[1.875rem]"
+                className="@container flex min-w-0 flex-col rounded-[var(--radius-panel)] border border-[var(--line)] bg-surface p-[var(--space-cell-md)] sm:p-[1.875rem]"
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-col items-start gap-3 @[28rem]:flex-row @[28rem]:items-start @[28rem]:justify-between">
                   <h2 className="cell-title text-foreground">
                     <Link
                       href={productHref(p.slug)}
@@ -47,13 +46,16 @@ export default function ProductsIndexPage() {
                       {p.name}
                     </Link>
                   </h2>
-                  <span className="pill shrink-0">
-                    <span
-                      className="dot"
-                      data-tone={p.status === "Coming soon" ? "muted" : "verify"}
-                      aria-hidden
-                    />
-                    {p.status}
+                  <span className="flex max-w-full flex-wrap gap-2">
+                    <span className="pill">{p.dashboard === "none" ? "Application" : "Dashboard"}</span>
+                    <span className="pill">
+                      <span
+                        className="dot"
+                        data-tone={p.status === "Coming soon" ? "muted" : "verify"}
+                        aria-hidden
+                      />
+                      {p.status}
+                    </span>
                   </span>
                 </div>
                 <p className="mt-2 text-[15px] leading-snug text-foreground/85">{p.promise}</p>

@@ -18,6 +18,8 @@ import { PRODUCTS_INDEX } from "@/lib/site";
  */
 const SHOWCASE: {
   slug: ProductSlug;
+  /** NIS2, Lex Legal and DocSense are dashboards. TankSlim is the application. */
+  kind: "Dashboard" | "Application";
   /** The security problem it addresses — condensed from the product's own "risk" copy. */
   problem?: string;
   description: string;
@@ -27,6 +29,7 @@ const SHOWCASE: {
 }[] = [
   {
     slug: "nis2-analyzer",
+    kind: "Dashboard",
     problem: "Proving NIS2 compliance means reconciling your policies against hundreds of pages of legal text — and a missed gap becomes a finding.",
     description:
       "Upload the documents you already have. The analyzer maps them against the directive and shows every gap in one place.",
@@ -35,6 +38,7 @@ const SHOWCASE: {
   },
   {
     slug: "lex-legal",
+    kind: "Dashboard",
     problem: "Matter-level access hands everyone on a case the entire file, and nothing on record draws the line.",
     description:
       "Control access at the level of the individual document — per file and per person, not per matter — with a complete audit trail.",
@@ -43,6 +47,7 @@ const SHOWCASE: {
   },
   {
     slug: "docsense",
+    kind: "Dashboard",
     problem: "The answer is buried in a stack of documents — and an answer with no source behind it is one nobody can rely on.",
     description:
       "Ask questions across your PDFs, contracts and reports. Every answer links straight to the passage it came from.",
@@ -51,6 +56,7 @@ const SHOWCASE: {
   },
   {
     slug: "tankslim",
+    kind: "Application",
     description:
       "TankSlim targets a recurring cost most operations absorb without questioning, and makes the better move obvious.",
     capabilities: [],
@@ -59,12 +65,13 @@ const SHOWCASE: {
   },
 ];
 
-const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, problem, description, capabilities, note, preview }, i) => {
+const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, kind, problem, description, capabilities, note, preview }, i) => {
   const p = getProduct(slug);
   const soon = p.status === "Coming soon";
   return {
     number: String(i + 1).padStart(2, "0"),
     name: p.name,
+    kind,
     status: p.status,
     tagline: p.promise,
     problem,
@@ -89,13 +96,13 @@ export default function ProductShowcase() {
         <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-12 lg:items-end lg:gap-x-12">
           <Reveal delay={0.08} distance={24} className="lg:col-span-7">
             <h2 className="display max-w-[14ch] text-foreground">
-              Four products. <span className="accent">One mission.</span>
+              Three dashboards. <span className="accent">One application.</span>
             </h2>
           </Reveal>
           <Reveal delay={0.2} distance={14} className="lg:col-span-5 lg:pb-2">
             <p className="lede max-w-[36rem]">
-              Four parts of one security architecture. Each closes a specific security, compliance or operational
-              gap — shown here through its own interface.
+              NIS2 Analyzer, Lex Legal and DocSense are RAG dashboards. TankSlim is the application. Each closes a
+              specific security, compliance or operational gap — shown here through its own interface.
             </p>
           </Reveal>
         </div>

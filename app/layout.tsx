@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     "Timbuktu AI Solutions designs and builds secure AI systems — RAG, agents, and access control that run in production, hosted with hard boundaries or fully air-gapped on your own infrastructure.",
 };
 
-// Force dark mode always, and always start a fresh load at the top.
-// Running in <head> during parse means "manual" suppresses the browser's
-// scroll restoration for THIS load, not just the next one.
+// Apply the saved theme before paint. Light is the default. Running in <head>
+// during parse means "manual" suppresses scroll restoration for THIS load.
 const themeScript = `(function(){
   try {
-    document.documentElement.classList.add("dark");
-    document.documentElement.setAttribute("data-theme", "dark");
+    var dark = localStorage.getItem("theme") === "dark";
+    document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   } catch(e) {}
 })();`;
@@ -41,8 +41,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("dark", plusJakartaSans.variable, jetbrains.variable)}
-      data-theme="dark"
+      className={cn(plusJakartaSans.variable, jetbrains.variable)}
+      data-theme="light"
       suppressHydrationWarning
     >
       <head>

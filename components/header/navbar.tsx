@@ -7,6 +7,7 @@ import BrandMark from "@/components/brand-mark";
 import { HeaderNavLink } from "@/components/header/nav-link";
 import { ProductsNavDesktop, ProductsNavMobile } from "@/components/header/products-nav";
 import { CtaButton } from "@/components/shadcn-space/button/button-16";
+import ThemeToggle from "@/components/theme-toggle";
 import { BOOKING_URL, HOME_URL, MAIN_NAV } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 
@@ -42,9 +43,9 @@ export default function Navbar() {
     <>
       <motion.div
         className="frame"
-        initial={reduced ? false : { opacity: 0, y: -8 }}
+        initial={reduced ? false : { opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={reduced ? INSTANT : { duration: 0.5, ease }}
+        transition={reduced ? INSTANT : { duration: 1.7, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="gutter header-bar">
           <div className="header-zone-start">
@@ -62,6 +63,7 @@ export default function Navbar() {
           </nav>
 
           <div className="header-zone-end">
+            <ThemeToggle />
             <CtaButton href={BOOKING_URL} size="sm" className="hidden md:inline-flex">
               Book a call
             </CtaButton>

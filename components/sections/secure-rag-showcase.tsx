@@ -69,7 +69,7 @@ export default function SecureRagShowcase() {
           start: "top top",
           end: () => `+=${window.innerHeight * last * 0.95}`,
           pin: true,
-          scrub: 1,
+          scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => setActive(Math.min(last, Math.round(self.progress * last))),
         },

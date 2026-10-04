@@ -17,8 +17,8 @@ export default function FinalCta() {
           </Reveal>
           <Reveal delay={0.12} distance={14}>
             <p className="lede mt-6 max-w-[38rem]">
-              Four products, one architecture, and a direct line to the person who builds it — hosted inside hard
-              boundaries, or fully air-gapped on your own infrastructure.
+              Three RAG dashboards, one application, and a direct line to the person who builds them — hosted
+              inside hard boundaries, or fully air-gapped on your own infrastructure.
             </p>
           </Reveal>
           <Reveal delay={0.22} distance={10} className="mt-9 flex flex-wrap items-center justify-center gap-3">

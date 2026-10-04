@@ -3,38 +3,35 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
+function applyTheme(dark: boolean) {
+  document.documentElement.classList.toggle("dark", dark);
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  localStorage.setItem("theme", dark ? "dark" : "light");
+}
+
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    // Read stored preference; default is dark
-    const stored = localStorage.getItem("theme");
-    const isDark = stored ? stored === "dark" : true;
-    setDark(isDark);
-    document.documentElement.classList.toggle("dark", isDark);
+    setDark(document.documentElement.getAttribute("data-theme") === "dark");
   }, []);
-
-  const toggle = () => {
-    const next = !dark;
-    setDark(next);
-    
-    // Toggle Tailwind dark mode
-    document.documentElement.classList.toggle("dark", next);
-    document.documentElement.classList.toggle("light", !next);
-    
-    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
-    
-    localStorage.setItem("theme", next ? "dark" : "light");
-  };
 
   return (
     <button
       type="button"
-      onClick={toggle}
+      role="switch"
+      className="theme-switch"
+      aria-checked={dark}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-      className="rounded-md border border-border p-1.5 text-muted-foreground transition-colors hover:text-foreground"
+      onClick={() => {
+        const next = document.documentElement.getAttribute("data-theme") !== "dark";
+        applyTheme(next);
+        setDark(next);
+      }}
     >
-      {dark ? <Sun size={15} /> : <Moon size={15} />}
+      <Sun size={13} aria-hidden className="theme-switch-icon theme-switch-sun" />
+      <Moon size={13} aria-hidden className="theme-switch-icon theme-switch-moon" />
+      <span aria-hidden className="theme-switch-thumb" />
     </button>
   );
 }

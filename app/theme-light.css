@@ -6,6 +6,8 @@
 :root,
 .light,
 [data-theme="light"] {
+  color-scheme: light;
+
   /* ── HeroUI Primitives (fixed) ── */
   --white:    #ffffff;
   --black:    #000000;
@@ -13,7 +15,7 @@
   --eclipse:  #18181b;
 
   /* ── Base ── */
-  --background:          oklch(0.985 0.001 286); /* near-white, not pure white */
+  --background:          #ffffff;
   --foreground:          oklch(0.14 0.006 286);  /* very dark zinc — not jet black */
 
   /* ── Surface layers (HeroUI card hierarchy) ── */

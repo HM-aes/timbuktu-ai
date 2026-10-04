@@ -20,10 +20,10 @@ export default function Header() {
     <header
       data-scrolled={scrolled ? "true" : "false"}
       className={cn(
-        "site-header sticky top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ease-out",
+        "site-header sticky top-0 z-50 backdrop-blur-md transition-[background-color,border-color] duration-500 ease-out",
         scrolled
-          ? "border-b border-[var(--line)] bg-background/90 backdrop-blur-md"
-          : "border-b border-[var(--line)]/40 bg-background/50 backdrop-blur-sm",
+          ? "border-b border-[var(--line)] bg-background/90"
+          : "border-b border-[var(--line)]/40 bg-background/50",
       )}
     >
       <Navbar />
