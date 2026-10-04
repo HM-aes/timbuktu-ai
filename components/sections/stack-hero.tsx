@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, ChevronRight, Eye, Layers, Lock, ShieldCheck } from "lucide-react";
 import DefenseLayers from "@/components/diagrams/defense-layers";
+import { ChapterLabel } from "@/components/layout/chapter";
 import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import { APPROACH_URL } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
@@ -57,9 +58,8 @@ export default function StackHero() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
         {/* ── Copy ── */}
         <div className="flex min-w-0 flex-col lg:col-span-5">
-          <motion.div {...settle(0, 10)} className="flex items-center gap-4">
-            <p className="label shrink-0 text-signal">03 — Security</p>
-            <span aria-hidden className="h-px min-w-0 flex-1 bg-signal/30" />
+          <motion.div {...settle(0, 10)}>
+            <ChapterLabel number="03" label="Security" />
           </motion.div>
 
           <motion.h2

@@ -48,7 +48,7 @@ export default function Navbar() {
       >
         <div className="gutter header-bar">
           <div className="header-zone-start">
-            <BrandMark href={HOME_URL} variant="header" className="shrink-0" />
+            <BrandMark href={HOME_URL} variant="header" className="min-w-0 max-w-full" />
           </div>
 
           <nav aria-label="Primary" className="header-zone-center max-md:hidden">

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Section from "@/components/layout/section";
+import { ChapterLabel } from "@/components/layout/chapter";
 import { Reveal } from "@/components/reveal";
 import ProductShowcaseItem, { type ShowcaseProduct } from "@/components/products/product-showcase-item";
 import Nis2Preview from "@/components/products/dashboards/nis2-preview";
@@ -79,11 +80,10 @@ const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, problem, description, cap
 
 export default function ProductShowcase() {
   return (
-    <Section id="products">
+    <Section id="products" chapter>
       <div className="gutter pb-12 pt-[var(--space-section-y)] md:pb-14 md:pt-[var(--space-section-y-md)] lg:pb-16 lg:pt-[var(--space-section-y-lg)]">
-        <Reveal distance={10} className="flex items-center gap-4">
-          <p className="label shrink-0 text-signal">02 — Products</p>
-          <span aria-hidden className="h-px min-w-0 flex-1 bg-signal/30" />
+        <Reveal distance={10}>
+          <ChapterLabel number="02" label="Products" />
         </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-12 lg:items-end lg:gap-x-12">

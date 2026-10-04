@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useScrollScene } from "@/lib/use-scroll-scene";
+import { ChapterLabel } from "@/components/layout/chapter";
 
 /**
  * Architecture section intro — scroll-scrubbed settle (GSAP + Lenis via useScrollScene).
@@ -49,9 +50,8 @@ export default function ArchitectureIntro() {
 
   return (
     <div ref={root}>
-      <div data-arch-eyebrow className="flex items-center gap-4">
-        <p className="label shrink-0 text-signal">01 — Architecture</p>
-        <span aria-hidden className="h-px min-w-0 flex-1 bg-signal/30" />
+      <div data-arch-eyebrow>
+        <ChapterLabel number="01" label="Architecture" />
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-12 lg:items-end lg:gap-x-12">

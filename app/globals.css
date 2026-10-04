@@ -124,9 +124,9 @@ body {
   --space-gutter-lg:        4rem;     /* 64px  ≥1024px */
 
   /* Section vertical padding (heading blocks, statement blocks, CTA) */
-  --space-section-y:        3.5rem;   /* 56px  mobile */
-  --space-section-y-md:     5rem;     /* 80px  ≥640px */
-  --space-section-y-lg:     6rem;     /* 96px  ≥1024px */
+  --space-section-y:        4.5rem;   /* 72px  mobile */
+  --space-section-y-md:     6.5rem;   /* 104px ≥640px */
+  --space-section-y-lg:     8.5rem;   /* 136px ≥1024px */
 
   /* Hero */
   --space-hero-pt:          3.5rem;   /* 56px  mobile */
@@ -157,12 +157,18 @@ body {
   --control-h:              2.75rem;  /* 44px  primary/secondary buttons */
   --control-h-sm:           2.5rem;   /* 40px  header + inline buttons */
   --header-min-h:           4.5rem;   /* 72px  global nav bar */
-  --header-min-h-lg:        5.5rem;   /* 88px  ≥1024px */
-  --header-py:              1rem;     /* vertical padding inside header */
+  --header-min-h-lg:        5.25rem;  /* 84px  ≥1024px */
+  --header-py:              0.9375rem; /* vertical padding inside header */
   --control-px:             1.5rem;   /* 24px */
   --radius-control:         0.5rem;   /* 8px   buttons, inputs, chips */
   --radius-panel:           0.75rem;  /* 12px  dashboards, diagrams */
 
+}
+@media (max-width: 639px) {
+  :root {
+    --header-min-h: 4.5rem;
+    --header-py: 0.875rem;
+  }
 }
 
 /* Layered below Tailwind utilities so per-element utility overrides win. */
@@ -177,6 +183,10 @@ body {
     .frame { border-inline: 1px solid var(--line); }
   }
 
+  .site-header {
+    overflow-x: clip;
+  }
+
   /* Global header — wordmark | centered nav | CTA */
   .header-bar {
     display: flex;
@@ -184,9 +194,14 @@ body {
     flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1.25rem;
+    gap: 0.625rem;
     min-height: var(--header-min-h);
     padding-block: var(--header-py);
+  }
+  @media (min-width: 640px) {
+    .header-bar {
+      gap: 1rem;
+    }
   }
   @media (min-width: 768px) {
     .header-bar {
@@ -207,7 +222,22 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex: 1 1 auto;
     min-width: 0;
+    max-width: calc(100% - 3rem);
+    padding-inline-end: 0.25rem;
+  }
+  @media (min-width: 640px) {
+    .header-zone-start {
+      max-width: none;
+      padding-inline-end: 0.375rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .header-zone-start {
+      flex: none;
+      padding-inline-end: 0.75rem;
+    }
   }
   @media (min-width: 768px) {
     .header-zone-start { justify-self: start; }
@@ -248,6 +278,7 @@ body {
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-end;
+    flex: 0 0 auto;
     gap: 0.75rem;
     min-width: 0;
   }
@@ -272,8 +303,26 @@ body {
       background-color 0.35s ease;
   }
   .brand-lockup-link:has(.brand-lockup--header) {
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.4375rem 0.875rem;
+    overflow: hidden;
     border-color: color-mix(in srgb, var(--line) 48%, transparent);
     background: color-mix(in srgb, var(--background) 72%, transparent);
+  }
+  @media (min-width: 640px) {
+    .brand-lockup-link:has(.brand-lockup--header) {
+      padding: 0.4375rem 1rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .brand-lockup-link:has(.brand-lockup--header) {
+      padding: 0.5rem 1.125rem;
+    }
   }
   .brand-lockup-link::before {
     content: "";
@@ -326,24 +375,19 @@ body {
   .brand-lockup-link:focus-visible {
     border-color: transparent;
     background: transparent;
-    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--signal) 28%, transparent));
   }
   .brand-lockup-link:hover::before,
   .brand-lockup-link:focus-visible::before {
     opacity: 1;
     transform: scale(1);
-    border-color: color-mix(in srgb, var(--signal) 42%, transparent);
+    border-color: color-mix(in srgb, var(--signal) 32%, transparent);
     box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--signal-soft) 35%, transparent),
-      0 0 10px color-mix(in srgb, var(--signal) 50%, transparent),
-      0 0 22px color-mix(in srgb, var(--signal-soft) 38%, transparent),
-      0 0 36px color-mix(in srgb, var(--signal) 22%, transparent),
-      inset 0 0 18px color-mix(in srgb, var(--signal) 12%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--signal-soft) 35%, transparent);
+      0 0 12px color-mix(in srgb, var(--signal) 14%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--signal-soft) 22%, transparent);
   }
   .brand-lockup-link:hover::after,
   .brand-lockup-link:focus-visible::after {
-    opacity: 0.85;
+    opacity: 0.55;
   }
   /* TIMBUKTU AI lockup — company mark (~36–44px tall in header) */
   .brand-lockup {
@@ -360,7 +404,15 @@ body {
     }
   }
   .brand-lockup--header {
-    min-width: 8.75rem;
+    gap: 0.25rem;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  @media (min-width: 640px) {
+    .brand-lockup--header {
+      gap: 0.3125rem;
+    }
   }
 
   .brand-wordmark {
@@ -373,14 +425,13 @@ body {
     letter-spacing: -0.028em;
   }
   .brand-wordmark--header {
-    font-size: 1.0625rem; /* 17px */
-  }
-  @media (min-width: 640px) {
-    .brand-wordmark--header { font-size: 1.125rem; /* 18px */ }
+    font-size: clamp(0.875rem, 0.74rem + 1.65vw, 1.125rem);
+    letter-spacing: -0.026em;
+    line-height: 1.08;
+    max-width: 100%;
   }
   @media (min-width: 1024px) {
     .brand-wordmark--header {
-      font-size: 1.1875rem; /* 19px */
       letter-spacing: -0.03em;
     }
   }
@@ -414,14 +465,14 @@ body {
 
   .brand-region-row {
     display: flex;
-    align-items: stretch;
-    gap: 0.4375rem;
-    padding-inline-start: 0.0625rem;
+    align-items: center;
+    gap: 0.375rem;
+    max-width: 100%;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .brand-lockup-link:hover .brand-region-row,
-    .brand-lockup-link:focus-visible .brand-region-row {
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .brand-lockup-link:not(:has(.brand-lockup--header)):hover .brand-region-row,
+    .brand-lockup-link:not(:has(.brand-lockup--header)):focus-visible .brand-region-row {
       transform: translateX(3px);
     }
   }
@@ -462,6 +513,23 @@ body {
     .brand-region {
       font-size: 0.6875rem; /* 11px */
       letter-spacing: 0.155em;
+    }
+  }
+  .brand-lockup--header .brand-region {
+    font-size: clamp(0.5rem, 0.46rem + 0.22vw, 0.625rem);
+    letter-spacing: clamp(0.08em, 0.07em + 0.12vw, 0.11em);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .brand-lockup--header .brand-wordmark {
+    justify-content: center;
+  }
+  .brand-lockup--header .brand-region-mark {
+    min-height: 0.6875rem;
+  }
+  @media (min-width: 1024px) {
+    .brand-lockup--header .brand-region-mark {
+      min-height: 0.8125rem;
     }
   }
 
@@ -518,20 +586,11 @@ body {
     );
     -webkit-background-clip: text;
     background-clip: text;
-    letter-spacing: 0.17em;
     background-position: 100% center;
   }
-  @media (min-width: 640px) {
-    .brand-lockup-link:hover .brand-region,
-    .brand-lockup-link:focus-visible .brand-region {
-      letter-spacing: 0.18em;
-    }
-  }
-  @media (min-width: 1024px) {
-    .brand-lockup-link:hover .brand-region,
-    .brand-lockup-link:focus-visible .brand-region {
-      letter-spacing: 0.19em;
-    }
+  .brand-lockup-link:has(.brand-lockup--header):hover .brand-wordmark-accent,
+  .brand-lockup-link:has(.brand-lockup--header):focus-visible .brand-wordmark-accent {
+    filter: none;
   }
 
   .site-header[data-scrolled="true"] .brand-region {
@@ -550,6 +609,56 @@ body {
 
   /* Section — stacked inside the frame, separated by a hairline. */
   .section { border-top: 1px solid var(--line); }
+  .section--chapter { border-top: 0; }
+
+  /* Chapter divider — brushed hairline, brighter at the centre */
+  .section-divider {
+    position: relative;
+    height: 1px;
+    transform-origin: center;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--foreground) 6%, transparent) 0%,
+      color-mix(in srgb, var(--foreground) 22%, transparent) 18%,
+      color-mix(in srgb, var(--foreground) 34%, transparent) 50%,
+      color-mix(in srgb, var(--foreground) 22%, transparent) 82%,
+      color-mix(in srgb, var(--foreground) 6%, transparent) 100%
+    );
+  }
+  .section-divider::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 35%;
+    right: 35%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--foreground) 55%, transparent),
+      transparent
+    );
+    box-shadow: 0 0 6px color-mix(in srgb, var(--foreground) 10%, transparent);
+  }
+
+  /* Chapter metadata — "01 / Architecture" */
+  .chapter-label {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.625rem;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--foreground) 72%, var(--muted-foreground) 28%);
+  }
+  .chapter-label-number {
+    color: var(--signal);
+    font-weight: 600;
+  }
+  .chapter-label-slash {
+    color: color-mix(in srgb, var(--foreground) 28%, transparent);
+  }
 
   /* Section heading block: h2 + supporting paragraph, left-aligned, measured. */
   .section-head {
@@ -704,10 +813,10 @@ body {
     gap: 0.625rem;
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: clamp(0.625rem, 0.58rem + 0.25vw, 0.6875rem);
     font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.18em;
+    line-height: 1.2;
+    letter-spacing: clamp(0.14em, 0.12em + 0.2vw, 0.18em);
     text-transform: uppercase;
     color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground) 22%);
   }
@@ -910,11 +1019,20 @@ body {
   }
   .pill--tag {
     min-height: 1.625rem;
+    max-width: 100%;
     padding: 0.375rem 0.8125rem;
-    font-size: 0.6875rem;
+    font-size: clamp(0.625rem, 0.58rem + 0.25vw, 0.6875rem);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     cursor: default;
+    text-wrap: balance;
+  }
+  @media (max-width: 639px) {
+    .pill--tag {
+      white-space: normal;
+      line-height: 1.35;
+      text-align: center;
+    }
   }
   .pill--tag:hover {
     border-color: color-mix(in srgb, var(--pill-accent) 55%, var(--line));
@@ -922,14 +1040,12 @@ body {
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--foreground) 18%, transparent),
       inset 0 -1px 0 color-mix(in srgb, var(--pill-accent) 10%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--pill-accent) 24%, transparent),
-      0 0 20px color-mix(in srgb, var(--pill-accent) 32%, transparent),
-      0 8px 20px -12px color-mix(in srgb, var(--pill-accent) 38%, transparent);
+      0 6px 16px -10px color-mix(in srgb, var(--pill-accent) 30%, transparent);
   }
   .pill--tag:hover::after {
     opacity: 0.92;
   }
-  @media (prefers-reduced-motion: no-preference) {
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
     .pill--tag:hover {
       transform: translateY(-2px);
     }
@@ -937,8 +1053,9 @@ body {
   .pill--hero {
     --pill-accent: var(--signal);
     min-height: 2rem;
-    padding-inline: 1.0625rem;
-    font-size: 0.71875rem;
+    max-width: min(100%, 22rem);
+    padding-inline: clamp(0.6875rem, 0.5rem + 1.2vw, 1.0625rem);
+    font-size: clamp(0.625rem, 0.52rem + 0.45vw, 0.71875rem);
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -947,21 +1064,10 @@ body {
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--foreground) 20%, transparent),
       inset 0 -1px 0 color-mix(in srgb, var(--signal) 8%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--signal-soft) 22%, transparent),
-      0 0 28px color-mix(in srgb, var(--signal) 22%, transparent),
-      0 8px 24px -14px color-mix(in srgb, var(--signal) 35%, transparent);
+      0 6px 18px -12px color-mix(in srgb, var(--signal) 30%, transparent);
   }
   .pill--hero::after {
-    opacity: 0.75;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .pill--hero::after {
-      animation: pill-hero-shimmer 4.5s ease-in-out infinite;
-    }
-  }
-  @keyframes pill-hero-shimmer {
-    0%, 100% { opacity: 0.55; filter: hue-rotate(0deg); }
-    50% { opacity: 0.9; filter: hue-rotate(-4deg); }
+    opacity: 0.7;
   }
   .pill .dot {
     width: 6px;

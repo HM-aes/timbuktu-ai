@@ -33,7 +33,7 @@ const LAYERS: SecurityLayer[] = [
 
 export default function SecurityArchitecture() {
   return (
-    <Section id="architecture">
+    <Section id="architecture" chapter>
       <div className="gutter pb-12 pt-[var(--space-section-y)] md:pb-14 md:pt-[var(--space-section-y-md)] lg:pb-16 lg:pt-[var(--space-section-y-lg)]">
         <ArchitectureIntro />
       </div>

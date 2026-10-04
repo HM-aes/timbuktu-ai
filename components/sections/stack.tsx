@@ -34,7 +34,7 @@ const CONTROLS = [
 
 export default function Stack() {
   return (
-    <Section id="stack">
+    <Section id="stack" chapter>
       <StackHero />
 
       <div className="gutter border-t border-[var(--line)] pb-[var(--space-section-y)] pt-[var(--space-head-gap-lg)] md:pb-[var(--space-section-y-md)] lg:pb-[var(--space-section-y-lg)]">

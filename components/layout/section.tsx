@@ -1,25 +1,32 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { SectionDivider } from "@/components/layout/chapter";
 
 /**
  * Section — one stacked block inside the page frame.
  * Draws the hairline rule that separates it from the block above and keeps
- * every section on the same framed column and gutter.
+ * every section on the same framed column and gutter. `chapter` swaps the
+ * plain hairline for the animated metallic divider.
  */
 export default function Section({
   id,
   children,
   className,
   frameClassName,
+  chapter = false,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
   frameClassName?: string;
+  chapter?: boolean;
 }) {
   return (
-    <section id={id} className={cn("section relative", className)}>
-      <div className={cn("frame", frameClassName)}>{children}</div>
+    <section id={id} className={cn("section relative", chapter && "section--chapter", className)}>
+      <div className={cn("frame", frameClassName)}>
+        {chapter && <SectionDivider />}
+        {children}
+      </div>
     </section>
   );
 }

@@ -7,7 +7,7 @@ import { BOOKING_URL, PRODUCTS_INDEX } from "@/lib/site";
 /** The closing line: the story's claim, restated once, and where to go next. */
 export default function FinalCta() {
   return (
-    <Section id="start">
+    <Section id="start" chapter>
       <div className="bg-dots">
         <div className="gutter section-block mx-auto flex max-w-[52rem] flex-col items-center text-center">
           <Reveal distance={20}>

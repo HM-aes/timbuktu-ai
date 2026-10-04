@@ -26,7 +26,7 @@ const ACCENT_CLASS = {
 
 export default function StandardsTagList({ className }: { className?: string }) {
   return (
-    <ul className={cn("flex flex-wrap gap-2", className)}>
+    <ul className={cn("flex w-full min-w-0 flex-wrap gap-2 sm:w-auto", className)}>
       {STANDARDS.map(({ name, accent }) => (
         <li key={name} className={cn("pill pill--tag", ACCENT_CLASS[accent])}>
           {name}

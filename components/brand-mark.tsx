@@ -20,7 +20,7 @@ export default function BrandMark({
       href={href}
       aria-label="Timbuktu AI, Liptako–Gourma — home"
       className={cn(
-        "brand-lockup-link group/brand shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "brand-lockup-link group/brand rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className,
       )}
     >
