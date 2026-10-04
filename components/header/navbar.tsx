@@ -64,7 +64,7 @@ export default function Navbar() {
 
           <div className="header-zone-end">
             <ThemeToggle />
-            <CtaButton href={BOOKING_URL} size="sm" className="hidden md:inline-flex">
+            <CtaButton href={BOOKING_URL} size="sm" className="hidden min-[960px]:inline-flex">
               Book a call
             </CtaButton>
             <button
