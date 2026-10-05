@@ -3,31 +3,35 @@ import ArchitectureIntro from "@/components/sections/architecture-intro";
 import ArchitectureStage, { type SecurityLayer } from "@/components/sections/architecture-stage";
 import { StandardsStrip } from "@/components/standards-tag-list";
 
-/** Four layers of one system, top to bottom — the order a request meets them. */
+/**
+ * Four layers of one system, top to bottom — the order a request meets them.
+ * Names stay the ones already used across the site. The short line is what a
+ * first-time visitor reads while that layer is in focus.
+ */
 const LAYERS: SecurityLayer[] = [
   {
     n: "01",
     name: "Data",
-    purpose: "Protect what enters the AI system.",
-    detail: "Inputs are validated, and retrieved documents and tool results are treated as data — never as instructions.",
+    purpose: "Sensitive information stays protected.",
+    detail: "Conversations, documents, and business data are checked before they enter.",
   },
   {
     n: "02",
     name: "Model",
-    purpose: "Protect the intelligence making decisions.",
-    detail: "Narrow, allow-listed tools instead of open-ended keys. The model can read untrusted text, but it cannot be commanded by it.",
+    purpose: "The model only processes what it should.",
+    detail: "It can read what it is given. It cannot be commanded by it.",
   },
   {
     n: "03",
     name: "Application",
-    purpose: "Protect the application and its interactions.",
-    detail: "Output is filtered, access is set per file, and anything with real-world side effects waits for a person to approve it.",
+    purpose: "People interact through a protected application.",
+    detail: "What comes back is filtered, and anything that changes the world waits for a person.",
   },
   {
     n: "04",
     name: "Operations",
-    purpose: "Monitor and protect AI after deployment.",
-    detail: "Every action is logged and traceable — hosted inside hard boundaries, or fully air-gapped on your own infrastructure.",
+    purpose: "The system stays watched after it goes live.",
+    detail: "Every action is recorded — hosted inside hard boundaries, or fully air-gapped.",
   },
 ];
 

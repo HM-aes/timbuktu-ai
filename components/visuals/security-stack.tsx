@@ -141,8 +141,9 @@ export default function SecurityStack({ className }: { className?: string }) {
         </LayerTag>
       </Plate>
 
-      {/* The spine: one line through every layer to the core */}
-      <Box w={0.3} h={12.6} top="var(--signal)" side="color-mix(in srgb, var(--signal) 45%, transparent)" />
+      {/* The spine: one line through every layer. The scroll scene fades it in
+          once each layer has been named, to show they protect one another. */}
+      <Box className="iso-spine" w={0.3} h={12.6} top="var(--signal)" side="color-mix(in srgb, var(--signal) 45%, transparent)" />
 
       {/* The AI core */}
       <div className="iso-float">
