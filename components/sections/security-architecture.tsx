@@ -13,19 +13,19 @@ const LAYERS: SecurityLayer[] = [
     n: "01",
     name: "Data",
     purpose: "Sensitive information stays protected.",
-    detail: "Conversations, documents, and business data are checked before they enter.",
+    detail: "Your conversations, documents, and business data never leave this layer unchecked.",
   },
   {
     n: "02",
     name: "Model",
     purpose: "The model only processes what it should.",
-    detail: "It can read what it is given. It cannot be commanded by it.",
+    detail: "It can read what it is given. It cannot be told what to do by that text.",
   },
   {
     n: "03",
     name: "Application",
-    purpose: "People interact through a protected application.",
-    detail: "What comes back is filtered, and anything that changes the world waits for a person.",
+    purpose: "People use a protected application.",
+    detail: "What comes back is filtered. Anything that changes the world waits for a person.",
   },
   {
     n: "04",

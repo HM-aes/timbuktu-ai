@@ -14,21 +14,6 @@ import { cn } from "@/lib/utils";
 
 const mono = "font-mono uppercase tracking-[0.14em]";
 
-function LayerTag({ n, children, className }: { n: string; children: string; className?: string }) {
-  return (
-    <span
-      className={cn(
-        mono,
-        "absolute bottom-[1em] left-[1.1em] flex items-center gap-[0.5em] whitespace-nowrap text-[1.15em] text-foreground/80",
-        className,
-      )}
-    >
-      <span className="text-signal">{n}</span>
-      {children}
-    </span>
-  );
-}
-
 function Chip({ children, tone = "default", className }: { children: ReactNode; tone?: "default" | "signal" | "verify"; className?: string }) {
   return (
     <span
@@ -68,11 +53,11 @@ export default function SecurityStack({ className }: { className?: string }) {
             strokeWidth="1.5"
           />
         </svg>
-        <Chip tone="verify" className="bottom-[1em] right-[1.6em]">
+        <Chip tone="verify" className="bottom-[1em] left-[1.6em]">
           <span className="pulse-dot size-[0.6em] rounded-full bg-verify" />
           Audit log · live
         </Chip>
-        <LayerTag n="04">Operations</LayerTag>
+        <span data-layer-anchor className="absolute right-0 top-1/2 size-px" />
       </Plate>
 
       {/* 03 — Application: output filtering, approval before side effects */}
@@ -83,9 +68,9 @@ export default function SecurityStack({ className }: { className?: string }) {
         className="rounded-[1.2em] border border-[var(--line-strong)]"
         style={{ backgroundColor: "color-mix(in srgb, var(--surface-secondary) 78%, transparent)" }}
       >
-        <Chip className="bottom-[4em] right-[1.3em]">Output filter ✓</Chip>
+        <Chip className="bottom-[4em] right-[1.3em]">Output filter</Chip>
         <Chip tone="signal" className="bottom-[1em] right-[1.3em]">Approval required</Chip>
-        <LayerTag n="03">Application</LayerTag>
+        <span data-layer-anchor className="absolute right-0 top-1/2 size-px" />
       </Plate>
 
       {/* 02 — Model: allow-listed tools around the reasoning */}
@@ -113,7 +98,7 @@ export default function SecurityStack({ className }: { className?: string }) {
             />
           ))}
         </svg>
-        <LayerTag n="02">Model</LayerTag>
+        <span data-layer-anchor className="absolute right-0 top-1/2 size-px" />
       </Plate>
 
       {/* 01 — Data: every input comes through a validated gate */}
@@ -136,9 +121,7 @@ export default function SecurityStack({ className }: { className?: string }) {
             <span className="absolute inset-[0.32em] rounded-[0.1em] bg-signal" />
           </span>
         ))}
-        <LayerTag n="01" className="bottom-auto left-[0.9em] top-[-2.6em]">
-          Data
-        </LayerTag>
+        <span data-layer-anchor className="absolute right-0 top-1/2 size-px" />
       </Plate>
 
       {/* The spine: one line through every layer. The scroll scene fades it in
@@ -161,11 +144,7 @@ export default function SecurityStack({ className }: { className?: string }) {
           <span className="pulse-dot absolute left-1/2 top-1/2 size-[0.9em] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/45" />
         </Box>
         <Plate z={18.4} w={12} style={{ background: "radial-gradient(closest-side, color-mix(in srgb, var(--signal) 20%, transparent), transparent)" }} />
-        <Plate z={17} x={6.4} y={-3.4} w={9} d={2.4}>
-          <span className={cn(mono, "absolute inset-0 flex items-center whitespace-nowrap text-[1.15em] text-foreground")}>
-            AI core
-          </span>
-        </Plate>
+        <Plate z={17} x={6.4} y={-3.4} w={9} d={2.4} />
       </div>
     </IsoScene>
   );

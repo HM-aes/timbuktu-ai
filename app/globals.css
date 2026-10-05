@@ -1576,6 +1576,8 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
   transform: translateZ(calc((var(--z, 0) + var(--lz, 0)) * 1em * var(--spread) * var(--lift)))
     scale(calc(1 + var(--focus) * 0.055));
   box-shadow: 0 0 calc(var(--focus) * 2.4em) color-mix(in srgb, var(--signal) calc(var(--focus) * 40%), transparent);
+  outline: calc(var(--focus) * 1px) solid color-mix(in srgb, var(--signal) calc(var(--focus) * 55%), transparent);
+  outline-offset: 0;
 }
 /* Before the scroll scene runs, desktop visitors meet a closed stack and the
    opening line. Reduced motion keeps the resting spread and the closing line. */
@@ -1584,6 +1586,10 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
   .arch-stage .iso-spine { opacity: 0.18; }
   .arch-stage .arch-beat { opacity: 0; }
   .arch-stage .arch-beat[data-beat="0"] { opacity: 1; }
+  .arch-stage .arch-callout { opacity: 0; }
+}
+.arch-callout {
+  will-change: transform, opacity;
 }
 .iso-box > .f {
   position: absolute;
