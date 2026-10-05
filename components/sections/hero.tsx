@@ -105,11 +105,13 @@ export default function Hero() {
           </motion.p>
 
           <motion.div {...settle(3, 12)} className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:mt-12">
-            <CtaButton href="#products" tone="signal">
+            <CtaButton href="#products" tone="metal">
               Explore products
               <ArrowRight size={16} data-arrow />
             </CtaButton>
-            <CtaButton href={APPROACH_URL}>Our approach</CtaButton>
+            <CtaButton href={APPROACH_URL} tone="metal">
+              Our approach
+            </CtaButton>
           </motion.div>
         </div>
       </div>

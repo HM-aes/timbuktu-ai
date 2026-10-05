@@ -953,6 +953,180 @@ body {
     );
   }
 
+  /* Hero / lockup CTAs — chrome shell + accent-metal label (no amber fill). */
+  .cta-shell--metal {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-color: color-mix(in srgb, var(--foreground) 26%, var(--line));
+    background:
+      linear-gradient(
+        148deg,
+        color-mix(in srgb, var(--foreground) 11%, var(--surface-secondary) 89%) 0%,
+        color-mix(in srgb, var(--foreground) 6%, var(--background) 94%) 38%,
+        color-mix(in srgb, var(--foreground) 9%, var(--surface-tertiary) 91%) 100%
+      );
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--foreground) 18%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--foreground) 6%, transparent),
+      0 1px 3px color-mix(in srgb, var(--foreground) 10%, transparent);
+    transition:
+      border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta-shell--metal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--foreground) 14%, transparent) 0%,
+      transparent 52%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cta-shell--metal::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--foreground) 22%, transparent),
+      color-mix(in srgb, var(--foreground) 8%, transparent) 48%,
+      color-mix(in srgb, var(--foreground) 18%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.65;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cta-ripple--metal {
+    background: radial-gradient(
+      circle at center,
+      #fffef9 0%,
+      #f6ead8 42%,
+      #e8d5b8 100%
+    );
+    box-shadow: 0 0 28px color-mix(in srgb, var(--signal-soft) 45%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .cta-shell--metal:hover,
+    .cta-shell--metal:focus-visible {
+      border-color: color-mix(in srgb, var(--signal-soft) 55%, var(--line));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fffef9 35%, transparent),
+        inset 0 -1px 0 color-mix(in srgb, var(--signal) 12%, transparent),
+        0 10px 28px -12px color-mix(in srgb, var(--signal-soft) 38%, transparent);
+    }
+    .cta-shell--metal:hover::after,
+    .cta-shell--metal:focus-visible::after {
+      opacity: 0.35;
+    }
+  }
+  [data-theme="dark"] .cta-shell--metal {
+    border-color: color-mix(in srgb, var(--foreground) 32%, var(--line));
+    background:
+      linear-gradient(
+        148deg,
+        color-mix(in srgb, var(--foreground) 14%, var(--surface-secondary) 86%) 0%,
+        color-mix(in srgb, var(--foreground) 8%, var(--background) 92%) 42%,
+        color-mix(in srgb, var(--foreground) 12%, var(--surface-tertiary) 88%) 100%
+      );
+  }
+  .cta-label-metal {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(
+      180deg,
+      #2a2a2e 0%,
+      #121214 24%,
+      #6a6a70 44%,
+      #c8c8cc 50%,
+      #4a4a50 57%,
+      #161618 78%,
+      #3a3a40 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition:
+      color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      -webkit-text-fill-color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta-label-metal svg {
+    color: color-mix(in srgb, var(--foreground) 62%, var(--muted-foreground) 38%);
+    -webkit-text-fill-color: currentColor;
+    transition: color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta-shell--metal:hover .cta-label-metal,
+  .cta-shell--metal:focus-visible .cta-label-metal {
+    color: #0a0a0b;
+    -webkit-text-fill-color: #0a0a0b;
+    background-image: none;
+    filter: none;
+  }
+  .cta-shell--metal:hover .cta-label-metal svg,
+  .cta-shell--metal:focus-visible .cta-label-metal svg {
+    color: #0a0a0b;
+  }
+  [data-theme="dark"] .cta-label-metal {
+    background-image: linear-gradient(
+      180deg,
+      #f5f5f6 0%,
+      #8e8e94 24%,
+      #fafafa 44%,
+      #c6c6ca 51%,
+      #6a6a70 64%,
+      #ececee 100%
+    );
+  }
+  [data-theme="dark"] .cta-label-metal svg {
+    color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground) 22%);
+  }
+  [data-theme="dark"] .cta-ripple--metal {
+    background: radial-gradient(
+      circle at center,
+      #faf6ef 0%,
+      #e8dcc8 45%,
+      #c9b896 100%
+    );
+    box-shadow: 0 0 32px color-mix(in srgb, var(--signal) 28%, transparent);
+  }
+  [data-theme="dark"] .cta-shell--metal:hover .cta-label-metal,
+  [data-theme="dark"] .cta-shell--metal:focus-visible .cta-label-metal {
+    color: #0a0a0b;
+    -webkit-text-fill-color: #0a0a0b;
+  }
+  [data-theme="dark"] .cta-shell--metal:hover .cta-label-metal svg,
+  [data-theme="dark"] .cta-shell--metal:focus-visible .cta-label-metal svg {
+    color: #0a0a0b;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-shell--metal:hover .cta-label-metal,
+    .cta-shell--metal:focus-visible .cta-label-metal {
+      color: #0a0a0b;
+      -webkit-text-fill-color: #0a0a0b;
+      background-image: none;
+    }
+    .cta-shell--metal:hover .cta-label-metal svg,
+    .cta-shell--metal:focus-visible .cta-label-metal svg {
+      color: #0a0a0b;
+    }
+  }
+
   /* Page tone — hero/statement vs content blocks (product + writing pages) */
   .tone-base {
     background-color: var(--background);

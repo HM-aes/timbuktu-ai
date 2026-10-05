@@ -17,8 +17,8 @@ export type CtaButtonProps = {
   className?: string;
   children: React.ReactNode;
   size?: "default" | "sm";
-  /** "signal" — the amber primary action. Overrides the outline variant in both themes. */
-  tone?: "default" | "signal";
+  /** "signal" — amber primary. "metal" — graphite chrome (hero / wordmark family). */
+  tone?: "default" | "signal" | "metal";
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> &
   Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "children">;
 
@@ -53,14 +53,21 @@ export function CtaButton({
     size === "sm" && "px-4 py-2 text-sm",
     tone === "signal" &&
       "border-signal bg-signal text-primary-foreground hover:bg-signal dark:border-signal dark:bg-signal dark:hover:bg-signal",
+    tone === "metal" && "cta-shell--metal hover:bg-transparent",
     className
+  );
+
+  const labelClass = cn(
+    ctaLabelClass,
+    tone === "metal" && "cta-label-metal group-hover:text-inherit",
   );
 
   const ripple = !reduced && (
     <span
       aria-hidden
       className={cn(
-        "pointer-events-none absolute size-10 scale-0 rounded-full bg-primary transition-transform duration-700 ease-in-out group-hover:scale-[15]"
+        "pointer-events-none absolute z-[1] size-10 scale-0 rounded-full transition-transform duration-700 ease-in-out group-hover:scale-[15]",
+        tone === "metal" ? "cta-ripple--metal" : "bg-primary"
       )}
       style={{
         left: pos.x - 20,
@@ -69,7 +76,7 @@ export function CtaButton({
     />
   );
 
-  const label = <span className={ctaLabelClass}>{children}</span>;
+  const label = <span className={labelClass}>{children}</span>;
 
   if (href) {
     const anchorRest = rest as React.AnchorHTMLAttributes<HTMLAnchorElement>;
