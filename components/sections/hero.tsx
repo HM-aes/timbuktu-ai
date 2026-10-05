@@ -10,6 +10,7 @@ import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 import { useScrollScene } from "@/lib/use-scroll-scene";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const settleEase = [0.16, 1, 0.3, 1] as const;
 const BASE = 0.16;
 const STEP = 0.2;
 const WORDMARK_LEFT = [..."TIMBUKTU"];
@@ -29,7 +30,7 @@ export default function Hero() {
   const settle = (i: number, distance = 18) => ({
     initial: { opacity: 0, y: distance },
     animate: { opacity: 1, y: 0 },
-    transition: reduced ? INSTANT : { duration: 1.45, delay: BASE + i * STEP, ease: [0.16, 1, 0.3, 1] },
+    transition: reduced ? INSTANT : { duration: 1.45, delay: BASE + i * STEP, ease: settleEase },
   });
 
   useScrollScene(root, (el) => {
