@@ -107,6 +107,37 @@ body {
   color: var(--foreground);
 }
 
+/* ── Brand: the Timbuktu gateway ──────────────────────────────────────
+   Mark: charcoal on light, warm ivory on dark; the passage is --signal.
+   Monument: sandstone by day, dark earth by night; same light inside. */
+:root,
+.light,
+[data-theme="light"] {
+  --brand-stone:   oklch(0.24 0.008 262);
+  --brand-shade:   oklch(0.42 0.010 262);
+  --tk-stone-hi:   oklch(0.86 0.032 74);
+  --tk-stone:      oklch(0.76 0.036 68);
+  --tk-stone-lo:   oklch(0.64 0.036 62);
+  --tk-shade:      oklch(0.42 0.03 58 / 0.42);
+  --tk-side:       oklch(0.56 0.032 60);
+  --tk-light-hot:  oklch(0.93 0.09 85);
+  --tk-light-deep: oklch(0.42 0.12 45);
+  --tk-ground:     oklch(0.45 0.03 60 / 0.22);
+}
+.dark,
+[data-theme="dark"] {
+  --brand-stone:   oklch(0.94 0.018 82);
+  --brand-shade:   oklch(0.77 0.022 74);
+  --tk-stone-hi:   oklch(0.50 0.024 70);
+  --tk-stone:      oklch(0.36 0.020 64);
+  --tk-stone-lo:   oklch(0.25 0.014 60);
+  --tk-shade:      oklch(0.12 0.01 60 / 0.5);
+  --tk-side:       oklch(0.20 0.012 60);
+  --tk-light-hot:  oklch(0.94 0.10 86);
+  --tk-light-deep: oklch(0.36 0.11 42);
+  --tk-ground:     oklch(0 0 0 / 0.55);
+}
+
 /* ── Layout system ────────────────────────────────────────────────────
    One framed column (the "rail") runs the whole page: a 1280px frame with
    hairline side borders, sections stacked inside it and separated by
@@ -518,7 +549,7 @@ body {
     margin-inline-start: 0.32em;
     font-weight: 600;
     letter-spacing: -0.022em;
-    color: color-mix(in srgb, var(--foreground) 78%, var(--signal) 22%);
+    color: var(--signal);
     -webkit-text-fill-color: currentColor;
   }
   .brand-wordmark-ltd {
@@ -1579,6 +1610,315 @@ body {
   .nav-link:hover,
   .nav-link[aria-current="true"],
   .nav-link.is-active { color: var(--foreground); }
+
+  /* ── Brand mark (flat SVG) ─────────────────────────────────────────── */
+  .tk-mark { display: block; flex-shrink: 0; overflow: visible; }
+  .tk-mark-stone { fill: var(--brand-stone); }
+  .tk-mark-shade { fill: var(--brand-shade); }
+  .tk-mark-core  { fill: var(--signal); transition: fill 0.35s ease; }
+
+  .brand-lockup-link { gap: 0.625rem; align-items: center; }
+  .brand-mark-glyph--header {
+    position: relative;
+    z-index: 1;
+    width: 1.625rem;
+    height: 1.625rem;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (min-width: 1024px) {
+    .brand-mark-glyph--header { width: 1.875rem; height: 1.875rem; }
+  }
+  .brand-mark-glyph--footer { width: 1.75rem; height: 1.75rem; }
+  /* Hover: the passage brightens — the only orange that moves. */
+  .brand-lockup-link:hover .tk-mark-core,
+  .brand-lockup-link:focus-visible .tk-mark-core { fill: var(--signal-soft); }
+  @media (prefers-reduced-motion: no-preference) {
+    .brand-lockup-link:hover .brand-mark-glyph--header,
+    .brand-lockup-link:focus-visible .brand-mark-glyph--header { transform: translateY(-1px); }
+  }
+
+  /* ── Brand monument (hero) ─────────────────────────────────────────────
+     1em = one mark unit. Camera: a little below the parapet, turned so the
+     lit (left) wall and the right jamb of the passage both show. */
+  .tk-monument {
+    --tk-ry: calc(15deg + var(--tk-tilt-y, 0deg) + var(--tk-scroll-y, 0deg));
+    --tk-rx: calc(-7deg + var(--tk-tilt-x, 0deg));
+    position: relative;
+    width: 48em;
+    height: 48em;
+    font-size: calc(var(--tk-h, 10rem) / 48);
+  }
+  .tk-monument-float {
+    position: absolute;
+    inset: 0;
+    animation: tk-float 11s ease-in-out infinite;
+  }
+  .tk-monument-stage {
+    position: absolute;
+    inset: 0;
+    perspective: 70em;
+    perspective-origin: 50% 40%;
+  }
+  .tk-monument-object {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tk-rx)) rotateY(var(--tk-ry));
+    transform-origin: 50% 70% -3em;
+  }
+  .tk-monument-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    backface-visibility: visible;
+  }
+  .tk-monument-slice path {
+    fill: color-mix(in oklch, var(--tk-side), var(--signal-dim) var(--tk-warm, 0%));
+  }
+  .tk-monument-light {
+    opacity: var(--tk-lit, 1);
+  }
+  .tk-monument-light path { animation: tk-breathe 7s ease-in-out infinite; }
+  .tk-monument-passage-floor {
+    position: absolute;
+    left: 19em;
+    top: 46em;
+    width: 10em;
+    transform-origin: 50% 0;
+    transform: rotateX(-90deg);
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--signal) 28%, var(--tk-side)), var(--signal) 85%, var(--tk-light-hot));
+    opacity: calc(0.35 + 0.65 * var(--tk-lit, 1));
+  }
+  .tk-monument-shade { fill: var(--tk-shade); }
+  .tk-monument-grain { opacity: 0.35; mix-blend-mode: overlay; }
+  .tk-monument-bevel {
+    fill: none;
+    stroke: color-mix(in oklch, var(--tk-stone-hi), white 22%);
+    stroke-width: 0.5;
+    stroke-opacity: 0.55;
+  }
+  .tk-monument-reveal {
+    fill: none;
+    stroke: var(--signal-soft);
+    stroke-width: 0.4;
+    stroke-opacity: calc(0.28 * var(--tk-lit, 1));
+  }
+
+  /* Ground plane — reflection is the face, mirrored about the base line. */
+  .tk-monument-ground {
+    position: absolute;
+    inset-inline: -40%;
+    top: 46em;
+    height: 26em;
+    pointer-events: none;
+  }
+  .tk-monument-ground::before {
+    /* horizon hairline, brightest under the gate */
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong) 30%, color-mix(in srgb, var(--signal) 45%, var(--line-strong)) 50%, var(--line-strong) 70%, transparent);
+  }
+  .tk-monument-spill {
+    position: absolute;
+    left: 50%;
+    top: -1.5em;
+    width: 30em;
+    height: 7em;
+    translate: -50% 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--signal) 55%, transparent), color-mix(in srgb, var(--signal) 14%, transparent) 55%, transparent);
+    opacity: calc(0.75 * var(--tk-lit, 1));
+    filter: blur(0.6em);
+  }
+  .tk-monument-reflection {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-origin: 50% 46em;
+    transform: perspective(70em) rotateY(var(--tk-ry)) scaleY(-1);
+    opacity: 0.2;
+    filter: blur(0.15em);
+    mask-image: linear-gradient(to top, black 0%, transparent 42%);
+    pointer-events: none;
+  }
+  .tk-monument-reflection-body { fill: var(--tk-stone); fill-rule: evenodd; }
+  .tk-monument-reflection-core { fill: var(--signal); opacity: var(--tk-lit, 1); }
+
+  /* Hero placement: the gate's base sits on a floor ~a third of its height
+     above the hero's bottom edge; the copy's bottom padding clears it. */
+  .hero-gateway { --tk-h: clamp(6.5rem, 2rem + 7.5vw, 9rem); }
+  @media (max-height: 760px) and (min-width: 1024px) {
+    .hero-gateway { --tk-h: clamp(6.5rem, 16svh, 8.5rem); }
+  }
+  .hero-gateway-slot { bottom: calc(var(--tk-h) * 0.25); }
+
+  @keyframes tk-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-0.35em); }
+  }
+  @keyframes tk-breathe {
+    0%, 100% { opacity: 0.86; }
+    50%      { opacity: 1; }
+  }
+
+  /* ── Footer — one dark card, the closing shot ──────────────────────── */
+  /* The card carries `.dark`, so it is the same night scene in either theme;
+     only its outer shadow changes with the page. */
+  .footer-shell {
+    padding: 0.75rem;
+  }
+  @media (min-width: 640px)  { .footer-shell { padding: 1.25rem; } }
+  @media (min-width: 1024px) { .footer-shell { padding: 1.5rem; } }
+
+  .footer-card {
+    --line: color-mix(in srgb, var(--foreground) 10%, transparent);
+    --horizon: var(--signal);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    container-type: inline-size;
+    border-radius: var(--radius-2xl);
+    border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
+    background:
+      radial-gradient(120% 70% at 50% -20%, color-mix(in srgb, var(--foreground) 5%, transparent), transparent 60%),
+      oklch(0.155 0.010 262);
+    color: var(--foreground);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--foreground) 7%, transparent),
+      0 40px 80px -48px rgb(10 12 18 / 0.55);
+  }
+  /* Film grain — keeps the large flat dark from banding. */
+  .footer-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .footer-card-body {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 2.5rem;
+    padding: 2rem 1.5rem 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .footer-card-body {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 4rem;
+      padding: 3rem 3rem 2.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .footer-card-body { padding: 3.5rem 4rem 2.5rem; }
+  }
+
+  .footer-heading {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--foreground);
+  }
+  .footer-link {
+    font-size: 0.9375rem;
+    color: var(--muted-foreground);
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .footer-link:hover {
+    color: var(--foreground);
+    text-decoration-color: color-mix(in srgb, var(--signal) 70%, transparent);
+  }
+  .footer-link:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 2px;
+    color: var(--foreground);
+  }
+
+  /* Base: the wordmark horizon with the legal line laid over its foot. */
+  .footer-base {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-horizon {
+    position: relative;
+    z-index: 1;
+    order: 2;
+    margin-top: 0.5rem;
+    pointer-events: none;
+    user-select: none;
+  }
+  /* Low sun behind the letters — the only warm light on the card. */
+  .footer-horizon-glow {
+    position: absolute;
+    inset: -70% -6% 0;
+    background:
+      radial-gradient(34% 52% at 50% 100%, color-mix(in srgb, var(--signal-soft) 70%, transparent), transparent 72%),
+      radial-gradient(62% 70% at 50% 100%, color-mix(in srgb, var(--horizon) 38%, transparent), transparent 78%),
+      radial-gradient(110% 60% at 50% 100%, color-mix(in srgb, var(--horizon) 12%, transparent), transparent 80%);
+  }
+  /* Letters are cut from the night, not lit: a silhouette against the glow,
+     with a hairline rim where the light catches their tops. */
+  .footer-wordmark {
+    position: relative;
+    margin-bottom: -0.12em;
+    font-family: var(--font-display);
+    font-size: 18.6cqw;
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: oklch(0.125 0.010 262);
+    /* Rim light: a tight warm edge on the tops of the letters. */
+    text-shadow:
+      0 -1px 0 color-mix(in srgb, var(--signal-soft) 55%, transparent),
+      0 -6px 18px color-mix(in srgb, var(--horizon) 22%, transparent);
+  }
+
+  .footer-legal {
+    position: relative;
+    z-index: 2;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    margin-inline: 1.5rem;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+  .footer-legal .footer-link { font-size: inherit; }
+  @media (min-width: 768px) {
+    .footer-legal {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-inline: 3rem;
+      padding-top: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .footer-legal { margin-inline: 4rem; }
+  }
 
   /* Primary nav — one rounded rail; items highlight inside on hover */
   .header-zone-center .nav-link {

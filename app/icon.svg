@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Generated from GATEWAY in components/brand/timbuktu-mark.tsx -->
+  <defs><clipPath id="r"><rect x="24" y="0" width="24" height="48"/></clipPath></defs>
+  <rect width="48" height="48" rx="10" fill="#0e1015"/>
+  <g transform="translate(4.8 4.6) scale(0.8)">
+    <path d="M21.5 3 L26.5 3 L28.6 11 L35.6 11 L36.4 7 L39.6 7 L40.4 11 L45 11 L45 16 L32.4 19 L37.8 46 L10.2 46 L15.6 19 L3 16 L3 11 L7.6 11 L8.4 7 L11.6 7 L12.4 11 L19.4 11 Z  M19 46 L20.6 27 L24 22.5 L27.4 27 L29 46 Z" fill="#efe7da" fill-rule="evenodd"/>
+    <path d="M21.5 3 L26.5 3 L28.6 11 L35.6 11 L36.4 7 L39.6 7 L40.4 11 L45 11 L45 16 L32.4 19 L37.8 46 L10.2 46 L15.6 19 L3 16 L3 11 L7.6 11 L8.4 7 L11.6 7 L12.4 11 L19.4 11 Z  M19 46 L20.6 27 L24 22.5 L27.4 27 L29 46 Z" fill="#c3b8a6" fill-rule="evenodd" clip-path="url(#r)"/>
+    <path d="M19 46 L20.6 27 L24 22.5 L27.4 27 L29 46 Z" fill="#f08a00"/>
+  </g>
+</svg>

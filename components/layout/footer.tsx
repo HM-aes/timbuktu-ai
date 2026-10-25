@@ -1,70 +1,99 @@
+import { ArrowRight, ArrowUp } from "lucide-react";
 import BrandMark from "@/components/brand-mark";
+import FooterWordmark from "@/components/layout/footer-wordmark";
+import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import {
+  APPROACH_URL,
   BOOKING_URL,
   CONTACT_EMAIL,
-  FOOTER_NAV,
+  CONTACT_URL,
+  PRODUCTS_INDEX,
   PRODUCT_ROUTES,
-  mailto,
+  WRITING_URL,
 } from "@/lib/site";
 
-const PRODUCTS = [
-  { label: "NIS2 Analyzer", href: PRODUCT_ROUTES["nis2-analyzer"] },
-  { label: "Lex Legal", href: PRODUCT_ROUTES["lex-legal"] },
-  { label: "DocSense", href: PRODUCT_ROUTES.docsense },
-  { label: "TankSlim", href: PRODUCT_ROUTES.tankslim },
-];
+const COLUMNS = [
+  {
+    heading: "Products",
+    links: [
+      { label: "NIS2 Analyzer", href: PRODUCT_ROUTES["nis2-analyzer"] },
+      { label: "Lex Legal", href: PRODUCT_ROUTES["lex-legal"] },
+      { label: "DocSense", href: PRODUCT_ROUTES.docsense },
+      { label: "TankSlim", href: PRODUCT_ROUTES.tankslim },
+    ],
+  },
+  {
+    heading: "Company",
+    links: [
+      { label: "All products", href: PRODUCTS_INDEX },
+      { label: "Approach", href: APPROACH_URL },
+      { label: "Writing", href: WRITING_URL },
+      { label: "Contact", href: CONTACT_URL },
+    ],
+  },
+] as const;
 
-const CONTACT = [
-  { label: "Book a call", href: BOOKING_URL },
-  { label: "Email us directly", href: mailto("Timbuktu AI Solutions — enquiry") },
-  { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
-];
-
-function Column({ heading, links }: { heading: string; links: readonly { label: string; href: string }[] }) {
-  return (
-    <div>
-      <h3 className="text-[15px] font-medium text-foreground">{heading}</h3>
-      <ul className="mt-4 space-y-2.5">
-        {links.map((l) => (
-          <li key={l.label}>
-            <a href={l.href} className="nav-link text-[14px]">
-              {l.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
+/**
+ * Footer — one dark card that holds in either theme: brand and the one action
+ * up top, two short link columns, and the company name as a silhouette on a
+ * low amber horizon, with the legal line laid over its base.
+ */
 export default function Footer() {
   return (
-    <footer className="section relative overflow-hidden">
-      <div className="frame">
-        <div className="gutter section-block pb-0">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8">
-            <div className="max-w-xs">
-              <BrandMark href="/" variant="footer" />
-              <p className="cell-body mt-5">
-                Secure AI systems — RAG, agents and access control — architected
-                and built by one specialist. Online, or fully air-gapped.
-              </p>
+    <footer className="frame footer-shell">
+      <div className="dark footer-card">
+        <div className="footer-card-body">
+          <div className="max-w-[26rem]">
+            <BrandMark href="/" variant="footer" />
+            <p className="cell-body mt-5">
+              Secure AI systems — RAG, agents and access control — architected and built by one
+              specialist. Online, or fully air‑gapped.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+              {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
+              <CtaButton href={BOOKING_URL} tone="signal" size="sm">
+                Book a call
+                <ArrowRight size={15} data-arrow />
+              </CtaButton>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="footer-link">
+                {CONTACT_EMAIL}
+              </a>
             </div>
-            <Column heading="Site" links={FOOTER_NAV} />
-            <Column heading="Products" links={PRODUCTS} />
-            <Column heading="Contact" links={CONTACT} />
           </div>
 
-          <div className="mt-14 flex flex-col gap-3 border-t border-[var(--line)] py-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>Timbuktu AI Solutions · KVK-registered, Netherlands · operating from Porto</p>
-            <p>Your data stays yours. © {new Date().getFullYear()}</p>
-          </div>
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:gap-14">
+            {COLUMNS.map((col) => (
+              <div key={col.heading}>
+                <h3 className="footer-heading">{col.heading}</h3>
+                <ul className="mt-4 space-y-2.5">
+                  {col.links.map((l) => (
+                    <li key={l.label}>
+                      <a href={l.href} className="footer-link">
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
         </div>
 
-        <div aria-hidden className="gutter select-none overflow-hidden pt-4">
-          <p className="translate-y-[18%] text-center font-display text-[clamp(5rem,20vw,17rem)] font-semibold leading-none tracking-[-0.05em] text-foreground/[0.045]">
-            Timbuktu
-          </p>
+        <div className="footer-base">
+          <FooterWordmark />
+          <div className="footer-legal">
+            <p>
+              © {new Date().getFullYear()} Timbuktu AI Solutions · KVK-registered, Netherlands · Operating
+              from Porto
+            </p>
+            <div className="flex items-center gap-5">
+              <p>Your data stays yours.</p>
+              <a href="#top" className="footer-link inline-flex items-center gap-1.5">
+                Back to top
+                <ArrowUp size={13} aria-hidden />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

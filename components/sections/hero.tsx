@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import gsap from "gsap";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import TimbuktuMonument from "@/components/brand/timbuktu-monument";
 import { CtaButton } from "@/components/shadcn-space/button/button-16";
 import { APPROACH_URL } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
@@ -22,6 +23,9 @@ const WORDMARK_RIGHT = [..."AI"];
  * absolutely positioned and clipped by the section, so it adds no height.
  * The wordmark splits with the scroll itself. The section is not pinned,
  * so the page keeps moving while the letters travel.
+ *
+ * The gateway monument stands on the hero's floor in front of the wordmark,
+ * so when the letters part on scroll they open around the gate.
  */
 export default function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -50,20 +54,35 @@ export default function Hero() {
       .to(el.querySelector("[data-wordmark]"), { yPercent: -36 }, 0)
       .to(el.querySelector("[data-wm-left]"), { xPercent: -52 }, 0)
       .to(el.querySelector("[data-wm-right]"), { xPercent: 120, "--wm-ai": 1 }, 0)
-      .to(chars, { yPercent: -18, rotate: (i) => (i - mid) * 3.5, stagger: { each: 0.012, from: "edges" } }, 0);
+      .to(chars, { yPercent: -18, rotate: (i) => (i - mid) * 3.5, stagger: { each: 0.012, from: "edges" } }, 0)
+      .to(el.querySelector("[data-monument]"), { "--tk-scroll-y": "-11deg", yPercent: -8 }, 0);
 
     if (!window.matchMedia("(pointer: fine)").matches) return;
     const drift = el.querySelector<HTMLElement>("[data-wm-pointer]");
     const toX = gsap.quickTo(drift, "x", { duration: 1.2, ease: "power3.out" });
     const toY = gsap.quickTo(drift, "y", { duration: 1.2, ease: "power3.out" });
+    // The gateway turns a few degrees toward the pointer — a camera move, not a spin.
+    const monument = el.querySelector("[data-monument]");
+    const tilt = (x: number, y: number) =>
+      gsap.to(monument, {
+        "--tk-tilt-y": `${x * 9}deg`,
+        "--tk-tilt-x": `${y * -4}deg`,
+        duration: 1.4,
+        ease: "power3.out",
+        overwrite: "auto",
+      });
     const onMove = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
-      toX(((e.clientX - r.left) / r.width - 0.5) * -48);
-      toY(((e.clientY - r.top) / r.height - 0.5) * -16);
+      const nx = (e.clientX - r.left) / r.width - 0.5;
+      const ny = (e.clientY - r.top) / r.height - 0.5;
+      toX(nx * -48);
+      toY(ny * -16);
+      tilt(nx, ny);
     };
     const onLeave = () => {
       toX(0);
       toY(0);
+      tilt(0, 0);
     };
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerleave", onLeave);
@@ -74,7 +93,7 @@ export default function Hero() {
   });
 
   return (
-    <section ref={root} className="relative overflow-hidden">
+    <section ref={root} className="hero-gateway relative overflow-hidden">
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
@@ -85,7 +104,7 @@ export default function Hero() {
       <div className="frame relative">
         <div
           data-hero-copy
-          className="gutter relative z-10 flex min-h-[calc(100svh-var(--header-min-h))] flex-col items-center justify-center pb-[clamp(6rem,13vw,13rem)] pt-12 text-center lg:min-h-[calc(100svh-var(--header-min-h-lg))]"
+          className="gutter relative z-10 flex min-h-[calc(100svh-var(--header-min-h))] flex-col items-center justify-center pb-[calc(var(--tk-h)*1.25+1.5rem)] pt-12 text-center lg:min-h-[calc(100svh-var(--header-min-h-lg))]"
         >
           <motion.p {...settle(0, 10)} className="pill pill--hero">
             <span className="dot" aria-hidden />
@@ -114,6 +133,26 @@ export default function Hero() {
             </CtaButton>
           </motion.div>
         </div>
+      </div>
+
+      {/* The gateway — on the floor, in front of the wordmark, behind the copy */}
+      <div className="hero-gateway-slot pointer-events-none absolute inset-x-0 z-[5] flex justify-center">
+      <motion.div
+        data-monument
+        initial={{ opacity: 0, y: 14, "--tk-lit": 0 }}
+        animate={{ opacity: 1, y: 0, "--tk-lit": 1 }}
+        transition={
+          reduced
+            ? INSTANT
+            : {
+                default: { duration: 1.6, delay: BASE + 3 * STEP, ease: settleEase },
+                "--tk-lit": { duration: 2.6, delay: BASE + 4 * STEP, ease: "easeInOut" },
+              }
+        }
+        style={{ "--tk-tilt-x": "0deg", "--tk-tilt-y": "0deg", "--tk-scroll-y": "0deg" } as CSSProperties}
+      >
+        <TimbuktuMonument />
+      </motion.div>
       </div>
 
       {/* Background wordmark — part of the hero, clipped by it, behind the copy */}
