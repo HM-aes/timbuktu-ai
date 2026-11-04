@@ -62,8 +62,8 @@ export default function ArchitectureIntro() {
         </div>
         <div data-arch-lede className="lg:col-span-5 lg:pb-2">
           <p className="lede max-w-[36rem]">
-            Four layers around one AI core. Scroll to look inside: each layer is named, then they close again as
-            one architecture. Every system is reviewed against the OWASP Top 10 for LLM applications before it is built.
+            Four layers around one AI core, each named in turn. Every system is reviewed against the OWASP Top 10
+            for LLM applications before it is built.
           </p>
         </div>
       </div>
