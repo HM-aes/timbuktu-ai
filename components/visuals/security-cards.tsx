@@ -1,4 +1,5 @@
 import type { SecurityLayer } from "@/components/sections/architecture-stage";
+import { GlassCard } from "@/components/ui/glass-card";
 
 /**
  * SecurityCards — the RAG system as four readable cards.
@@ -8,7 +9,8 @@ import type { SecurityLayer } from "@/components/sections/architecture-stage";
  * it retrieves from side by side underneath. Every card carries a lock and
  * the one safeguard that layer adds.
  *
- * Cards carry `data-layer` (1 = Data … 4 = Operations). ArchitectureStage
+ * Cards are frosted glass (GlassCard), each tinted by its layer's colour.
+ * They carry `data-layer` (1 = Data … 4 = Operations). ArchitectureStage
  * drives them with custom properties: `--card-in` brings a card into the
  * structure, `--focus` pulls it forward to be read, `--dim` quiets the
  * others, and `--sec` on the scene lights every lock once the structure is
@@ -36,11 +38,12 @@ export default function SecurityCards({
       {[...layers].reverse().map((l) => {
         const n = Number(l.n);
         return (
-          <div
+          <GlassCard
             key={l.n}
             data-layer={n}
             onClick={onSelect ? () => onSelect(n) : undefined}
-            className={n === 4 ? "crd crd-frame" : "crd"}
+            className={n === 4 ? "crd-frame" : undefined}
+            tilt={n === 4 ? 0 : 5}
           >
             <span className="crd-lock">
               <svg
@@ -62,7 +65,7 @@ export default function SecurityCards({
             </span>
             <span className="crd-purpose">{l.purpose}</span>
             <span className="crd-detail">{l.detail}</span>
-          </div>
+          </GlassCard>
         );
       })}
     </div>

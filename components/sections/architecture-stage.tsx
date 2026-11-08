@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
 import SecurityCards from "@/components/visuals/security-cards";
 import { useScrollScene } from "@/lib/use-scroll-scene";
@@ -193,11 +193,12 @@ export default function ArchitectureStage({ layers }: { layers: SecurityLayer[] 
                 key={l.n}
                 data-step
                 data-on={free && focus === n ? "" : undefined}
+                style={{ "--accent": `var(--layer-${n})` } as CSSProperties}
                 className="relative border-t border-[var(--line)] py-5 first:border-t-0 lg:py-4 [@media(min-height:820px)]:lg:py-5"
               >
                 <span data-step-bar aria-hidden className="arch-bar" />
                 <div className="flex items-baseline gap-4">
-                  <span className="label w-6 shrink-0 text-signal">{l.n}</span>
+                  <span className="label w-6 shrink-0 text-[color:var(--accent)]">{l.n}</span>
                   <div className="min-w-0">
                     <h3 className="text-[1.125rem] font-medium uppercase tracking-[0.06em] text-foreground">
                       <button
@@ -251,7 +252,7 @@ export default function ArchitectureStage({ layers }: { layers: SecurityLayer[] 
                 }
               >
                 <p className="label flex items-center gap-2.5">
-                  {beat.n ? <span className="text-signal">{beat.n}</span> : null}
+                  {beat.n ? <span style={{ color: `var(--layer-${beat.layer})` }}>{beat.n}</span> : null}
                   <span>{beat.name}</span>
                 </p>
                 <p className="mt-2 max-w-[32ch] text-base leading-snug text-foreground">{beat.line}</p>
@@ -271,7 +272,7 @@ export default function ArchitectureStage({ layers }: { layers: SecurityLayer[] 
               className="max-w-[34ch] border-t border-[var(--line)] pt-3 animate-in fade-in slide-in-from-bottom-1 duration-300"
             >
               <p className="label flex items-center gap-2.5">
-                <span className="text-signal">{active?.n ?? "00"}</span>
+                <span style={{ color: active ? `var(--layer-${focus})` : "var(--signal)" }}>{active?.n ?? "00"}</span>
                 <span>{active?.name ?? "One system"}</span>
               </p>
               <p className="mt-1.5 text-base leading-snug text-foreground">
