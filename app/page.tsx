@@ -1,12 +1,14 @@
 import Hero from "@/components/sections/hero";
 import SecurityArchitecture from "@/components/sections/security-architecture";
 import ProductShowcase from "@/components/products/product-showcase";
-import SecureRagShowcase from "@/components/sections/secure-rag-showcase";
+import Founder from "@/components/sections/founder";
+import HomeFaq from "@/components/sections/home-faq";
 import FinalCta from "@/components/sections/final-cta";
 
 /**
  * The homepage is one story: build AI → it needs protection → security at
- * every layer → four products → one mission.
+ * every layer → four products → the person who builds them → book a call.
+ * Depth lives on the product pages; the secure RAG walkthrough is on DocSense.
  */
 export default function Page() {
   return (
@@ -14,7 +16,8 @@ export default function Page() {
       <Hero />
       <SecurityArchitecture />
       <ProductShowcase />
-      <SecureRagShowcase />
+      <Founder />
+      <HomeFaq />
       <FinalCta />
     </>
   );

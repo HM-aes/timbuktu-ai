@@ -62,8 +62,8 @@ export default function ArchitectureIntro() {
         </div>
         <div data-arch-lede className="lg:col-span-5 lg:pb-2">
           <p className="lede max-w-[36rem]">
-            Four layers around one AI core, each named in turn. Every system is reviewed against the OWASP Top 10
-            for LLM applications before it is built.
+            One request, four layers. Each layer runs on a Python framework chosen because it closes a named
+            risk, and every system is reviewed against the OWASP Top 10 for LLM applications before it is built.
           </p>
         </div>
       </div>

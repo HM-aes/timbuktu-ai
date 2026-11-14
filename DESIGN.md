@@ -163,18 +163,21 @@ The whole page is one drawn column. A 1280px frame with hairline side rails
 runs from the header to the footer watermark; every section is stacked inside
 it and separated from the next by the same hairline; every grid of content is
 a set of bordered cells that share those lines rather than a row of floating
-cards. The graphite ground is dark-only (the light theme file exists but the
-root layout forces `.dark`), amber is the single accent, and the type is one
-humanist sans at two weights, so the eye reads structure from lines and
-whitespace instead of from fills, shadows or colour changes.
+cards. Light is the default theme and a header switch moves to the graphite
+dark theme (`app/theme-light.css`, `app/theme-dark.css`; the choice is stored in
+`localStorage`), so every component has to hold in both. Amber is the single
+accent, and the type is one humanist sans at two weights, so the eye reads
+structure from lines and whitespace instead of from fills, shadows or colour
+changes.
 
 The register follows the Atomist SaaS template's discipline (framed column,
 hairline cells, large plain h2 with one accented phrase, a muted lede, a live
 product stage under the hero) while keeping Timbuktu's own palette, fonts and
 content. Nothing decorates for its own sake: the dot field appears only behind
 the two centred statement/CTA blocks, ambient light appears only on the hero
-showcase stage, and page-level motion is limited to three moments (hero settle,
-showcase tab swap, Philosophy statement reveal).
+showcase stage, and page-level motion is limited to four moments (hero settle,
+showcase tab swap, Philosophy statement reveal, and the request trace in the
+Architecture section).
 
 **Key Characteristics:**
 - One 1280px framed column with 1px side rails from 640px up; sections stacked and separated by hairline rules.
@@ -207,7 +210,15 @@ lives inside product diagrams and dashboards where it carries meaning.
 ### Severity (dashboards and diagrams only)
 - Critical, High, Medium, Low, OK (`{colors.sev-critical}` … `{colors.sev-ok}`): only inside the NIS2 dashboard and threat ledger where severity is the content.
 
+### Diagram tones (Architecture stage only)
+Scoped to `.arch-stage` in `globals.css`, with a light and a dark value each so small text holds 4.5:1 in both themes.
+- **Go** (`--arch-go`; light `oklch(0.53 0.16 55)`, dark `signal-soft`): a request in motion. The conduit fill on the way down, the travelling point, the open layer's border, layer numerals, the one flagged phrase in the audit log.
+- **OK** (`--arch-ok`; light `oklch(0.5 0.09 195)`, dark `verify`): a check that passed. Node ticks, the conduit on the way back up, the Answer label, the boundary once it is drawn solid.
+- **Ground / Card** (`--arch-ground`, `--arch-card`): a flat dotted sheet (raised band in light, background mixed 30% toward black in dark) with `surface` cards on it. No ambient colour, no glow.
+
 ### Named Rules
+**The Two-Tone Diagram Rule.** Inside the Architecture stage, amber means "in motion" and teal means "verified". Nothing there is coloured for decoration, and no layer has a colour of its own.
+
 **The One Signal Rule.** Amber is the only accent colour allowed outside diagrams, dashboards and severity chips. A second decorative hue is wrong; use weight, a hairline or whitespace instead.
 
 **The Hairline-Not-Border Rule.** Structure is drawn with `line` (foreground at 10%). Cells, rails, section rules, panels and tabs all use this one value; nothing on the page draws a heavier stroke than 1px at 18%.
@@ -351,11 +362,27 @@ underline that slides between tabs) sits over a `stage-glow` stage padded 12 →
 24 → 40px, holding one 12px-cornered dashboard panel on the stage drop shadow;
 a three-cell stat row closes it. Tabs are keyboard-operable (arrows, Home, End).
 
+### Signature Component: Request Trace (Architecture stage)
+The section under "Security is not a feature. It is the architecture." It
+answers one question with evidence: what happens to a request, and what stops
+it going wrong. Files: `components/sections/security-architecture.tsx` (layer
+data), `components/sections/architecture-stage.tsx` (modes and timeline),
+`components/visuals/request-trace.tsx` (markup), `.arch-*` / `.trc-*` in
+`app/globals.css`.
+
+- **Two readings, side by side.** The left column is for the person who signs off: layer name, one plain sentence, one supporting sentence. The stage on the right is for the engineer: what each layer is built with (mono chips), three checks it performs, and the OWASP LLM Top 10 (2025) risk that closes. The same sentence never appears in both.
+- **Order.** Layers are numbered in the order a request meets them: 01 Application, 02 Model, 03 Data, 04 Operations. Operations is last because it is the dashed boundary the other three run inside.
+- **Anatomy.** Boundary frame (14px radius, 1px dashed, drawn solid in OK once verified) → Operations header → request/answer slot → three layer cards (10px radius, `surface`, hairline border) joined by a 1px conduit through 24px nodes → audit log (mono, tabular numerals, one line per hop). All geometry is in `em`; one `font-size` clamp scales the whole drawing from stage width, and from pinned height on desktop.
+- **States of a layer.** Pending (hollow node), open (Go border, soft offset shadow, checks visible), passed (node filled OK with a tick). Exactly one layer is open at a time, and every open layer takes the same height (`--dh`), so the frame never changes size; Operations is the one open at rest.
+- **Content is illustrative and says so.** The request, the answer and the five log lines are an example trace (the log header reads "Example trace"). Tools, checks and risk ids restate the stack and threat ledger on `/approach`; change them in both places.
+- **Driven by custom properties.** `--focus`, `--dim`, `--pass`, `--flow`, `--ret`, `--sec` (registered with `@property`). Every CSS default is the finished state, so no script, a failed script or reduced motion still shows the whole verified system.
+
 ### Motion
-Page-level motion is three moments, all on the ease `cubic-bezier(0.22, 1, 0.36, 1)`:
+Page-level motion is four moments. The first three use the ease `cubic-bezier(0.22, 1, 0.36, 1)`:
 1. **Hero settle:** pill, h1, lede, buttons and showcase fade up (10–24px) over 0.8–0.9s, staggered 0.12s from a 0.1s base.
 2. **Showcase tab swap:** underline slides in 0.4s; the outgoing dashboard fades down 6px and the incoming fades up 10px, 0.3s each.
 3. **Philosophy statement:** words go from 22% opacity and 4px blur to full as the block scrolls between 90% and 45% of the viewport.
+4. **Request trace (Architecture):** one GSAP timeline, `buildTrace`, used two ways. On a large, tall screen (≥1024px wide, ≥620px tall) the row is pinned for 320% of the viewport and the scroll scrubs it: the request drops from the slot into Application, each layer opens as the last one closes, its node turns to a tick, the audit log writes a line, the request moves on; at Data the answer climbs back in teal, the last two hops are logged and the boundary is drawn solid. Clicking a layer in the list scrolls to its beat. Everywhere else the same timeline plays once on a 10s clock when the stage reaches 60% of the viewport, then clears its inline values and hands over to CSS, so layers open on tap, hover or focus; "Replay trace" runs it again. With reduced motion nothing plays: the finished state is shown and layers still open on tap. Opening eases on `power2.inOut`, travel on `power1.inOut`, CSS state changes on `cubic-bezier(0.16, 1, 0.3, 1)` over 0.5s. Nothing loops.
 Control transitions are 0.2s (buttons, nav links, tabs; button lift uses `cubic-bezier(0.16, 1, 0.3, 1)`). Inside diagrams and product motifs, slow looping SVG telemetry (dashed flow lines, node pulses, a radar sweep, a scan line) runs continuously but stays inside its panel. Smooth scrolling is provided by Lenis. Under `prefers-reduced-motion`, every animation and transition is collapsed to 0.01ms, reveal words are forced visible, and the motion components render their final state.
 
 ## Do's and Don'ts
@@ -372,6 +399,30 @@ Control transitions are 0.2s (buttons, nav links, tabs; button lift uses `cubic-
 ### Don't:
 - **Don't** float cards: no box-shadow, blur, gradient border or raised surface on cells, panels or pills.
 - **Don't** add a second accent hue outside dashboards and severity chips, and don't use amber as a fill behind text.
-- **Don't** add page-level motion beyond the hero settle, the showcase tab swap and the statement reveal.
+- **Don't** add page-level motion beyond the hero settle, the showcase tab swap, the statement reveal and the request trace.
+- **Don't** give the Architecture stage ambient colour, glass, per-layer hues or a looping animation; it is a drawing, and it earns attention by being specific.
+- **Don't** put a claim in the request trace (a tool, a check, a risk id) that `/approach` does not also make.
 - **Don't** set prose in JetBrains Mono, or introduce eyebrow/kicker lines above headings; the heading block is h2 + lede only.
 - **Don't** use a gradient-blob hero, purple-on-white palette, three-up emoji feature grid, skill bars, stock photography or neon glitch effects (PRODUCT.md anti-references).
+
+## Change log
+
+### 2026-11-13 — Architecture stage rebuilt as a request trace
+- **Replaced** the four frosted-glass layer cards, their per-layer hues (amber, teal, green, blue), the drifting colour field behind them, the pointer tilt and glare, and the caption strip under the stage. Reasons: in the default light theme the layer hues collapsed to amber and the stage ground went grey, so the section read as orange blobs on mud; the cards repeated the left column's sentences word for word; and coloured blobs behind glass are the look PRODUCT.md lists as an anti-reference.
+- **Added** the Request Trace (see Components): layers in request order, stack chips, checks, OWASP risk ids, a conduit with a travelling request and returning answer, and an audit log that writes itself.
+- **Renumbered** the layers from Data-first to request order (Application, Model, Data, Operations). Layer copy in the left column is unchanged apart from the intro line.
+- **Changed** the lede under the heading to say what the stage now shows (one request, four layers, a Python framework per layer chosen for the risk it closes).
+- **Removed** `components/visuals/security-cards.tsx` and `components/ui/glass-card.tsx` (no other users) and all `.crd-*` CSS.
+- **Not re-audited in this pass:** the rest of this document. Several statements predate the light theme, the chapter labels, the metallic hero CTAs and the lamp component, and should be regenerated from the code before they are relied on.
+
+### 2026-11-13 — Header, hero and NIS2 preview
+- **Buttons.** `CtaButton` gains `tone="solid"`: foreground fill, background-colour label, a slightly lighter ripple on hover. One solid button per group: "Book a call" in the header and mobile menu, "Explore products" in the hero. `tone="metal"` is now the quiet secondary beside it, and its label is solid ink instead of gradient text.
+- **Chrome headline.** `.accent-metal` is a single top-to-bottom gradient (dark cap easing to graphite at the baseline; white to grey in dark). The old seven-stop gradient put a bright band at mid-height that read as a strikethrough on small text.
+- **Header lockup.** No capsule at rest; mark and wordmark sit left-aligned on the gutter. Mark 32px (36px from 1024px), provenance line 10 to 11px. The hover treatment is unchanged.
+- **Stage ground.** `.stage-object` and `.stage-glow` read `--stage-ground`: a light grey in the light theme, background mixed 30% toward black in dark. Previously both mixed toward black in light too, which gave a mid-grey slab behind every product.
+- **NIS2 preview.** Two real screens of the app in dark window frames (Dashboard, Gap analysis): stacked on small screens, cascaded from 1024px (each 88% wide, the second overlapping by 9%) so the pair matches the height of the copy column. `public/previews/nis2-gap-analysis.png` is a crop of the page area only.
+
+### 2026-11-13 — Closing block and Secure RAG stack
+- **Closing block (`FinalCta`, `.closing-*`).** No longer a centred heading over two pills. A split that shares the frame's hairlines: on the left the claim, the lede, one solid "Book a call", a quiet "Explore the products" and the email as a text link, over the dot field; on the right three terms of the call (about 30 minutes, no slide deck, one person) as a definition list divided by hairlines. 1.2fr / 0.8fr from 1024px, stacked below. The terms restate the contact page; keep the two in step.
+- **Button order.** "Book a call" is the primary here, as PRODUCT.md says. The amber `tone="signal"` button is no longer used on a light surface, where its white label did not meet contrast; it remains in the dark footer card.
+- **Secure RAG stack.** In the pinned layout each card is centred in the stack, level with the step list, instead of hanging from the top with empty stage beneath it.

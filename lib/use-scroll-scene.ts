@@ -9,8 +9,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * --------------
  * Runs GSAP ScrollTrigger choreography scoped to one section. `setup` only
  * runs when the visitor has not asked for reduced motion (and `media`, if
- * given, matches), runs after mount
- * (never during SSR), and everything it creates is reverted on unmount.
+ * given, matches), runs after mount (never during SSR), and everything it
+ * creates is reverted on unmount. It may return a cleanup of its own.
  *
  * Lenis already owns scrolling. LenisProvider drives it from GSAP's ticker
  * and forwards each tick to ScrollTrigger, so this hook never creates a
@@ -18,7 +18,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  */
 export function useScrollScene(
   scope: RefObject<HTMLElement | null>,
-  setup: (root: HTMLElement) => void,
+  setup: (root: HTMLElement) => void | (() => void),
   /** Extra media conditions, e.g. "(min-width: 1024px)", ANDed with no-preference. */
   media?: string,
 ) {

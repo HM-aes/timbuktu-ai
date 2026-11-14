@@ -45,7 +45,7 @@ export default function TimbuktuWordmark({
     <span
       className={cn(
         "brand-lockup inline-flex flex-col",
-        isHeader ? "brand-lockup--header items-center" : "brand-lockup--footer items-start",
+        isHeader ? "brand-lockup--header items-start" : "brand-lockup--footer items-start",
         className,
       )}
     >

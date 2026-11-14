@@ -400,8 +400,10 @@ body {
     margin: 0;
     padding: 0.4375rem 0.875rem;
     overflow: hidden;
-    border-color: color-mix(in srgb, var(--line) 48%, transparent);
-    background: color-mix(in srgb, var(--background) 72%, transparent);
+    gap: 0.625rem;
+    margin-inline-start: -0.625rem;
+    border-color: transparent;
+    background: transparent;
   }
   @media (min-width: 640px) {
     .brand-lockup-link:has(.brand-lockup--header) {
@@ -614,13 +616,13 @@ body {
     }
   }
   .brand-lockup--header .brand-region {
-    font-size: clamp(0.5rem, 0.46rem + 0.22vw, 0.625rem);
-    letter-spacing: clamp(0.08em, 0.07em + 0.12vw, 0.11em);
+    font-size: clamp(0.625rem, 0.6rem + 0.15vw, 0.6875rem);
+    letter-spacing: 0.12em;
     line-height: 1.2;
     white-space: nowrap;
   }
   .brand-lockup--header .brand-wordmark {
-    justify-content: center;
+    justify-content: flex-start;
   }
   .brand-lockup--header .brand-region-mark {
     min-height: 0.6875rem;
@@ -959,29 +961,15 @@ body {
   .accent-metal {
     color: transparent;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(
-      180deg,
-      #2a2a2e 0%,
-      #121214 24%,
-      #6a6a70 44%,
-      #c8c8cc 50%,
-      #4a4a50 57%,
-      #161618 78%,
-      #3a3a40 100%
-    );
+    /* One light source from above: dark at the cap, easing to graphite at the
+       baseline. No highlight band across the middle, which read as a
+       strikethrough at small sizes. */
+    background-image: linear-gradient(180deg, #0e0e10 0%, #1d1d21 42%, #707078 100%);
     -webkit-background-clip: text;
     background-clip: text;
   }
   [data-theme="dark"] .accent-metal {
-    background-image: linear-gradient(
-      180deg,
-      #f5f5f6 0%,
-      #8e8e94 24%,
-      #fafafa 44%,
-      #c6c6ca 51%,
-      #6a6a70 64%,
-      #ececee 100%
-    );
+    background-image: linear-gradient(180deg, #ffffff 0%, #ededf0 42%, #8d8d96 100%);
   }
 
   /* Hero / lockup CTAs — chrome shell + accent-metal label (no amber fill). */
@@ -1077,20 +1065,8 @@ body {
       );
   }
   .cta-label-metal {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(
-      180deg,
-      #2a2a2e 0%,
-      #121214 24%,
-      #6a6a70 44%,
-      #c8c8cc 50%,
-      #4a4a50 57%,
-      #161618 78%,
-      #3a3a40 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
+    color: var(--foreground);
+    -webkit-text-fill-color: currentColor;
     transition:
       color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
       -webkit-text-fill-color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
@@ -1113,17 +1089,8 @@ body {
   .cta-shell--metal:focus-visible .cta-label-metal svg {
     color: #0a0a0b;
   }
-  [data-theme="dark"] .cta-label-metal {
-    background-image: linear-gradient(
-      180deg,
-      #f5f5f6 0%,
-      #8e8e94 24%,
-      #fafafa 44%,
-      #c6c6ca 51%,
-      #6a6a70 64%,
-      #ececee 100%
-    );
-  }
+  /* Solid primary: the one filled button in a group. */
+  .cta-ripple--solid { background: color-mix(in srgb, var(--foreground) 76%, var(--background)); }
   [data-theme="dark"] .cta-label-metal svg {
     color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground) 22%);
   }
@@ -1182,15 +1149,21 @@ body {
       radial-gradient(70% 60% at 6% 0%, color-mix(in srgb, var(--signal) 34%, transparent), transparent 70%),
       radial-gradient(60% 55% at 96% 0%, color-mix(in srgb, var(--signal) 22%, transparent), transparent 70%),
       radial-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
-      color-mix(in srgb, var(--background) 70%, black);
+      var(--stage-ground);
   }
   /* Object stages (Secure AI core, product panels) — the same recessed
      ground as the showcase, lit from under the object instead of the corners. */
   .stage-object {
     background:
       radial-gradient(42% 48% at var(--glow-x, 50%) var(--glow-y, 58%), color-mix(in srgb, var(--signal) var(--glow, 16%), transparent), transparent 72%),
-      radial-gradient(color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
-      color-mix(in srgb, var(--background) 70%, black);
+      radial-gradient(var(--stage-dot, color-mix(in srgb, var(--foreground) 7%, transparent)) 1px, transparent 1px) 0 0 / 22px 22px,
+      var(--stage-ground);
+  }
+  /* Ink stage: a deep espresso ground with a light dot grid, for a dark
+     interface. Same in both themes, and warm so it sits with the amber signal. */
+  .stage-object.stage-object--ink {
+    --stage-ground: oklch(0.185 0.024 52);
+    --stage-dot: color-mix(in srgb, white 11%, transparent);
   }
 
   /* ── Panel — flat product surface for diagrams and dashboards ────────── */
@@ -1342,9 +1315,14 @@ body {
     display: block;
     height: min(40rem, 100%);
   }
+  /* Each card is centred in the stack, so it lines up with the step list
+     beside it instead of hanging from the top with empty stage below. */
   .rag.is-stacked .rag-card {
     position: absolute;
-    inset: 0 0 auto;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     transform-origin: 50% 0;
   }
   .rag.is-stacked .rag-caption {
@@ -1425,6 +1403,78 @@ body {
       transform-origin: 50% 0;
     }
   }
+
+  /* NIS2 story — the interface plus four beats. Stacked by default; on large
+     screens the scene adds `.is-pinned`, holds the stage in view and plays
+     the run on scroll. The critical row is highlighted while its finding opens. */
+  .nis2-story-pin {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+  .nis2-story-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .nis2-story-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem 2rem; }
+  }
+  .nis2-step {
+    display: block;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+    transition: opacity 0.5s ease;
+  }
+  .nis2-step-number {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--muted-foreground);
+    transition: color 0.5s ease;
+  }
+  .nis2-step.is-active .nis2-step-number { color: var(--signal); }
+  .nis2-step-title {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--foreground);
+  }
+  .nis2-step-body {
+    display: block;
+    margin-top: 0.35rem;
+    max-width: 30ch;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--muted-foreground);
+  }
+  .nis2-story.is-pinned .nis2-story-pin {
+    height: 100svh;
+    padding-top: calc(var(--header-min-h-lg) + 1.25rem);
+    padding-bottom: 1.25rem;
+    justify-content: center;
+    overflow: clip;
+  }
+  .nis2-story.is-pinned .nis2-step { opacity: 0.4; }
+  .nis2-story.is-pinned .nis2-step.is-active { opacity: 1; }
+  .nis2-story.is-pinned .nis2-story-stage {
+    max-height: calc(100svh - var(--header-min-h-lg) - 11rem);
+  }
+  @media (max-height: 820px) {
+    .nis2-story.is-pinned .nis2-step-body { display: none; }
+    .nis2-story.is-pinned .nis2-story-stage { transform: scale(0.92); transform-origin: 50% 0; }
+  }
+  [data-nis2-row].is-focus {
+    background: color-mix(in srgb, var(--sev-critical) 9%, transparent);
+    box-shadow: inset 2px 0 0 var(--sev-critical);
+  }
+
+  /* FAQ disclosure */
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq[open] summary dt { color: var(--signal); }
 
   /* faint engineering grid inside diagram panels */
   .panel-grid {
@@ -1621,12 +1671,12 @@ body {
   .brand-mark-glyph--header {
     position: relative;
     z-index: 1;
-    width: 1.625rem;
-    height: 1.625rem;
+    width: 2rem;
+    height: 2rem;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
   @media (min-width: 1024px) {
-    .brand-mark-glyph--header { width: 1.875rem; height: 1.875rem; }
+    .brand-mark-glyph--header { width: 2.25rem; height: 2.25rem; }
   }
   .brand-mark-glyph--footer { width: 1.75rem; height: 1.75rem; }
   /* Hover: the passage brightens — the only orange that moves. */
@@ -2109,258 +2159,387 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
   pointer-events: none;
   background: color-mix(in srgb, var(--background) calc(var(--dim) * 58%), transparent);
 }
-/* Before the scroll scene runs, desktop visitors meet the opening line.
-   Reduced motion keeps the finished structure and the closing line. */
-@media (min-width: 1024px) and (min-height: 620px) and (prefers-reduced-motion: no-preference) {
-  .arch-stage .arch-beat { opacity: 0; }
-  .arch-stage .arch-beat[data-beat="0"] { opacity: 1; }
+/* ── Architecture stage: one request traced through four layers ──────────
+   The left column names each layer in plain language; the stage shows the
+   engineering. A request enters the Application, is screened at the Model,
+   retrieves from Data, and the answer climbs back, all inside the
+   Operations boundary, whose audit log records each hop.
+
+   ArchitectureStage drives it with custom properties, and every default
+   below is the finished state, so no script or reduced motion still shows
+   the whole verified system:
+     --focus  a layer is open and being explained
+     --dim    quiets the layers that are not
+     --pass   a layer's check has passed (its node turns to a tick)
+     --flow   the request has travelled a segment (amber, downward)
+     --ret    the answer has travelled it back (teal, upward)
+     --sec    the answer is back and the boundary is verified */
+@property --pass { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --flow { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --ret  { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --sec  { syntax: "<number>"; inherits: true; initial-value: 1; }
+
+.arch-stage {
+  /* Two tones carry all the meaning: amber is a request in motion, teal is
+     a check that passed. Both hold 4.5:1 as small text in either theme. */
+  --arch-go: oklch(0.53 0.16 55);
+  --arch-ok: oklch(0.5 0.09 195);
+  --arch-ground: var(--background-raised);
+  --arch-card: var(--surface);
+  --arch-lift: 0.16;
+}
+.dark .arch-stage {
+  --arch-go: var(--signal-soft);
+  --arch-ok: var(--verify);
+  --arch-ground: color-mix(in srgb, var(--background) 70%, black);
+  --arch-lift: 0.6;
 }
 
-/* The architecture stage is a size container, so the cards size from the
-   smaller of what the width and the height can hold. */
-.arch-stage .iso-stage { container-type: size; }
-.arch-stage[data-free] .arch-beats { display: none; }
 .arch-bar {
   position: absolute;
   left: 0;
   top: -1px;
   width: 100%;
   height: 1px;
-  background: var(--accent, var(--signal));
+  background: var(--arch-go);
   transform-origin: left;
   transform: scaleX(0);
 }
+.arch-stage [data-step] button { border-radius: 4px; }
+.arch-stage [data-step] button:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 
-/* Free mode (phones, tablets, short screens, reduced motion): no pinned
-   scroll story. Tap, hover or focus a layer, or let it cycle on its own. */
+/* Free mode (phones, tablets, short screens, reduced motion): the trace
+   plays once on its own, then any layer can be tapped, hovered or focused. */
 .arch-stage[data-free] [data-step] { transition: opacity 0.4s; }
 .arch-stage[data-free][data-focus] [data-step]:not([data-on]) { opacity: 0.55; }
-.arch-stage[data-free] .arch-bar { transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.arch-stage[data-free] .arch-bar { transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1); }
 .arch-stage[data-free] [data-step][data-on] .arch-bar { transform: scaleX(1); }
 
-/* ── Security cards (architecture stage) ─────────────────────────────────
-   The RAG system as four readable cards: Operations is the dashed boundary,
-   the Application sits on top inside it, Model and Data underneath. Each
-   card's place is (--sx, --sy) from the centre. `--card-in` brings a card
-   into the structure, `--focus` pulls it forward to the centre to be read,
-   `--dim` quiets the others, `--sec` lights every lock once it is whole. */
-@property --card-in { syntax: "<number>"; inherits: true; initial-value: 1; }
-@property --sec     { syntax: "<number>"; inherits: true; initial-value: 1; }
-
-.crd-scene {
-  --pop: 0.42; /* how much larger a card is while it is being read */
-  position: absolute;
-  inset: 1.25rem 1.25rem 7.25rem;
-  /* Size the type so the whole structure (42em × 26em) fills the stage. */
-  font-size: clamp(11px, min((100cqw - 2.5rem) / 43, (100cqh - 8.5rem) / 26.5), 18px);
-}
-.crd {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--cw, 24em);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 0.85em;
-  align-items: start;
-  padding: 0.8em 1em;
-  border-radius: 12px;
-  isolation: isolate;
-  overflow: hidden;
-  /* Frosted glass: a tinted wash over a blurred, saturated backdrop. */
-  background:
-    linear-gradient(150deg, color-mix(in srgb, var(--accent) 16%, transparent), transparent 52%),
-    color-mix(in srgb, var(--surface-secondary) 48%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(1.6);
-  backdrop-filter: blur(16px) saturate(1.6);
-  border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, white 16%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, black 30%, transparent),
-    0 1.1em 2.4em -1em color-mix(in srgb, black 75%, transparent),
-    0 1.6em 3.4em -1.2em color-mix(in srgb, var(--accent) calc(var(--focus) * 55%), transparent);
-  translate:
-    calc(-50% + var(--sx, 0em) * (1 - var(--focus)))
-    calc(-50% + var(--sy, 0em) * (1 - var(--focus)));
-  scale: calc(1 + var(--focus) * var(--pop));
-  opacity: calc(var(--card-in) * (1 - var(--dim) * 0.6));
-  filter: blur(calc((1 - var(--card-in)) * 0.5em));
-  z-index: calc(2 + var(--focus) * 10);
-}
-.crd > :not(.crd-lock, .crd-glare, .crd-sheen) { grid-column: 2; }
-
-/* Each layer carries one colour, drawn from the site's own palette. */
-.arch-stage {
-  --layer-1: var(--signal-soft);
-  --layer-2: var(--verify);
-  --layer-3: var(--sev-ok);
-  --layer-4: oklch(0.76 0.1 240);
-}
-/* Colour for the glass to pick up: soft, slow, and tied to the layer hues. */
-.crd-scene::before {
-  content: "";
-  position: absolute;
-  inset: -18% -12%;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(32% 40% at 24% 64%, color-mix(in srgb, var(--layer-2) 22%, transparent), transparent 70%),
-    radial-gradient(30% 38% at 78% 66%, color-mix(in srgb, var(--layer-1) 20%, transparent), transparent 70%),
-    radial-gradient(34% 36% at 50% 20%, color-mix(in srgb, var(--layer-3) 18%, transparent), transparent 70%),
-    radial-gradient(40% 30% at 50% 96%, color-mix(in srgb, var(--layer-4) 16%, transparent), transparent 70%);
-  animation: crd-drift 16s ease-in-out infinite alternate;
-}
-@keyframes crd-drift { to { transform: translate3d(2%, -3%, 0) scale(1.06); } }
-.iso-stage:not([data-active]) .crd-scene::before,
-.iso-stage:not([data-active]) .crd::after { animation-play-state: paused; }
-.crd { --accent: var(--signal); }
-.crd[data-layer="1"] { --accent: var(--layer-1); }
-.crd[data-layer="2"] { --accent: var(--layer-2); }
-.crd[data-layer="3"] { --accent: var(--layer-3); }
-.crd[data-layer="4"] { --accent: var(--layer-4); }
-
-/* Hairline edge: bright at the lit corner, fading across the card; the
-   focused card gets a light that circles it. */
-@property --crd-ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-@keyframes crd-orbit { to { --crd-ang: 360deg; } }
-.crd::before,
-.crd::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border-radius: inherit;
-  padding: 1px;
-  pointer-events: none;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
-.crd::before {
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--accent) calc(60% + var(--focus) * 40%), white 8%),
-    transparent 36%,
-    transparent 64%,
-    color-mix(in srgb, var(--accent) calc(24% + var(--focus) * 36%), transparent)
-  );
-}
-.crd::after {
-  background: conic-gradient(from var(--crd-ang), transparent 0 72%, var(--accent) 90%, transparent 100%);
-  opacity: var(--focus);
-  animation: crd-orbit 3.4s linear infinite;
-}
-/* Light that follows a mouse (set by GlassCard), and a sheen that crosses
-   the card as it comes forward: both ride on --focus, so a scrolling visitor
-   and a tapping one see the same thing. */
-.crd-glare { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.crd-sheen {
-  position: absolute;
-  inset: -20% -40%;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(105deg, transparent 38%, color-mix(in srgb, var(--accent) 22%, white 12%) 50%, transparent 62%);
-  transform: translateX(calc((1 - var(--focus)) * -60%));
-  opacity: calc(var(--focus) * (1 - var(--focus)) * 3.2);
-}
-.crd > * { position: relative; z-index: 1; }
-.crd > :is(.crd-glare, .crd-sheen) { position: absolute; z-index: 0; }
-.crd-lock {
-  grid-row: 1 / span 3;
-  width: 2.1em;
-  height: 2.1em;
+/* The drawing sheet: a flat dotted ground, no ambient colour. */
+.arch-view {
+  container-type: inline-size;
+  position: relative;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--accent) calc(var(--sec) * 100%), color-mix(in srgb, var(--background) 60%, transparent));
-  color: color-mix(in srgb, var(--background) calc(var(--sec) * 100%), var(--accent));
-  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
-  box-shadow: 0 0 calc(var(--sec) * 1.4em) color-mix(in srgb, var(--accent) calc(var(--sec) * 55%), transparent);
+  padding: 1.5rem 0.75rem;
+  background:
+    radial-gradient(color-mix(in srgb, var(--foreground) 8%, transparent) 1px, transparent 1px) 0 0 / 22px 22px,
+    var(--arch-ground);
 }
-.crd-lock svg { width: 1.1em; height: 1.1em; }
-.crd-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.6em; row-gap: 0.15em; min-width: 0; }
-.crd-n { font-family: var(--font-mono); font-size: 0.78em; letter-spacing: 0.12em; color: var(--accent); }
-.crd-name {
-  font-size: 1.05em;
+@media (min-width: 640px) { .arch-view { padding: 2.5rem 1.5rem; } }
+
+/* All geometry is in em, so the whole trace scales from one font-size:
+   by the stage width everywhere, and by the pinned height on desktop. */
+.trc {
+  --pad-y: 0.8em;
+  --pad-x: 0.9em;
+  --gap: 0.55em;
+  --node: 1.5em;
+  --dh: 8.3em; /* every open layer takes the same height, so the frame never jumps */
+  width: min(100%, 40em);
+  font-size: clamp(13.5px, (100cqw - 3rem) / 40, 16px);
+}
+@media (min-width: 1024px) {
+  .trc {
+    font-size: clamp(
+      11.5px,
+      min((100cqw - 3rem) / 40, (100svh - var(--header-min-h-lg) - 5rem) / 37),
+      16.5px
+    );
+  }
+}
+
+/* Operations is the boundary everything runs inside: dashed while the
+   request is in flight, drawn solid once the answer is back. */
+.trc-frame {
+  --focus: 1;
+  --dim: 0;
+  position: relative;
+  display: grid;
+  gap: var(--gap);
+  padding: 0.9em;
+  border-radius: 14px;
+  border: 1px dashed color-mix(in srgb, var(--foreground) 30%, transparent);
+  background: color-mix(in srgb, var(--arch-card) 40%, transparent);
+}
+.trc-frame::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid var(--arch-ok);
+  opacity: calc(var(--sec) * 0.75);
+  pointer-events: none;
+}
+
+/* Shared row grid: the node column lines up down the whole frame. */
+.trc-ops,
+.trc-slot,
+.trc-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--node) minmax(0, 1fr);
+  column-gap: 0.85em;
+  padding: var(--pad-y) var(--pad-x);
+  border: 1px solid transparent;
+}
+.trc-ops { padding-block: 0.25em 0.35em; }
+.trc-slot { padding-block: 0.3em; }
+.trc-card {
+  --focus: 0;
+  --dim: 0;
+  border-radius: 10px;
+  border-color: color-mix(in srgb, var(--arch-go) calc(var(--focus) * 70%), var(--line));
+  background: var(--arch-card);
+  box-shadow: 0 1em 2.2em -1.3em rgb(0 0 0 / calc(var(--focus) * var(--arch-lift)));
+}
+.trc-body { min-width: 0; opacity: calc(1 - var(--dim) * 0.5); }
+
+/* Node: hollow while pending, ringed amber while its layer is open, a
+   filled tick once the check has passed. */
+.trc-node {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  border-radius: 50%;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--arch-ok) calc(var(--pass) * 100%),
+      color-mix(in srgb, var(--arch-go) calc(var(--focus) * 100%), color-mix(in srgb, var(--foreground) 30%, transparent))
+    );
+  background: color-mix(in srgb, var(--arch-ok) calc(var(--pass) * 100%), var(--arch-card));
+  color: var(--arch-card);
+}
+.trc-node::before {
+  content: "";
+  position: absolute;
+  width: 0.36em;
+  height: 0.36em;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--arch-go) calc(var(--focus) * 100%), color-mix(in srgb, var(--foreground) 34%, transparent));
+  opacity: calc(1 - var(--pass));
+}
+.trc-node svg {
+  width: 0.82em;
+  height: 0.82em;
+  opacity: var(--pass);
+  scale: calc(0.5 + var(--pass) * 0.5);
+}
+/* Where the request starts and the answer lands. */
+.trc-origin { border-radius: 4px; rotate: 45deg; scale: 0.62; }
+.trc-origin::before { display: none; }
+.trc-origin svg { display: none; }
+.trc-slot { --pass: var(--sec); }
+
+/* Conduit: each segment runs from its node to the next one down, across
+   the gap between cards. */
+.trc-seg {
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--pad-x) + var(--node) / 2 - 0.5px);
+  top: calc(var(--pad-y) + var(--node));
+  bottom: calc(-1 * (var(--gap) + var(--pad-y) + 2px));
+  width: 1px;
+  background: color-mix(in srgb, var(--foreground) 22%, transparent);
+  pointer-events: none;
+}
+.trc-slot > .trc-seg { top: calc(0.3em + var(--node)); }
+.trc-seg i { position: absolute; inset: 0 -0.5px; }
+.trc-flow { background: var(--arch-go); transform-origin: top; transform: scaleY(var(--flow)); }
+.trc-ret  { background: var(--arch-ok); transform-origin: bottom; transform: scaleY(var(--ret)); }
+/* The request, and then the answer, as a point on the line. Each is only
+   visible while it is actually travelling. */
+.trc-seg::before,
+.trc-seg::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  width: 0.5em;
+  height: 0.5em;
+  margin: -0.25em;
+  border-radius: 50%;
+}
+.trc-seg::before {
+  top: calc(var(--flow) * 100%);
+  background: var(--arch-go);
+  box-shadow: 0 0 0 0.22em color-mix(in srgb, var(--arch-go) 26%, transparent);
+  opacity: clamp(0, min(var(--flow), 1 - var(--flow)) * 16, 1);
+}
+.trc-seg::after {
+  top: calc((1 - var(--ret)) * 100%);
+  background: var(--arch-ok);
+  box-shadow: 0 0 0 0.22em color-mix(in srgb, var(--arch-ok) 26%, transparent);
+  opacity: clamp(0, min(var(--ret), 1 - var(--ret)) * 16, 1);
+}
+
+/* Layer header: number, name, and what it is built with. */
+.trc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.65em;
+  row-gap: 0.35em;
+  min-height: var(--node);
+}
+.trc-n {
+  font-family: var(--font-mono);
+  font-size: 0.74em;
+  letter-spacing: 0.12em;
+  color: var(--arch-go);
+}
+.trc-name {
+  font-size: 1em;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  white-space: nowrap;
   color: var(--foreground);
 }
-.crd-guard {
-  margin-left: auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.trc-tools { display: flex; flex-wrap: wrap; gap: 0.4em; margin-left: auto; }
+.trc-tool {
+  padding: 0.22em 0.6em;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--foreground) 3%, transparent);
   font-family: var(--font-mono);
-  font-size: 0.7em;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--accent) calc(45% + var(--sec) * 55%), var(--muted-foreground));
+  font-size: 0.72em;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--foreground) 88%, transparent);
 }
-.crd-purpose {
-  display: block;
-  margin-top: 0.3em;
-  font-size: 0.95em;
-  line-height: 1.35;
+
+/* What the layer checks, and the risk that closes. */
+.trc-detail {
+  overflow: hidden;
+  height: calc(var(--focus) * var(--dh));
+  opacity: var(--focus);
+}
+.trc-checks {
+  display: grid;
+  gap: 0.28em;
+  margin-top: 0.7em;
+  padding-top: 0.7em;
+  border-top: 1px solid var(--line);
+  font-size: 0.9em;
+  line-height: 1.4;
   color: color-mix(in srgb, var(--foreground) 90%, transparent);
 }
-.crd-detail {
-  display: block;
-  overflow: hidden;
-  margin-top: calc(var(--focus) * 0.45em);
-  max-height: calc(var(--focus) * 4.5em);
-  opacity: var(--focus);
-  font-size: 0.86em;
-  line-height: 1.45;
+.trc-checks li { display: grid; grid-template-columns: 0.3em minmax(0, 1fr); column-gap: 0.65em; }
+.trc-checks li::before {
+  content: "";
+  width: 0.3em;
+  height: 0.3em;
+  margin-top: 0.55em;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--foreground) 40%, transparent);
+}
+.trc-closes {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.9em;
+  row-gap: 0.1em;
+  margin-top: 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  letter-spacing: 0.06em;
   color: var(--muted-foreground);
 }
-.crd[data-layer="3"] { --cw: 27em; --sy: -2.4em; }
-.crd[data-layer="2"] { --cw: 19.5em; --sx: -10.4em; --sy: 5.6em; }
-.crd[data-layer="1"] { --cw: 19.5em; --sx: 10.4em; --sy: 5.6em; }
-/* Operations is the boundary: it never moves forward, it brightens in place. */
-.crd-frame {
-  --cw: 42em;
-  height: 26em;
-  z-index: 1;
-  align-content: start;
-  padding: 1em 1.3em;
-  background:
-    radial-gradient(60% 70% at 100% 100%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
-    color-mix(in srgb, var(--surface) 38%, transparent);
-  -webkit-backdrop-filter: blur(8px) saturate(1.4);
-  backdrop-filter: blur(8px) saturate(1.4);
-  border: 1px dashed color-mix(in srgb, var(--accent) calc(34% + var(--focus) * 50% + var(--sec) * 20%), color-mix(in srgb, var(--foreground) 16%, transparent));
-  scale: calc(1 + var(--focus) * 0.02);
+.trc-closes b { font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
+.trc-closes span { color: color-mix(in srgb, var(--foreground) 88%, transparent); }
+
+/* The question going in, and the sourced answer that comes back, share one slot. */
+.trc-msgs { display: grid; min-width: 0; }
+.trc-msgs > * { grid-area: 1 / 1; }
+.trc-ask { opacity: calc(1 - var(--sec)); }
+.trc-answer { opacity: var(--sec); }
+.trc-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.9em;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
 }
-/* The boundary keeps its dashed edge; it takes the colour, not the orbit. */
-.crd-frame::before,
-.crd-frame::after { display: none; }
-.crd-frame .crd-purpose { max-width: 26em; }
+.trc-ask .trc-kicker b { font-weight: 400; color: var(--arch-go); }
+.trc-answer .trc-kicker b { font-weight: 400; color: var(--arch-ok); }
+.trc-line { margin-top: 0.2em; font-size: 1em; font-weight: 500; line-height: 1.35; color: var(--foreground); }
+
+/* Operations does its job in view: one line per hop. */
+.trc-log { margin-top: 0.15em; padding: 0.75em var(--pad-x) 0.2em; border-top: 1px solid var(--line); }
+.trc-log-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  min-height: 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.trc-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 1.6rem;
+  padding: 0 0.7em;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.trc-replay:hover { background: color-mix(in srgb, var(--foreground) 6%, transparent); border-color: color-mix(in srgb, var(--arch-go) 60%, transparent); }
+.trc-replay:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.trc-replay svg { width: 1.05em; height: 1.05em; }
+.trc-lines {
+  display: grid;
+  gap: 0.28em;
+  margin-top: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.74em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.45;
+}
+.trc-lines li { display: grid; grid-template-columns: 7.6em 3.9em minmax(0, 1fr); column-gap: 0.8em; }
+.trc-lines time { color: var(--muted-foreground); }
+.trc-who { letter-spacing: 0.08em; color: var(--foreground); }
+.trc-msg { color: color-mix(in srgb, var(--foreground) 82%, transparent); }
+.trc-msg em { font-style: normal; color: var(--arch-go); }
 
 @container (max-width: 560px) {
-  .crd-scene { --pop: 0.14; inset: 0.75rem 0.75rem 6.5rem; }
-  .crd-frame { --cw: 100%; height: 21em; padding: 0.8em 1em; }
-  .crd-frame .crd-guard { display: none; }
-  .crd[data-layer="3"] { --cw: calc(100% - 2em); --sy: -3.2em; }
-  .crd[data-layer="2"] { --cw: calc(50% - 1.4em); --sx: calc(-50% - 0.4em); --sy: 3.4em; }
-  .crd[data-layer="1"] { --cw: calc(50% - 1.4em); --sx: calc(50% + 0.4em); --sy: 3.4em; }
-  .crd:is([data-layer="1"], [data-layer="2"]) { grid-template-columns: 0 1fr; column-gap: 0; }
-  .crd:is([data-layer="1"], [data-layer="2"]) :is(.crd-lock, .crd-guard) { display: none; }
+  .trc { --dh: 12.2em; --pad-x: 0.75em; }
+  .trc-frame { padding: 0.6em; }
+  .trc-tools { margin-left: 0; flex-basis: 100%; }
+  .trc-lines { font-size: 0.8em; }
+  .trc-lines li { grid-template-columns: 3.9em minmax(0, 1fr); }
+  .trc-lines time { display: none; }
 }
 
-/* Free mode: tap, hover or focus a layer, or let it cycle on its own. */
-.arch-stage[data-free] .crd {
-  cursor: pointer;
-  transition: --focus 0.6s cubic-bezier(0.22, 1, 0.36, 1), --dim 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+/* Free mode: tap, hover or focus a layer to open it. Exactly one layer is
+   open at a time, and Operations is the one open at rest. */
+.arch-stage[data-free] :is(.trc-card, .trc-ops) { cursor: pointer; }
+.arch-stage[data-free] :is(.trc-card, .trc-frame) {
+  transition:
+    --focus 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    --dim 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.arch-stage[data-free][data-focus] .crd { --dim: 1; }
-.arch-stage[data-free][data-focus="1"] .crd[data-layer="1"],
-.arch-stage[data-free][data-focus="2"] .crd[data-layer="2"],
-.arch-stage[data-free][data-focus="3"] .crd[data-layer="3"],
-.arch-stage[data-free][data-focus="4"] .crd[data-layer="4"] { --dim: 0; --focus: 1; }
+.arch-stage[data-free][data-focus] .trc-frame { --focus: 0; }
+.arch-stage[data-free][data-focus="4"] .trc-frame { --focus: 1; }
+.arch-stage[data-free]:is([data-focus="1"], [data-focus="2"], [data-focus="3"]) .trc-card { --dim: 1; }
+.arch-stage[data-free][data-focus="1"] .trc-card[data-layer="1"],
+.arch-stage[data-free][data-focus="2"] .trc-card[data-layer="2"],
+.arch-stage[data-free][data-focus="3"] .trc-card[data-layer="3"] { --dim: 0; --focus: 1; }
 
 .iso-box > .f {
   position: absolute;
@@ -2420,3 +2599,29 @@ html { scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) t
   body { @apply bg-background text-foreground; }
   html { @apply font-sans; }
 }
+
+/* ── Closing block ───────────────────────────────────────────────────────
+   The last thing on the homepage: the claim and the one action on the left,
+   what the call actually is on the right. Cells share the frame's hairlines. */
+.closing { display: grid; }
+.closing-main { padding: var(--space-section-y) var(--space-gutter); }
+.closing-terms { border-top: 1px solid var(--line); background: var(--background); }
+.closing-term {
+  display: grid;
+  gap: 0.375rem;
+  padding: 1.5rem var(--space-gutter);
+  border-top: 1px solid var(--line);
+}
+.closing-term:first-child { border-top: 0; }
+@media (min-width: 640px) {
+  .closing-main { padding: var(--space-section-y-md) var(--space-gutter-md); }
+  .closing-term { grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1.5rem; padding-inline: var(--space-gutter-md); }
+}
+@media (min-width: 1024px) {
+  .closing { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
+  .closing-main { padding: var(--space-section-y-lg) var(--space-gutter-lg); }
+  .closing-terms { display: flex; flex-direction: column; border-top: 0; border-left: 1px solid var(--line); }
+  .closing-term { flex: 1; align-content: center; grid-template-columns: 1fr; gap: 0.5rem; padding: 1.75rem var(--space-cell-lg); }
+}
+.closing-term dt { font-size: 1.125rem; font-weight: 500; letter-spacing: -0.01em; color: var(--foreground); }
+.closing-term dd { max-width: 38ch; font-size: 0.9375rem; line-height: 1.6; color: var(--muted-foreground); }

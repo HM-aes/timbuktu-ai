@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import TimbuktuMonument from "@/components/brand/timbuktu-monument";
 import { CtaButton } from "@/components/shadcn-space/button/button-16";
-import { APPROACH_URL } from "@/lib/site";
+import { BOOKING_URL } from "@/lib/site";
 import { useReducedMotionSafe, INSTANT } from "@/lib/use-reduced-motion";
 import { useScrollScene } from "@/lib/use-scroll-scene";
 
@@ -117,19 +117,19 @@ export default function Hero() {
             <span className="accent-metal">Build it secure.</span>
           </motion.h1>
 
-          <motion.p {...settle(2, 16)} className="lede mt-8 max-w-[42rem] lg:mt-10">
-            Timbuktu AI designs and builds RAG dashboards that run in production — hosted inside hard
-            boundaries, or fully air-gapped on your own infrastructure. Every system is reviewed against the
-            OWASP Top 10 for LLM applications before it is built.
+          <motion.p {...settle(2, 16)} className="lede mt-8 max-w-[40rem] text-pretty lg:mt-10">
+            Secure AI systems, production-grade, hosted inside hard boundaries or fully air-gapped on your own
+            infrastructure. Architected and built by one specialist, reviewed against the OWASP Top 10 for LLM
+            applications before a line is written.
           </motion.p>
 
           <motion.div {...settle(3, 12)} className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:mt-12">
-            <CtaButton href="#products" tone="metal">
-              Explore products
+            <CtaButton href={BOOKING_URL} tone="solid">
+              Book a call
               <ArrowRight size={16} data-arrow />
             </CtaButton>
-            <CtaButton href={APPROACH_URL} tone="metal">
-              Our approach
+            <CtaButton href="#products" tone="metal">
+              See the work
             </CtaButton>
           </motion.div>
         </div>

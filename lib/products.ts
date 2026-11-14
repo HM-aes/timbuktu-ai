@@ -7,6 +7,18 @@ export type ProductStatus = "Available now" | "Coming soon";
 
 export type DashboardKind = "nis2" | "placeholder" | "none";
 
+/** One product's reading of the four-layer architecture (see /approach). */
+export type ProductSecurity = {
+  summary: string;
+  layers: {
+    layer: "Application" | "Model" | "Data" | "Operations";
+    control: string;
+    detail: string;
+    /** OWASP Top 10 for LLM applications (2025) risk ids this control closes here. */
+    closes: string[];
+  }[];
+};
+
 export type ProductDefinition = {
   slug: ProductSlug;
   name: string;
@@ -24,6 +36,7 @@ export type ProductDefinition = {
     body: string;
     points: { label: string; detail: string }[];
   };
+  security?: ProductSecurity;
   primaryCta: { text: string; href: string };
   dashboard: DashboardKind;
   motif: MotifKind;
@@ -88,6 +101,40 @@ export const PRODUCTS: ProductDefinition[] = [
         },
       ],
     },
+    security: {
+      summary:
+        "The same four layers every Timbuktu AI system runs inside, read for a compliance analyzer: the people who may see a client's findings, a model that cannot be steered by the policies it reads, evidence that stays traceable, and a deployment an auditor can inspect.",
+      layers: [
+        {
+          layer: "Application",
+          control: "Findings are scoped per client and per role.",
+          detail:
+            "Django Auth gates every page; an auditor sees only the clients assigned to them, and exports are logged as actions. Nothing is written to a report without a person approving the run.",
+          closes: ["LLM06 Excessive agency"],
+        },
+        {
+          layer: "Model",
+          control: "Policies are evidence, never instructions.",
+          detail:
+            "Uploaded documents are classified and screened for injection before analysis, and every finding is validated against a Pydantic schema before it reaches the dashboard.",
+          closes: ["LLM01 Prompt injection", "LLM05 Improper output handling"],
+        },
+        {
+          layer: "Data",
+          control: "One tenant, one collection, one source per finding.",
+          detail:
+            "Each client's documents live in their own Qdrant collection. Every gap links back to the passage it was derived from, so the evidence pack is reproducible.",
+          closes: ["LLM02 Sensitive information disclosure", "LLM08 Vector and embedding weaknesses"],
+        },
+        {
+          layer: "Operations",
+          control: "EU-hosted or air-gapped, with no public admin surface.",
+          detail:
+            "SSH key access only, encrypted at rest, every analysis run recorded. The full stack runs on your own hardware when the policies cannot leave the building.",
+          closes: ["LLM03 Supply chain"],
+        },
+      ],
+    },
     primaryCta: BOOK_CTA,
     dashboard: "nis2",
     motif: "audit",
@@ -138,6 +185,40 @@ export const PRODUCTS: ProductDefinition[] = [
         {
           label: "Audit trail",
           detail: "Every grant and revoke is recorded — who changed what, and when.",
+        },
+      ],
+    },
+    security: {
+      summary:
+        "Lex Legal exists because matter-level access is not confidentiality. Its four layers are built around one rule: a person sees a document only when someone with authority granted it, and the record says so.",
+      layers: [
+        {
+          layer: "Application",
+          control: "Grant, restrict and revoke are the only write actions.",
+          detail:
+            "Each one requires a named person with owner rights on that file, is typed and validated with Pydantic, and takes effect immediately. Nothing changes access on a model's say-so.",
+          closes: ["LLM06 Excessive agency"],
+        },
+        {
+          layer: "Model",
+          control: "Retrieval cannot widen what a person may read.",
+          detail:
+            "Questions over the matter run only against the files that person already holds. Retrieved text is data, never instructions, and answers are schema-checked before display.",
+          closes: ["LLM01 Prompt injection", "LLM05 Improper output handling"],
+        },
+        {
+          layer: "Data",
+          control: "Permissions travel with the document into search.",
+          detail:
+            "Access is enforced as a filter inside Qdrant, per file and per person, so a withheld document is never a candidate for retrieval — not merely hidden afterwards.",
+          closes: ["LLM02 Sensitive information disclosure", "LLM08 Vector and embedding weaknesses"],
+        },
+        {
+          layer: "Operations",
+          control: "A standing record of who could open what, when.",
+          detail:
+            "Every grant and revoke is appended to a tamper-evident log you can export. Hosted in an isolated tenant, or air-gapped when client confidentiality rules out off-site processing.",
+          closes: ["LLM03 Supply chain"],
         },
       ],
     },
@@ -192,6 +273,40 @@ export const PRODUCTS: ProductDefinition[] = [
         {
           label: "Sourced answers",
           detail: "Each response cites the passage it came from — no hand-waving.",
+        },
+      ],
+    },
+    security: {
+      summary:
+        "DocSense is the secure retrieval pipeline in its plainest form: private ingestion, an access check before anything is retrieved, an answer with its sources, and a record of all of it.",
+      layers: [
+        {
+          layer: "Application",
+          control: "Ask is the only action a model can trigger.",
+          detail:
+            "Session and permissions are checked before a question runs. Anything that would change a document, share one, or send one outside waits for a person.",
+          closes: ["LLM06 Excessive agency"],
+        },
+        {
+          layer: "Model",
+          control: "Documents are read, not obeyed.",
+          detail:
+            "A classifier screens inputs for injection attempts, retrieved passages are isolated from instructions, and every answer is validated against a schema that requires a citation.",
+          closes: ["LLM01 Prompt injection", "LLM05 Improper output handling"],
+        },
+        {
+          layer: "Data",
+          control: "Permission-filtered search, cited to the passage.",
+          detail:
+            "Candidates are filtered by the asker's own document permissions inside Qdrant before ranking. The answer carries the page and passage it came from.",
+          closes: ["LLM02 Sensitive information disclosure", "LLM08 Vector and embedding weaknesses"],
+        },
+        {
+          layer: "Operations",
+          control: "Indexed, answered and logged inside your boundary.",
+          detail:
+            "Ingestion, embedding and inference run in your tenant or on your own hardware. Each question, policy decision and answer is sealed into an exportable audit trail.",
+          closes: ["LLM03 Supply chain"],
         },
       ],
     },
