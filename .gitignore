@@ -43,3 +43,6 @@ node_modules
 .claude/
 .codex/
 .impeccable/
+
+# Raw reference captures (full-desktop screenshots). Never publish.
+/reference/
