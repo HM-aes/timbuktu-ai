@@ -108,16 +108,20 @@ function Kpi({
   value,
   hint,
   tone = "default",
+  data,
 }: {
   label: string;
   value: string;
   hint: string;
   tone?: "default" | "signal" | "verify";
+  /** data-* hooks so a scroll story can address this card. */
+  data?: Record<string, string>;
 }) {
   return (
-    <div className="rounded-xl border border-foreground/[0.07] bg-background/40 px-4 py-3.5">
+    <div {...data} className="rounded-xl border border-foreground/[0.07] bg-background/40 px-4 py-3.5">
       <p className="text-[11.5px] text-muted-foreground/85">{label}</p>
       <p
+        data-nis2-value={value}
         className={cn(
           "mt-1.5 font-display text-[1.6rem] font-medium leading-none tracking-tight",
           tone === "signal" && "text-amber-300",
@@ -136,14 +140,17 @@ function Pane({
   action,
   children,
   className,
+  data,
 }: {
   title: string;
   action?: ReactNode;
   children: ReactNode;
   className?: string;
+  data?: Record<string, string>;
 }) {
   return (
     <section
+      {...data}
       className={cn(
         "flex min-w-0 flex-col rounded-xl border border-foreground/[0.07] bg-background/40",
         className,
@@ -215,6 +222,7 @@ const SEVERITY_LABEL: Record<Severity, string> = {
 export function SeverityPill({ s }: { s: Severity }) {
   return (
     <span
+      data-nis2-pill={s}
       className={cn(
         "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em]",
         s === "critical" && "border-critical/40 bg-critical/10 text-critical",
@@ -237,12 +245,14 @@ export function SeverityPill({ s }: { s: Severity }) {
   );
 }
 
-function CoverageRing({ value }: { value: number }) {
+function CoverageRing({ value, animate = true }: { value: number; animate?: boolean }) {
   const r = 34;
   const c = 2 * Math.PI * r;
+  const end = c * (1 - value / 100);
   return (
     <svg viewBox="0 0 84 84" className="size-24" aria-hidden>
       <circle cx="42" cy="42" r={r} stroke="currentColor" strokeWidth="6" className="text-foreground/[0.08]" fill="none" />
+      {animate ? (
       <motion.circle
         cx="42"
         cy="42"
@@ -257,6 +267,24 @@ function CoverageRing({ value }: { value: number }) {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         transform="rotate(-90 42 42)"
       />
+      ) : (
+        /* Static ring at its final value; a scroll story drives it through
+           data-nis2-ring instead, so reduced motion still sees 72%. */
+        <circle
+          data-nis2-ring
+          data-circumference={c}
+          cx="42"
+          cy="42"
+          r={r}
+          stroke="var(--verify)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray={c}
+          strokeDashoffset={end}
+          transform="rotate(-90 42 42)"
+        />
+      )}
       <text x="42" y="46" textAnchor="middle" className="fill-foreground font-display text-[17px] font-medium">
         {value}%
       </text>
@@ -266,11 +294,24 @@ function CoverageRing({ value }: { value: number }) {
 
 export function Nis2Dashboard({
   presentation = "default",
+  open: openProp,
+  onOpenChange,
+  animateRing = true,
 }: {
   /** Wide layout for product-page cinematic showcase — same UI, proportional height. */
   presentation?: "default" | "wide";
+  /** Controlled "which row is expanded" — a scroll story drives this. */
+  open?: string;
+  onOpenChange?: (article: string) => void;
+  /** Let the coverage ring animate itself on mount (false when a story drives it). */
+  animateRing?: boolean;
 }) {
-  const [open, setOpen] = useState<string>("Art. 21(2)(d)");
+  const [openState, setOpenState] = useState<string>("Art. 21(2)(d)");
+  const open = openProp ?? openState;
+  const setOpen = (article: string) => {
+    setOpenState(article);
+    onOpenChange?.(article);
+  };
   const reduced = useReducedMotionSafe();
   const isWide = presentation === "wide";
 
@@ -291,9 +332,9 @@ export function Nis2Dashboard({
       ]}
     >
       <div className="grid gap-3 sm:grid-cols-3">
-        <Kpi label="Coverage" value="72%" hint="34 of 47 requirements" tone="verify" />
-        <Kpi label="Open gaps" value="13" hint="1 critical · 4 high" tone="signal" />
-        <Kpi label="Documents read" value="38" hint="last run 2 min ago" />
+        <Kpi label="Coverage" value="72%" hint="34 of 47 requirements" tone="verify" data={{ "data-nis2-kpi": "coverage" }} />
+        <Kpi label="Open gaps" value="13" hint="1 critical · 4 high" tone="signal" data={{ "data-nis2-kpi": "gaps" }} />
+        <Kpi label="Documents read" value="38" hint="last run 2 min ago" data={{ "data-nis2-kpi": "docs" }} />
       </div>
 
       <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_15rem]">
@@ -309,7 +350,7 @@ export function Nis2Dashboard({
             {NIS2_ROWS.map((row) => {
               const isOpen = open === row.article;
               return (
-                <li key={row.article}>
+                <li key={row.article} data-nis2-row={row.severity} className="rounded-md transition-[background-color,box-shadow] duration-500">
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? "" : row.article)}
@@ -351,14 +392,15 @@ export function Nis2Dashboard({
           </ul>
         </Pane>
 
-        <Pane title="Board summary">
+        <Pane title="Board summary" data={{ "data-nis2-summary": "" }}>
           <div className="flex flex-col items-center text-center">
-            <CoverageRing value={72} />
+            <CoverageRing value={72} animate={animateRing} />
             <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
               One critical gap in supplier contracts. Everything else is partial or covered.
             </p>
             <button
               type="button"
+              data-nis2-export
               className="mt-4 inline-flex h-8 items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 text-[12px] font-medium text-amber-300 transition-colors hover:bg-amber-500/15"
             >
               <Download size={13} />

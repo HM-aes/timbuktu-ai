@@ -17,8 +17,8 @@ export type CtaButtonProps = {
   className?: string;
   children: React.ReactNode;
   size?: "default" | "sm";
-  /** "signal" — amber primary. "metal" — graphite chrome (hero / wordmark family). */
-  tone?: "default" | "signal" | "metal";
+  /** "solid" — filled primary, one per group. "signal" — amber. "metal" — graphite chrome secondary. */
+  tone?: "default" | "solid" | "signal" | "metal";
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> &
   Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "children">;
 
@@ -53,6 +53,8 @@ export function CtaButton({
     size === "sm" && "px-4 py-2 text-sm",
     tone === "signal" &&
       "border-signal bg-signal text-primary-foreground hover:bg-signal dark:border-signal dark:bg-signal dark:hover:bg-signal",
+    tone === "solid" &&
+      "border-foreground bg-foreground text-background shadow-none hover:bg-foreground hover:text-background dark:border-foreground dark:bg-foreground dark:hover:bg-foreground",
     tone === "metal" && "cta-shell--metal hover:bg-transparent",
     className
   );
@@ -60,6 +62,7 @@ export function CtaButton({
   const labelClass = cn(
     ctaLabelClass,
     tone === "metal" && "cta-label-metal group-hover:text-inherit",
+    tone === "solid" && "group-hover:text-inherit",
   );
 
   const ripple = !reduced && (
@@ -67,7 +70,7 @@ export function CtaButton({
       aria-hidden
       className={cn(
         "pointer-events-none absolute z-[1] size-10 scale-0 rounded-full transition-transform duration-700 ease-in-out group-hover:scale-[15]",
-        tone === "metal" ? "cta-ripple--metal" : "bg-primary"
+        tone === "metal" ? "cta-ripple--metal" : tone === "solid" ? "cta-ripple--solid" : "bg-primary"
       )}
       style={{
         left: pos.x - 20,

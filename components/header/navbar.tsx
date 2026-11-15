@@ -64,7 +64,7 @@ export default function Navbar() {
 
           <div className="header-zone-end">
             <ThemeToggle />
-            <CtaButton href={BOOKING_URL} size="sm" className="hidden min-[960px]:inline-flex">
+            <CtaButton href={BOOKING_URL} size="sm" tone="solid" className="hidden min-[960px]:inline-flex">
               Book a call
             </CtaButton>
             <button
@@ -120,7 +120,7 @@ export default function Navbar() {
                   </li>
                 ))}
                 <li className="pt-6 pb-2">
-                  <CtaButton href={BOOKING_URL} onClick={closeMobile} className="w-full">
+                  <CtaButton href={BOOKING_URL} onClick={closeMobile} tone="solid" className="w-full">
                     Book a call
                   </CtaButton>
                 </li>

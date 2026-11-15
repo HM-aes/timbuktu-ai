@@ -91,6 +91,7 @@ export function Box({
   className,
   topClassName,
   children,
+  "data-layer": layer,
   ...p
 }: Placement & {
   h: number;
@@ -100,13 +101,14 @@ export function Box({
   className?: string;
   topClassName?: string;
   children?: ReactNode;
+  "data-layer"?: string;
 }) {
   const style: Vars = { ...place(p), "--h": h };
   if (top) style["--top"] = top;
   if (side) style["--side"] = side;
   if (front) style["--front"] = front;
   return (
-    <div className={cn("iso-box", className)} style={style}>
+    <div data-layer={layer} className={cn("iso-box", className)} style={style}>
       <div className="f f-n" />
       <div className="f f-e" />
       <div className="f f-w" />

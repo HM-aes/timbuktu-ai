@@ -25,6 +25,8 @@ export type ShowcaseProduct = {
   /** Desktop only: interface on the left, copy on the right. */
   reversed: boolean;
   preview: ReactNode;
+  /** "ink": deep brown dotted ground in both themes, for a dark interface. */
+  stage?: "ink";
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -97,6 +99,7 @@ export default function ProductShowcaseItem({ product: p }: { product: ShowcaseP
       {/* The product's own interface */}
       <div
         className={cn(
+          p.stage === "ink" && "stage-object--ink",
           "stage-object relative border-y border-[var(--line)] px-4 py-6 [--glow:9%] [grid-area:preview] sm:px-6 sm:py-8 lg:flex lg:w-full lg:flex-col lg:self-stretch lg:border-y-0 lg:px-4",
           ROW_TOP,
           "lg:pb-8",

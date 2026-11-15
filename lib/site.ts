@@ -2,8 +2,21 @@
 // Timbuktu AI Solutions — site-wide config
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Calendly / Cal.com booking URL for every "Book a call" button. */
-export const BOOKING_URL = "#book"; // TODO: replace with real Calendly/Cal.com link
+/**
+ * Booking URL for every "Book a call" button. Set NEXT_PUBLIC_BOOKING_URL to a
+ * Cal.com / Calendly link at build time; until then every button lands on the
+ * contact page, where the email is, instead of on a dead anchor.
+ */
+export const BOOKING_URL = process.env.NEXT_PUBLIC_BOOKING_URL || "/contact#book";
+
+/** The person behind the company — shown on the homepage "Who builds it" block. */
+export const FOUNDER = {
+  name: "Hassan Mohamed",
+  role: "Founder · architect and engineer",
+  /** Optional profile links; an empty string hides the link. */
+  linkedin: process.env.NEXT_PUBLIC_FOUNDER_LINKEDIN || "",
+  github: process.env.NEXT_PUBLIC_FOUNDER_GITHUB || "",
+} as const;
 
 /** Public contact email (used for "email us directly" + footer). */
 export const CONTACT_EMAIL = "hello@timbuktu-ai.nl";

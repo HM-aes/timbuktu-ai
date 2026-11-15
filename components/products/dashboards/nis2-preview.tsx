@@ -1,74 +1,62 @@
-"use client";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-import { motion } from "motion/react";
-import { SeverityPill, type Severity } from "@/components/dashboards";
-import { Metric, Pane, PreviewWindow, rise, Tag } from "@/components/products/dashboards/preview";
-
-/** Illustrative run — mirrors the NIS2 content used across the site. */
-const REQUIREMENTS: { article: string; name: string; severity: Severity }[] = [
-  { article: "21(2)(a)", name: "Risk analysis and information security policies", severity: "ok" },
-  { article: "21(2)(b)", name: "Incident handling", severity: "high" },
-  { article: "21(2)(d)", name: "Supply chain security", severity: "critical" },
-  { article: "21(2)(e)", name: "Vulnerability handling and disclosure", severity: "medium" },
-  { article: "21(2)(g)", name: "Cyber hygiene and training", severity: "ok" },
-];
-
-const COVERAGE = 72;
+/**
+ * The real NIS2 Analyzer interface, shown as two of its own screens (stacked
+ * on small screens, cascaded on desktop) so the pair fills the product row: the dashboard a team lands on, and the
+ * gap browser the analysis ends in. The site is a static export, so the
+ * images are served as-is (`unoptimized`) rather than through the image
+ * loader. The app is dark, so its window chrome stays dark in both themes.
+ */
+const SCREENS = [
+  {
+    src: "/previews/nis2-dashboard.png",
+    width: 1007,
+    height: 471,
+    route: "Dashboard",
+    alt: "NIS2 Analyzer dashboard: sidebar with Dashboard, Clients, Audits and Gap Analysis, a three-step start panel, and cards for total clients, active audits, compliance score and critical open gaps.",
+  },
+  {
+    src: "/previews/nis2-gap-analysis.png",
+    width: 1436,
+    height: 660,
+    route: "Gap analysis",
+    alt: "NIS2 Analyzer gap analysis browser: totals for gaps, critical and open gaps, average risk and remediation time, a treemap by category, severity filters and the table of gaps.",
+  },
+] as const;
 
 export default function Nis2Preview() {
   return (
-    <PreviewWindow
-      fill
-      product="NIS2 Analyzer"
-      meta={<Tag className="hidden sm:inline-flex">EU region</Tag>}
-      label="NIS2 Analyzer interface preview: 72% coverage, 34 of 47 requirements met, 13 open gaps including one critical gap in supply chain security."
-    >
-      <motion.div variants={rise} className="mb-3 flex items-baseline justify-between gap-3">
-        <p className="text-[15px] font-medium tracking-tight">Compliance overview</p>
-        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground/80">Article 21</p>
-      </motion.div>
-
-      <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
-        <Metric label="Coverage" value={`${COVERAGE}%`} detail="34 of 47 requirements" tone="verify">
-          <span className="mt-2.5 block h-1 overflow-hidden rounded-full bg-foreground/[0.08]">
-            <motion.span
-              className="block h-full origin-left rounded-full bg-verify"
-              variants={{ hidden: { scaleX: 0 }, show: { scaleX: COVERAGE / 100 } }}
-              style={{ width: "100%" }}
-            />
-          </span>
-        </Metric>
-        <Metric label="Open gaps" value="13" detail="1 critical · 4 high" tone="signal" />
-        <Metric label="Documents read" value="38" detail="Mapped to the directive" />
-      </div>
-
-      <Pane title="Requirements — Article 21" className="mt-2.5 min-h-0 flex-1" aside={<Tag>5 of 10</Tag>}>
-        <ul>
-          {REQUIREMENTS.map((r) => (
-            <motion.li
-              key={r.article}
-              variants={rise}
-              className={
-                "flex items-center gap-3 border-b border-[var(--line)] px-3.5 py-2.5 last:border-b-0" +
-                (r.severity === "critical" ? " bg-critical/[0.05]" : "")
-              }
-            >
-              <span className="hidden w-16 shrink-0 font-mono text-[10.5px] text-muted-foreground/80 sm:block">
-                {r.article}
-              </span>
-              <span className="min-w-0 flex-1 text-[12.5px] leading-snug text-foreground/90">{r.name}</span>
-              <SeverityPill s={r.severity} />
-            </motion.li>
-          ))}
-        </ul>
-      </Pane>
-
-      <motion.div variants={rise} className="mt-2.5 rounded-[10px] border border-signal/25 bg-signal/[0.05] px-3.5 py-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-signal">Board summary</p>
-        <p className="mt-1.5 text-[12.5px] leading-relaxed text-foreground/85">
-          One critical gap in supplier contracts. Everything else is partial or covered.
-        </p>
-      </motion.div>
-    </PreviewWindow>
+    <div className="flex min-h-0 w-full flex-1 flex-col justify-center gap-4 lg:gap-0">
+      {SCREENS.map((screen, i) => (
+        <figure
+          key={screen.src}
+          className={cn(
+            "overflow-hidden rounded-[var(--radius-panel)] border border-white/15 bg-[#0b0b0d] shadow-[0_32px_64px_-30px_rgba(0,0,0,0.75)]",
+            /* Desktop: a cascade. The second screen sits in front, lower and to
+               the right, so the pair matches the height of the copy beside it. */
+            "lg:w-[88%]",
+            i === 0 ? "lg:self-start" : "relative lg:-mt-[9%] lg:self-end lg:shadow-[0_36px_72px_-28px_rgba(0,0,0,0.7)]",
+          )}
+        >
+          <figcaption className="flex h-9 items-center justify-between gap-3 border-b border-white/10 px-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-white/70">
+            <span className="flex min-w-0 items-center gap-2">
+              <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-signal" />
+              <span className="truncate">NIS2 Analyzer</span>
+            </span>
+            <span className="shrink-0">{screen.route}</span>
+          </figcaption>
+          <Image
+            src={screen.src}
+            alt={screen.alt}
+            width={screen.width}
+            height={screen.height}
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            className="h-auto w-full"
+            unoptimized
+          />
+        </figure>
+      ))}
+    </div>
   );
 }

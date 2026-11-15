@@ -50,7 +50,6 @@ export default function Footer() {
               specialist. Online, or fully air‑gapped.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
-              {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
               <CtaButton href={BOOKING_URL} tone="signal" size="sm">
                 Book a call
                 <ArrowRight size={15} data-arrow />

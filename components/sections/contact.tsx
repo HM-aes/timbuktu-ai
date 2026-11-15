@@ -24,8 +24,7 @@ export default function Contact() {
             boundaries need to sit.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            {/* TODO(placeholder): BOOKING_URL — set real Calendly/Cal.com link in lib/site.ts */}
+          <div id="book" className="mt-8 flex flex-wrap items-center justify-center gap-3 scroll-mt-32">
             <CtaButton href={BOOKING_URL}>
               Book a call
               <ArrowRight size={16} data-arrow />

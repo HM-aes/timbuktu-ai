@@ -37,7 +37,7 @@ const STEPS: { title: string; body: string; card: ReactNode }[] = [
  * tracks progress; elsewhere, or with reduced motion, the cards simply stack
  * in reading order with their own captions.
  */
-export default function SecureRagShowcase() {
+export default function SecureRagShowcase({ embedded = false }: { embedded?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useScrollScene(
@@ -93,16 +93,26 @@ export default function SecureRagShowcase() {
   );
 
   return (
-    <Section id="secure-rag" chapter className="tone-raised">
+    <Section id="secure-rag" chapter={!embedded} className={embedded ? "tone-base" : "tone-raised"}>
       <div ref={ref} className="rag">
         <div className="gutter pt-[var(--space-section-y)] md:pt-[var(--space-section-y-md)] lg:pt-[var(--space-section-y-lg)]">
-          <Reveal distance={10}>
-            <ChapterLabel number="03" label="Secure RAG" />
-          </Reveal>
+          {!embedded && (
+            <Reveal distance={10}>
+              <ChapterLabel number="03" label="Secure RAG" />
+            </Reveal>
+          )}
           <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-12 lg:items-end lg:gap-x-12">
             <Reveal delay={0.08} distance={24} className="lg:col-span-7">
-              <h2 className="display max-w-[14ch] text-foreground">
-                Every answer, <span className="accent">earned.</span>
+              <h2 className={embedded ? "title max-w-[20ch] text-foreground" : "display max-w-[14ch] text-foreground"}>
+                {embedded ? (
+                  <>
+                    One question, <span className="accent">end to end.</span>
+                  </>
+                ) : (
+                  <>
+                    Every answer, <span className="accent">earned.</span>
+                  </>
+                )}
               </h2>
             </Reveal>
             <Reveal delay={0.2} distance={14} className="lg:col-span-5 lg:pb-2">

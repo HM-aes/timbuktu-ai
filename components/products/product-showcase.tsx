@@ -26,6 +26,7 @@ const SHOWCASE: {
   capabilities: string[];
   note?: string;
   preview: ReactNode;
+  stage?: "ink";
 }[] = [
   {
     slug: "nis2-analyzer",
@@ -35,6 +36,7 @@ const SHOWCASE: {
       "Upload the documents you already have. The analyzer maps them against the directive and shows every gap in one place.",
     capabilities: ["Compliance mapping", "Evidence behind every finding", "Hosted or air-gapped"],
     preview: <Nis2Preview />,
+    stage: "ink",
   },
   {
     slug: "lex-legal",
@@ -65,7 +67,7 @@ const SHOWCASE: {
   },
 ];
 
-const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, kind, problem, description, capabilities, note, preview }, i) => {
+const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, kind, problem, description, capabilities, note, preview, stage }, i) => {
   const p = getProduct(slug);
   const soon = p.status === "Coming soon";
   return {
@@ -82,6 +84,7 @@ const ITEMS: ShowcaseProduct[] = SHOWCASE.map(({ slug, kind, problem, descriptio
     cta: soon ? "Get notified" : `Explore ${p.name}`,
     reversed: i % 2 === 1,
     preview,
+    stage,
   };
 });
 
@@ -116,7 +119,7 @@ export default function ProductShowcase() {
       ))}
 
       <div className="gutter flex flex-col gap-3 border-t border-[var(--line)] py-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="label">Interface previews use illustrative data</p>
+        <p className="label">NIS2 Analyzer shows the live interface · other previews use illustrative data</p>
         <Link href={PRODUCTS_INDEX} className="nav-link inline-flex items-center gap-1.5 text-[15px]">
           See all products
           <ArrowRight size={15} aria-hidden />

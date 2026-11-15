@@ -20,6 +20,7 @@
 
   /* ── Surface layers (HeroUI card hierarchy) ── */
   --background-raised:   oklch(0.962 0.003 286); /* alternate chapter band */
+  --stage-ground:        oklch(0.948 0.004 286); /* recessed ground behind product stages */
   --surface:             var(--white);
   --surface-secondary:   oklch(0.965 0.003 286); /* ~#F3F3F4 — off-white */
   --surface-tertiary:    oklch(0.945 0.003 286); /* slightly deeper */
